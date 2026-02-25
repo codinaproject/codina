@@ -1,8 +1,13 @@
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = 200;
+// Ajusta o canvas para o tamanho do container da logo
+function resizeCanvas() {
+  canvas.width = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 const particles = [];
 const particleCount = 40;
@@ -50,10 +55,6 @@ function animateParticles() {
   requestAnimationFrame(animateParticles);
 }
 
+// Cria partículas a cada 100ms
 setInterval(createParticle, 100);
 animateParticles();
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = 200;
-});
