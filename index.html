@@ -6,11 +6,6 @@
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<!-- Partículas -->
-<script src="js/particles.js"></script>
-
-<!-- Partículas JS -->
-<script src="js/particles.js"></script>
 <body>
 
   <!-- Canvas das partículas -->
@@ -85,47 +80,7 @@
   </script>
 
   <!-- Partículas JS -->
-  <script>
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particles = [];
-    for(let i=0; i<100; i++){
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 3 + 1,
-        d: Math.random() * 2
-      });
-    }
-
-    function drawParticles(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = 'rgba(255, 200, 255, 0.7)';
-      ctx.beginPath();
-      particles.forEach(p=>{
-        ctx.moveTo(p.x,p.y);
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      });
-      ctx.fill();
-      updateParticles();
-    }
-
-    function updateParticles(){
-      particles.forEach(p=>{
-        p.y += 0.5;
-        if(p.y > canvas.height) p.y = 0;
-      });
-    }
-
-    setInterval(drawParticles,30);
-    window.addEventListener('resize', ()=>{
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  </script>
+  <script src="js/particles.js"></script>
 
 </body>
 </html>
