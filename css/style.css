@@ -26,3 +26,109 @@ section {
   max-width: 800px;
   margin: auto;
 }
+/* ===== Fundo e fonte ===== */
+body {
+  background: linear-gradient(to bottom, #2e003e, #45007a); /* roxo gradiente */
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Header ===== */
+header {
+  background-color: #5e0080;
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+  color: #ffb6f1;
+}
+
+header nav a {
+  color: #ff4d6d;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Banner ===== */
+.banner {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: rgba(0,0,0,0.3);
+  margin: 20px;
+  border-radius: 15px;
+}
+
+.banner-img {
+  width: 250px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.banner h2 {
+  font-size: 2em;
+  color: #ffb6f1;
+}
+
+.banner p {
+  font-size: 1.2em;
+}
+
+/* ===== Notícias ===== */
+.noticias {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.post {
+  background-color: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* ===== Personagens destacados ===== */
+.destaque {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.personagem-card {
+  display: inline-block;
+  width: 200px;
+  background-color: rgba(255,255,255,0.1);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  vertical-align: top;
+  text-align: center;
+}
+
+.personagem-card img {
+  width: 150px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #45007a;
+  color: #ffb6f1;
+  margin-top: 30px;
+  font-size: 0.9em;
+}
