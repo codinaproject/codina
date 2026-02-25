@@ -5,7 +5,7 @@
 /* Fonte fofo estilo anime */
 body {
   margin: 0;
-  font-family: 'Nunito', sans-serif; /* fonte fofa */
+  font-family: 'Nunito', sans-serif;
   color: #fff;
   background: linear-gradient(to bottom, #2e003e, #45007a);
   overflow-x: hidden;
@@ -19,11 +19,11 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;        
+  z-index: -1;
   pointer-events: none;
 }
 
-/* Header */
+/* Header com logo */
 header {
   background-color: #5e0080;
   padding: 15px 0;
@@ -34,13 +34,18 @@ header {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-header h1 {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 2.5em;
-  color: #ffb6f1;
-  margin: 0;
-  animation: glow 2s infinite alternate;
+#logo-site {
+  width: 250px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 10px #ffb6f1);
+  transition: 0.3s;
+}
+
+#logo-site:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px #ff4d6d);
 }
 
 header nav a {
@@ -81,7 +86,7 @@ header nav a:hover {
   opacity: 1;
 }
 
-/* Seções de notícias */
+/* Notícias */
 .noticias {
   max-width: 900px;
   margin: 20px auto;
