@@ -1,3 +1,4 @@
+/* BODY */
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
@@ -7,14 +8,54 @@ body {
   position: relative;
 }
 
+/* LOGO + PARTICULAS */
+.logo-container {
+  position: relative;
+  width: 300px;          /* tamanho base da logo */
+  max-width: 80%;
+  height: 200px;         /* altura do canvas das partículas */
+  margin: 20px auto;
+}
+
 #particle-canvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* atrás da logo */
   pointer-events: none;
+}
+
+#logo-site {
+  position: relative;
+  z-index: 2; /* acima das partículas */
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 15px #ffb6f1);
+  border-radius: 15px;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+#logo-site:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 25px #ff4d6d);
+}
+
+/* Ajustes para telas menores */
+@media screen and (max-width: 600px) {
+  .logo-container {
+    width: 180px;
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .logo-container {
+    width: 140px;
+    height: 100px;
+  }
 }
 
 /* Header */
@@ -26,38 +67,6 @@ header {
   top: 0;
   z-index: 2;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-/* Logo responsivo */
-#logo-site {
-  width: 300px;          /* tamanho base no desktop */
-  max-width: 80%;        /* não ultrapassa 80% da tela */
-  height: auto;          /* mantém proporção */
-  display: block;
-  margin: 20px auto;
-  filter: drop-shadow(0 0 15px #ffb6f1);
-  border-radius: 15px;
-  transition: transform 0.3s, filter 0.3s;
-}
-
-#logo-site:hover {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 25px #ff4d6d);
-}
-
-/* Ajustes para telas menores (celulares e tablets) */
-@media screen and (max-width: 600px) {
-  #logo-site {
-    width: 180px;       /* reduz tamanho em telas menores */
-    margin: 15px auto;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  #logo-site {
-    width: 140px;       /* ainda menor para telas muito pequenas */
-    margin: 10px auto;
-  }
 }
 
 /* Navegação */
