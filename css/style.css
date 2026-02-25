@@ -17,6 +17,7 @@ body {
   pointer-events: none;
 }
 
+/* Header */
 header {
   background-color: #5e0080;
   padding: 15px 0;
@@ -27,10 +28,11 @@ header {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
+/* Logo responsivo */
 #logo-site {
-  width: 300px;
-  max-width: 80%;
-  height: auto;
+  width: 300px;          /* tamanho base no desktop */
+  max-width: 80%;        /* não ultrapassa 80% da tela */
+  height: auto;          /* mantém proporção */
   display: block;
   margin: 20px auto;
   filter: drop-shadow(0 0 15px #ffb6f1);
@@ -43,6 +45,22 @@ header {
   filter: drop-shadow(0 0 25px #ff4d6d);
 }
 
+/* Ajustes para telas menores (celulares e tablets) */
+@media screen and (max-width: 600px) {
+  #logo-site {
+    width: 180px;       /* reduz tamanho em telas menores */
+    margin: 15px auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #logo-site {
+    width: 140px;       /* ainda menor para telas muito pequenas */
+    margin: 10px auto;
+  }
+}
+
+/* Navegação */
 header nav a {
   font-family: 'Nunito', sans-serif;
   font-weight: 600;
@@ -57,6 +75,7 @@ header nav a:hover {
   text-shadow: 0 0 12px #ff4d6d;
 }
 
+/* Banner rotativo */
 .banner-slider {
   position: relative;
   max-width: 100%;
@@ -80,6 +99,7 @@ header nav a:hover {
   opacity: 1;
 }
 
+/* Notícias */
 .noticias {
   max-width: 900px;
   margin: 20px auto;
@@ -125,6 +145,7 @@ header nav a:hover {
   border-radius: 8px;
 }
 
+/* Destaque de personagens */
 .destaque {
   text-align: center;
   position: relative;
@@ -169,6 +190,7 @@ header nav a:hover {
   border-radius: 8px;
 }
 
+/* Footer */
 footer {
   text-align: center;
   padding: 15px;
