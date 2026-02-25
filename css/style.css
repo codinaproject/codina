@@ -1,1 +1,28 @@
+/* Cor de fundo do site */
+body {
+  background-color: #2e003e; /* Roxo escuro estilo Codina */
+  color: #ffffff;           /* Cor do texto em branco */
+  font-family: Arial, sans-serif; /* Fonte do site */
+  margin: 0;
+  padding: 0;
+}
 
+a {
+  color: #ff4d6d;   /* cor rosa/roxo para os links */
+  text-decoration: none; /* tira sublinhado */
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline; /* sublinha quando passa o mouse */
+}
+h1, h2 {
+  text-align: center; /* centraliza títulos */
+  margin-top: 20px;
+}
+
+section {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
