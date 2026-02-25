@@ -1,155 +1,113 @@
-/* Fundo e corpo do site */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  color: #fff;
-  background: linear-gradient(to bottom, #2e003e, #45007a); /* mantém a vibe roxa */
-  overflow-x: hidden;
-  position: relative;
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Codina Universe</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-/* Canvas das partículas */
-#particle-canvas {
-  position: fixed; /* cobre toda a tela */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* fundo */
-  pointer-events: none; /* não bloqueia cliques */
-}
+  <!-- Canvas das partículas (primeiro no body!) -->
+  <canvas id="particle-canvas"></canvas>
 
-/* Header */
-header {
-  background-color: #5e0080;
-  padding: 15px 0;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 2; /* acima do canvas */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
+  <!-- Header -->
+  <header>
+    <h1>✨ Universo Codina ✨</h1>
+    <nav>
+      <a href="login.html">Login / Criar Conta</a>
+      <a href="historia.html">História</a>
+      <a href="personagens.html">Personagens</a>
+      <a href="blog.html">Blog</a>
+      <a href="loja.html">Loja</a>
+      <a href="equipe.html">Equipe</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
 
-header h1 {
-  font-size: 2.5em;
-  color: #ffb6f1;
-  margin: 0;
-  animation: glow 2s infinite alternate;
-}
+  <!-- Banner rotativo -->
+  <section class="banner-slider">
+    <img src="https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide active" alt="Banner 1">
+    <img src="https://images.pexels.com/photos/854115/pexels-photo-854115.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide" alt="Banner 2">
+    <img src="https://images.pexels.com/photos/56866/pexels-photo-56866.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide" alt="Banner 3">
+  </section>
 
-header nav a {
-  color: #ff4d6d;
-  text-decoration: none;
-  margin: 0 12px;
-  font-weight: bold;
-  transition: 0.3s;
-  position: relative;
-  z-index: 2; /* acima do canvas */
-}
+  <!-- Notícias -->
+  <section class="noticias">
+    <h2>Últimas notícias ✨</h2>
+    <div class="post">
+      <img src="https://images.pexels.com/photos/56866/pexels-photo-56866.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Notícia 1" class="post-img">
+      <h3>Nova aventura da Codina!</h3>
+      <p>Descubra a jornada que a Codina iniciou recentemente...</p>
+    </div>
+    <div class="post">
+      <img src="https://images.pexels.com/photos/854115/pexels-photo-854115.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Notícia 2" class="post-img">
+      <h3>Personagens inéditos chegando</h3>
+      <p>Prepare-se para conhecer novos aliados e vilões do universo Codina.</p>
+    </div>
+  </section>
 
-header nav a:hover {
-  transform: scale(1.1);
-  text-shadow: 0 0 12px #ff4d6d;
-}
+  <!-- Personagens -->
+  <section class="destaque">
+    <h2>Personagens principais 🌟</h2>
+    <div class="personagem-card">
+      <img src="https://images.pexels.com/photos/1965218/pexels-photo-1965218.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Codina">
+      <h3>Codina</h3>
+      <p>Protagonista misteriosa e inteligente.</p>
+    </div>
+    <div class="personagem-card">
+      <img src="https://images.pexels.com/photos/3985324/pexels-photo-3985324.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Aliado misterioso">
+      <h3>Aliado(a) misterioso(a)</h3>
+      <p>Amigo(a) e parceiro(a) em aventuras.</p>
+    </div>
+  </section>
 
-/* Banner slider */
-.banner-slider {
-  position: relative;
-  max-width: 100%;
-  height: 350px;
-  overflow: hidden;
-  border-radius: 15px;
-  margin: 20px auto;
-  z-index: 1; /* acima do canvas */
-}
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Codina Universe | Criado por Codin</p>
+  </footer>
 
-.banner-slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
+  <!-- Banner Slider JS -->
+  <script>
+    let slides = document.querySelectorAll('.slide');
+    let current = 0;
+    function nextSlide() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }
+    setInterval(nextSlide, 4000);
+  </script>
 
-.banner-slider img.active {
-  opacity: 1;
-}
+  <!-- Partículas JS -->
+  <script>
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-/* Seções de notícias */
-.noticias {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 0 10px;
-  position: relative;
-  z-index: 1;
-}
+    let particles = [];
+    for(let i=0; i<100; i++){
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 3 + 1,
+        d: Math.random() * 2
+      });
+    }
 
-.post {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 10px;
-  transition: 0.3s;
-}
+    function drawParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = 'rgba(255, 200, 255, 0.7)';
+      ctx.beginPath();
+      particles.forEach(p=>{
+        ctx.moveTo(p.x,p.y);
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      });
+      ctx.fill();
+      updateParticles();
+    }
 
-.post:hover {
-  transform: scale(1.02);
-  box-shadow: 0px 0px 12px #ff4d6d;
-}
-
-.post-img {
-  width: 120px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Personagens */
-.destaque {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.personagem-card {
-  display: inline-block;
-  width: 200px;
-  margin: 12px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  transition: 0.3s;
-}
-
-.personagem-card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 15px #ffb6f1;
-}
-
-.personagem-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 15px;
-  background-color: #45007a;
-  margin-top: 30px;
-  position: relative;
-  z-index: 1;
-}
-
-/* Animação glow do header */
-@keyframes glow {
-  0% { text-shadow: 0 0 5px #ffb6f1; }
-  50% { text-shadow: 0 0 20px #ff4d6d; }
-  100% { text-shadow: 0 0 5px #ffb6f1; }
-}
+    function updateParticles(){
+      particles.forEach(p=>{
+        p.y += 0.5;
+        if(p.y > canvas
