@@ -7,6 +7,9 @@
 </head>
 <body>
 
+<!-- Fundo com partículas -->
+<canvas id="particle-canvas"></canvas>
+
 <header>
   <h1>✨ Universo Codina ✨</h1>
   <nav>
@@ -20,47 +23,38 @@
   </nav>
 </header>
 
-<!-- ===== Banner principal ===== -->
-<section class="banner">
-  <img src="https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=800" 
-       alt="Anime Banner" class="banner-img">
-  <h2>Bem-vindo(a) ao universo de Codina!</h2>
-  <p>Explore a história, os personagens e todas as novidades desse mundo incrível!</p>
+<!-- Banner rotativo -->
+<section class="banner-slider">
+  <img src="https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide active" alt="Banner 1">
+  <img src="https://images.pexels.com/photos/854115/pexels-photo-854115.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide" alt="Banner 2">
+  <img src="https://images.pexels.com/photos/56866/pexels-photo-56866.jpeg?auto=compress&cs=tinysrgb&w=800" class="slide" alt="Banner 3">
 </section>
 
-<!-- ===== Notícias ===== -->
+<!-- Notícias -->
 <section class="noticias">
   <h2>Últimas notícias ✨</h2>
-
   <div class="post">
-    <img src="https://images.pexels.com/photos/56866/pexels-photo-56866.jpeg?auto=compress&cs=tinysrgb&w=600" 
-         alt="Notícia anime 1" class="post-img">
+    <img src="https://images.pexels.com/photos/56866/pexels-photo-56866.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Notícia anime 1" class="post-img">
     <h3>Nova aventura da Codina!</h3>
     <p>Descubra a jornada que a Codina iniciou recentemente...</p>
   </div>
-
   <div class="post">
-    <img src="https://images.pexels.com/photos/854115/pexels-photo-854115.jpeg?auto=compress&cs=tinysrgb&w=600" 
-         alt="Notícia anime 2" class="post-img">
+    <img src="https://images.pexels.com/photos/854115/pexels-photo-854115.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Notícia anime 2" class="post-img">
     <h3>Personagens inéditos chegando</h3>
     <p>Prepare-se para conhecer novos aliados e vilões do universo Codina.</p>
   </div>
 </section>
 
-<!-- ===== Personagens em destaque ===== -->
+<!-- Personagens -->
 <section class="destaque">
   <h2>Personagens principais 🌟</h2>
-
   <div class="personagem-card">
-    <img src="https://images.pexels.com/photos/1965218/pexels-photo-1965218.jpeg?auto=compress&cs=tinysrgb&w=600"
-         alt="Personagem exemplo 1">
+    <img src="https://images.pexels.com/photos/1965218/pexels-photo-1965218.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Personagem 1">
     <h3>Codina</h3>
     <p>Protagonista misteriosa e inteligente.</p>
   </div>
-
   <div class="personagem-card">
-    <img src="https://images.pexels.com/photos/3985324/pexels-photo-3985324.jpeg?auto=compress&cs=tinysrgb&w=600"
-         alt="Personagem exemplo 2">
+    <img src="https://images.pexels.com/photos/3985324/pexels-photo-3985324.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Personagem 2">
     <h3>Aliado(a) misterioso(a)</h3>
     <p>Amigo(a) e parceiro(a) em aventuras.</p>
   </div>
@@ -69,6 +63,58 @@
 <footer>
   <p>© 2026 Codina Universe | Criado por Codin</p>
 </footer>
+
+<!-- Banner Slider Script -->
+<script>
+let slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function nextSlide() {
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}
+
+setInterval(nextSlide, 4000); // troca a cada 4s
+</script>
+
+<!-- Partículas simples -->
+<script>
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+for(let i=0;i<100;i++){
+  particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+1, d:Math.random()*2});
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'rgba(255, 200, 255, 0.7)';
+  ctx.beginPath();
+  particles.forEach(p => {
+    ctx.moveTo(p.x,p.y);
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  });
+  ctx.fill();
+  updateParticles();
+}
+
+function updateParticles(){
+  particles.forEach(p=>{
+    p.y += 0.5;
+    if(p.y>canvas.height) p.y=0;
+  });
+}
+
+setInterval(drawParticles,30);
+window.addEventListener('resize',()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
 
 </body>
 </html>
