@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Criar Conta</h2>
+<input type="text" id="novoUser" placeholder="Usuário">
+<input type="password" id="novaSenha" placeholder="Senha">
+<button onclick="criarConta()">Criar Conta</button>
+
+<h2>Login</h2>
+<input type="text" id="user" placeholder="Usuário">
+<input type="password" id="senha" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+
+<script>
+function criarConta(){
+  let user = document.getElementById("novoUser").value;
+  let senha = document.getElementById("novaSenha").value;
+
+  if(user && senha){
+    if(localStorage.getItem(user)){
+      alert("Usuário já existe!");
+    } else {
+      localStorage.setItem(user, senha);
+      alert("Conta criada com sucesso!");
+    }
+  } else {
+    alert("Preencha todos os campos.");
+  }
+}
+
+function login(){
+  let user = document.getElementById("user").value;
+  let senha = document.getElementById("senha").value;
+
+  let senhaSalva = localStorage.getItem(user);
+
+  if(senhaSalva === senha){
+    localStorage.setItem("usuarioLogado", user);
+    window.location.href = "perfil.html";
+  } else {
+    alert("Usuário ou senha incorretos.");
+  }
+}
+</script>
+
+</body>
+</html>
