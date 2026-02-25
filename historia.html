@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>©CODINA</title>
+</head>
+<body>
+
+<h1>Leia os capítulos disponíveis!</h1>
+<p>Bem-vindo(a)! Aqui você vai poder ler toda a história da Codina, capítulo por capítulo.</p>
+
+<button onclick="abrirCapitulo(1)">Ler Capítulo 1</button>
+<button onclick="abrirCapitulo(2)">Ler Capítulo 2</button>
+
+<div id="capitulo" style="margin-top:20px;"></div>
+
+<script>
+function abrirCapitulo(num){
+  let conteudo = "";
+  if(num === 1){
+    conteudo = "<h2>Capítulo 1</h2><p>Tudo começou quando a Codina...</p>";
+  } else if(num === 2){
+    conteudo = "<h2>Capítulo 2</h2><p>Depois de descobrir seus poderes...</p>";
+  } else {
+    conteudo = "<p>Capítulo não encontrado.</p>";
+  }
+  document.getElementById("capitulo").innerHTML = conteudo;
+}
+</script>
+
+<a href="index.html">Voltar para o início</a>
+
+</body>
+</html>
