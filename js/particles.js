@@ -1,60 +1,59 @@
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
+window.addEventListener("load", () => {
 
-// Ajusta o canvas para o tamanho do container da logo
-function resizeCanvas() {
-  canvas.width = canvas.parentElement.offsetWidth;
-  canvas.height = canvas.parentElement.offsetHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
 
-const particles = [];
-const particleCount = 40;
-
-function chromaColor() {
-  const rShift = Math.random() < 0.5 ? 5 : 0;
-  const gShift = Math.random() < 0.5 ? 5 : 0;
-  const bShift = Math.random() < 0.5 ? 5 : 0;
-  return `rgb(${200 + rShift},${150 + gShift},${255 + bShift})`;
-}
-
-function createParticle() {
-  const xCenter = canvas.width / 2;
-  const yCenter = canvas.height / 2;
-
-  particles.push({
-    x: xCenter + (Math.random() * 20 - 10),
-    y: yCenter + (Math.random() * 20 - 10),
-    size: 5 + Math.random() * 5,
-    speedX: (Math.random() - 0.5) * 1,
-    speedY: -Math.random() * 1.5,
-    life: 50 + Math.random() * 20,
-    color: chromaColor()
-  });
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-
-    p.x += p.speedX;
-    p.y += p.speedY;
-    p.life--;
-
-    ctx.fillStyle = p.color;
-    ctx.fillRect(p.x, p.y, p.size, p.size);
-
-    if (p.life <= 0) {
-      particles.splice(i, 1);
-    }
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = 250;
   }
 
-  requestAnimationFrame(animateParticles);
-}
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 
-// Cria partículas a cada 100ms
-setInterval(createParticle, 100);
-animateParticles();
+  const particles = [];
+
+  function createParticle() {
+    const logo = document.getElementById('logo-site');
+    if (!logo) return;
+
+    const rect = logo.getBoundingClientRect();
+
+    const xCenter = rect.left + rect.width / 2;
+    const yCenter = rect.top + rect.height / 2;
+
+    particles.push({
+      x: xCenter,
+      y: yCenter,
+      size: 4 + Math.random() * 4,
+      speedX: (Math.random() - 0.5) * 3,
+      speedY: (Math.random() - 0.5) * 3,
+      life: 60,
+      opacity: 1
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      p.x += p.speedX;
+      p.y += p.speedY;
+      p.life--;
+      p.opacity -= 0.015;
+
+      ctx.fillStyle = `rgba(255,150,255,${p.opacity})`;
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(createParticle, 120);
+  animate();
+
+});
