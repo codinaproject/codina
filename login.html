@@ -1,18 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <style>
+    /* ========================= */
+    /* BASE */
+    /* ========================= */
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f18;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ========================= */
+    /* CAIXA LOGIN */
+    /* ========================= */
+
+    .login-box {
+      background: rgba(30, 30, 40, 0.85);
+      padding: 45px;
+      border-radius: 14px;
+      width: 360px;
+      border: 1px solid rgba(199, 125, 255, 0.25);
+      backdrop-filter: blur(8px);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 35px;
+      color: #c77dff;
+      font-weight: 500;
+    }
+
+    /* ========================= */
+    /* INPUT GROUP */
+    /* ========================= */
+
+    .input-group {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 12px 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+      color: white;
+      font-size: 14px;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    /* placeholder invisível */
+    .input-group input::placeholder {
+      color: transparent;
+    }
+
+    /* LABEL */
+    .input-group label {
+      position: absolute;
+      left: 12px;
+      top: 16px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    /* LABEL FLUTUANTE */
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 4px;
+      font-size: 11px;
+      color: #c77dff;
+    }
+
+    /* FOCO */
+    .input-group input:focus {
+      border-color: #c77dff;
+      box-shadow: 0 0 14px rgba(199,125,255,0.25);
+    }
+
+    /* ========================= */
+    /* BOTÃO */
+    /* ========================= */
+
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(199, 125, 255, 0.4);
+      background: rgba(199, 125, 255, 0.08);
+      color: #c77dff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .login-box button:hover {
+      background: #c77dff;
+      color: white;
+      box-shadow: 0 0 18px rgba(199,125,255,0.35);
+    }
+
+    .login-box button:active {
+      transform: scale(0.97);
+    }
+
+    /* ========================= */
+    /* LINK */
+    /* ========================= */
+
+    .login-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #c77dff;
+      text-decoration: none;
+    }
+
+  </style>
+</head>
 <body>
-<section class="register-section">
-  <div class="register-box">
+
+  <div class="login-box">
     <h2>Entrar</h2>
 
     <form>
       <div class="input-group">
-        <input type="email" required>
+        <input type="email" placeholder=" " required>
         <label>Email</label>
       </div>
 
       <div class="input-group">
-        <input type="password" required>
+        <input type="password" placeholder=" " required>
         <label>Senha</label>
       </div>
 
@@ -20,51 +155,9 @@
     </form>
 
     <p class="login-link">
-      Não tem conta? <a href="cadastro.html">Criar conta</a>
+      Não tem conta? <a href="#">Criar conta</a>
     </p>
   </div>
-</section>
-<h2>Criar Conta</h2>
-<input type="text" id="novoUser" placeholder="Usuário">
-<input type="password" id="novaSenha" placeholder="Senha">
-<button onclick="criarConta()">Criar Conta</button>
-
-<h2>Login</h2>
-<input type="text" id="user" placeholder="Usuário">
-<input type="password" id="senha" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-
-<script>
-function criarConta(){
-  let user = document.getElementById("novoUser").value;
-  let senha = document.getElementById("novaSenha").value;
-
-  if(user && senha){
-    if(localStorage.getItem(user)){
-      alert("Usuário já existe!");
-    } else {
-      localStorage.setItem(user, senha);
-      alert("Conta criada com sucesso!");
-    }
-  } else {
-    alert("Preencha todos os campos.");
-  }
-}
-
-function login(){
-  let user = document.getElementById("user").value;
-  let senha = document.getElementById("senha").value;
-
-  let senhaSalva = localStorage.getItem(user);
-
-  if(senhaSalva === senha){
-    localStorage.setItem("usuarioLogado", user);
-    window.location.href = "perfil.html";
-  } else {
-    alert("Usuário ou senha incorretos.");
-  }
-}
-</script>
 
 </body>
 </html>
