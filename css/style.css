@@ -1,39 +1,111 @@
-/* ========================= */
-/* BASE */
-/* ========================= */
-
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(180deg, #2c003e, #000000);
   color: white;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* ========================= */
-/* HEADER */
+/* PARTICULAS RGB AVANÇADAS */
+/* ========================= */
+
+.particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.particles-bg span {
+  position: absolute;
+  top: -60px;
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+
+/* PROFUNDIDADE */
+
+.particles-bg span:nth-child(3n) {
+  width: 8px;
+  height: 8px;
+}
+
+.particles-bg span:nth-child(3n+1) {
+  width: 14px;
+  height: 14px;
+}
+
+.particles-bg span:nth-child(3n+2) {
+  width: 20px;
+  height: 20px;
+}
+
+/* CORES + GLOW */
+
+.particles-bg span:nth-child(4n) {
+  background: #e879f9;
+  box-shadow: 0 0 15px #e879f9;
+}
+
+.particles-bg span:nth-child(4n+1) {
+  background: #9333ea;
+  box-shadow: 0 0 15px #9333ea;
+}
+
+.particles-bg span:nth-child(4n+2) {
+  background: #c026d3;
+  box-shadow: 0 0 15px #c026d3;
+}
+
+.particles-bg span:nth-child(4n+3) {
+  background: #00ffff;
+  box-shadow: 0 0 15px #00ffff;
+}
+
+/* POSIÇÃO HORIZONTAL VARIADA */
+
+.particles-bg span:nth-child(1) { left: 5%; animation-duration: 8s; }
+.particles-bg span:nth-child(2) { left: 15%; animation-duration: 12s; }
+.particles-bg span:nth-child(3) { left: 25%; animation-duration: 6s; }
+.particles-bg span:nth-child(4) { left: 35%; animation-duration: 10s; }
+.particles-bg span:nth-child(5) { left: 45%; animation-duration: 14s; }
+.particles-bg span:nth-child(6) { left: 55%; animation-duration: 9s; }
+.particles-bg span:nth-child(7) { left: 65%; animation-duration: 7s; }
+.particles-bg span:nth-child(8) { left: 75%; animation-duration: 11s; }
+.particles-bg span:nth-child(9) { left: 85%; animation-duration: 13s; }
+.particles-bg span:nth-child(10) { left: 95%; animation-duration: 8s; }
+
+/* ANIMAÇÃO COM LEVE SUCÇÃO */
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(50vh) translateX(-10px) rotate(180deg);
+  }
+  100% {
+    transform: translateY(110vh) translateX(10px) rotate(360deg);
+  }
+}
+
+/* ========================= */
+/* HEADER + REDemoinho */
 /* ========================= */
 
 .main-header {
   padding: 30px 20px;
   position: relative;
   overflow: visible;
+  z-index: 2;
 }
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-nav a:hover {
-  color: #ff99ff;
-}
-
-/* ========================= */
-/* LOGO + REDemoinho */
-/* ========================= */
 
 .logo-container {
   position: relative;
@@ -47,8 +119,6 @@ nav a:hover {
   z-index: 3;
 }
 
-/* REDemoinho dimensional */
-
 .energy-swirl {
   position: absolute;
   top: 50%;
@@ -58,7 +128,6 @@ nav a:hover {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   z-index: 1;
-
   background: conic-gradient(
     #e879f9,
     #c026d3,
@@ -66,14 +135,12 @@ nav a:hover {
     #00ffff,
     #e879f9
   );
-
   filter: blur(70px);
   animation: swirlSpin 12s linear infinite;
   mix-blend-mode: screen;
   opacity: 0.85;
 }
 
-/* Fade para desaparecer nas bordas */
 .energy-swirl::after {
   content: "";
   position: absolute;
@@ -82,7 +149,6 @@ nav a:hover {
   background: radial-gradient(circle, transparent 35%, rgba(0,0,0,0.95) 75%);
 }
 
-/* Animação */
 @keyframes swirlSpin {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -93,8 +159,17 @@ nav a:hover {
 }
 
 /* ========================= */
-/* BANNER */
-/* ========================= */
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #ff99ff;
+}
 
 .banner-slider img {
   width: 100%;
@@ -102,16 +177,8 @@ nav a:hover {
   object-fit: cover;
 }
 
-/* ========================= */
-/* NOTÍCIAS */
-/* ========================= */
-
-.noticias {
+.noticias, .destaque {
   padding: 40px 20px;
-}
-
-.post {
-  margin-bottom: 30px;
 }
 
 .post-img {
@@ -120,26 +187,10 @@ nav a:hover {
   border-radius: 10px;
 }
 
-/* ========================= */
-/* PERSONAGENS */
-/* ========================= */
-
-.destaque {
-  padding: 40px 20px;
-}
-
-.personagem-card {
-  margin-bottom: 30px;
-}
-
 .personagem-card img {
   width: 200px;
   border-radius: 15px;
 }
-
-/* ========================= */
-/* FOOTER */
-/* ========================= */
 
 footer {
   background: #1a001f;
