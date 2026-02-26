@@ -64,3 +64,56 @@ footer {
   padding: 20px;
   margin-top: 40px;
 }
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-main {
+  position: relative;
+  width: 230px;
+  z-index: 3;
+}
+
+/* Redemoinho */
+.energy-swirl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  height: 350px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 1;
+
+  background: conic-gradient(
+    rgba(200, 0, 255, 0.8),
+    rgba(150, 0, 255, 0.7),
+    rgba(255, 0, 200, 0.6),
+    rgba(0, 255, 255, 0.4),
+    rgba(200, 0, 255, 0.8)
+  );
+
+  filter: blur(40px);
+  animation: swirlSpin 8s linear infinite;
+}
+
+/* Fade para desaparecer nas bordas */
+.energy-swirl::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 75%);
+}
+
+/* Animação */
+@keyframes swirlSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
