@@ -8,8 +8,37 @@
 </head>
 <body>
 
-<!-- PARTÍCULAS -->
-<div class="particles-bg">
+/* ========================= */
+/* PARTICULAS SIMPLIFICADAS TESTE */
+/* ========================= */
+
+.particles-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.particles-bg span {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: red;
+  top: -20px;
+  left: 50%;
+  animation: fall 5s linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+</div>
   <!-- 30 partículas -->
   <span></span><span></span><span></span><span></span><span></span>
   <span></span><span></span><span></span><span></span><span></span>
