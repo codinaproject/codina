@@ -1,3 +1,7 @@
+/* ========================= */
+/* BASE */
+/* ========================= */
+
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
@@ -6,13 +10,14 @@ body {
   text-align: center;
 }
 
-header {
-  padding: 20px;
-}
+/* ========================= */
+/* HEADER */
+/* ========================= */
 
-#logo-site {
-  width: 200px;
-  margin-bottom: 15px;
+.main-header {
+  padding: 30px 20px;
+  position: relative;
+  overflow: visible;
 }
 
 nav a {
@@ -26,11 +31,80 @@ nav a:hover {
   color: #ff99ff;
 }
 
+/* ========================= */
+/* LOGO + REDemoinho */
+/* ========================= */
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.logo-main {
+  position: relative;
+  width: 230px;
+  z-index: 3;
+}
+
+/* REDemoinho dimensional */
+
+.energy-swirl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 1;
+
+  background: conic-gradient(
+    #e879f9,
+    #c026d3,
+    #9333ea,
+    #00ffff,
+    #e879f9
+  );
+
+  filter: blur(70px);
+  animation: swirlSpin 12s linear infinite;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+
+/* Fade para desaparecer nas bordas */
+.energy-swirl::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 35%, rgba(0,0,0,0.95) 75%);
+}
+
+/* Animação */
+@keyframes swirlSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* ========================= */
+/* BANNER */
+/* ========================= */
+
 .banner-slider img {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
 }
+
+/* ========================= */
+/* NOTÍCIAS */
+/* ========================= */
 
 .noticias {
   padding: 40px 20px;
@@ -46,6 +120,10 @@ nav a:hover {
   border-radius: 10px;
 }
 
+/* ========================= */
+/* PERSONAGENS */
+/* ========================= */
+
 .destaque {
   padding: 40px 20px;
 }
@@ -59,61 +137,12 @@ nav a:hover {
   border-radius: 15px;
 }
 
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
 footer {
   background: #1a001f;
   padding: 20px;
   margin-top: 40px;
-}
-
-.logo-container {
-  position: relative;
-  display: inline-block;
-}
-
-.logo-main {
-  position: relative;
-  width: 230px;
-  z-index: 3;
-}
-
-/* Redemoinho */
-.energy-swirl {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 350px;
-  height: 350px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  z-index: 1;
-
-  background: conic-gradient(
-    rgba(200, 0, 255, 0.8),
-    rgba(150, 0, 255, 0.7),
-    rgba(255, 0, 200, 0.6),
-    rgba(0, 255, 255, 0.4),
-    rgba(200, 0, 255, 0.8)
-  );
-
-  filter: blur(40px);
-  animation: swirlSpin 8s linear infinite;
-}
-
-/* Fade para desaparecer nas bordas */
-.energy-swirl::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 75%);
-}
-
-/* Animação */
-@keyframes swirlSpin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
 }
