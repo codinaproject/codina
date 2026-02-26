@@ -5,17 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Codina Universe</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ========================= */
+    /* LOGIN BOX & FORM */
+    /* ========================= */
+    .login-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+
+    .login-box {
+      background: rgba(30, 30, 40, 0.85);
+      padding: 45px;
+      border-radius: 14px;
+      width: 360px;
+      border: 1px solid rgba(199, 125, 255, 0.25);
+      backdrop-filter: blur(8px);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 35px;
+      color: #c77dff;
+      font-weight: 500;
+    }
+
+    /* ========================= */
+    /* INPUTS & LABEL FLUTUANTE */
+    /* ========================= */
+    .input-group {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 12px 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.03);
+      color: white;
+      font-size: 14px;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    .input-group input::placeholder {
+      color: transparent;
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 12px;
+      top: 16px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 4px;
+      font-size: 11px;
+      color: #c77dff;
+    }
+
+    .input-group input:focus {
+      border-color: #c77dff;
+      box-shadow: 0 0 14px rgba(199, 125, 255, 0.25);
+    }
+
+    /* ========================= */
+    /* BOTÃO ENTRAR */
+    /* ========================= */
+    .login-box button {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(199, 125, 255, 0.6);
+      background: linear-gradient(145deg, #9f68ff, #c77dff);
+      color: white;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 15px rgba(199, 125, 255, 0.3);
+      margin-top: 10px;
+    }
+
+    .login-box button:hover {
+      background: linear-gradient(145deg, #c77dff, #9f68ff);
+      box-shadow: 0 6px 20px rgba(199, 125, 255, 0.45);
+      transform: scale(1.05);
+    }
+
+    .login-box button:active {
+      transform: scale(0.97);
+      box-shadow: 0 3px 12px rgba(199, 125, 255, 0.35);
+    }
+
+    /* ========================= */
+    /* BOTÃO CADASTRE-SE */
+    /* ========================= */
+    .login-link a {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(199, 125, 255, 0.08);
+      border: 1px solid rgba(199, 125, 255, 0.4);
+      color: #c77dff;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.25s ease;
+      margin-top: 12px;
+    }
+
+    .login-link a:hover {
+      background: #c77dff;
+      color: white;
+      box-shadow: 0 0 18px rgba(199, 125, 255, 0.35);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Header igual ao site -->
+  <!-- Header -->
   <header>
     <div class="logo-container">
       <img src="images/codina-logosite.png" alt="Logo Codina" class="logo-main">
     </div>
   </header>
 
-  <!-- Caixa de login -->
+  <!-- Login -->
   <main class="login-section">
     <div class="login-box">
       <h2>Login</h2>
