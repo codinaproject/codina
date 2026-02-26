@@ -1,15 +1,17 @@
+/* ========================= */
+/* BASE */
+/* ========================= */
+
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(180deg, #2c003e, #000000);
   color: white;
   text-align: center;
-  position: relative;
-  z-index: 1;
 }
 
 /* ========================= */
-/* PARTICULAS RGB AVANÇADAS */
+/* PARTICULAS RGB FUNDO */
 /* ========================= */
 
 .particles-bg {
@@ -20,7 +22,7 @@ body {
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
+  z-index: -1; /* FUNDÃO REAL */
 }
 
 .particles-bg span {
@@ -30,7 +32,7 @@ body {
   opacity: 0.85;
 }
 
-/* PROFUNDIDADE */
+/* PROFUNDIDADE (tamanhos diferentes) */
 
 .particles-bg span:nth-child(3n) {
   width: 8px;
@@ -69,7 +71,7 @@ body {
   box-shadow: 0 0 15px #00ffff;
 }
 
-/* POSIÇÃO HORIZONTAL VARIADA */
+/* POSIÇÕES HORIZONTAIS + VELOCIDADES */
 
 .particles-bg span:nth-child(1) { left: 5%; animation-duration: 8s; }
 .particles-bg span:nth-child(2) { left: 15%; animation-duration: 12s; }
@@ -82,7 +84,7 @@ body {
 .particles-bg span:nth-child(9) { left: 85%; animation-duration: 13s; }
 .particles-bg span:nth-child(10) { left: 95%; animation-duration: 8s; }
 
-/* ANIMAÇÃO COM LEVE SUCÇÃO */
+/* ANIMAÇÃO COM LEVE MOVIMENTO LATERAL */
 
 @keyframes fall {
   0% {
@@ -97,7 +99,7 @@ body {
 }
 
 /* ========================= */
-/* HEADER + REDemoinho */
+/* HEADER + REDEMOINHO */
 /* ========================= */
 
 .main-header {
@@ -159,6 +161,8 @@ body {
 }
 
 /* ========================= */
+/* RESTANTE DO SITE */
+/* ========================= */
 
 nav a {
   color: white;
@@ -177,7 +181,8 @@ nav a:hover {
   object-fit: cover;
 }
 
-.noticias, .destaque {
+.noticias,
+.destaque {
   padding: 40px 20px;
 }
 
