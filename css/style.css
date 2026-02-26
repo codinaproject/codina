@@ -196,6 +196,128 @@ nav a:hover {
   width: 200px;
   border-radius: 15px;
 }
+/* ========================= */
+/* CADASTRO ELEGANTE COMPLETO */
+/* ========================= */
+
+.register-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 120px 20px;
+}
+
+.register-box {
+  background: rgba(30, 30, 40, 0.75);
+  padding: 45px;
+  border-radius: 14px;
+  width: 380px;
+  border: 1px solid rgba(199, 125, 255, 0.25);
+  backdrop-filter: blur(8px);
+  transition: 0.3s ease;
+}
+
+.register-box h2 {
+  margin-bottom: 35px;
+  font-weight: 500;
+  color: #c77dff;
+  text-align: center;
+}
+
+/* ========================= */
+/* INPUT GROUP */
+/* ========================= */
+
+.input-group {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 12px 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.03);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* LABEL FLUTUANTE */
+
+.input-group label {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  pointer-events: none;
+  transition: 0.25s ease;
+  background: transparent;
+}
+
+/* Quando foco ou preenchido */
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: 4px;
+  font-size: 11px;
+  color: #c77dff;
+}
+
+/* Foco elegante */
+
+.input-group input:focus {
+  border-color: #c77dff;
+  background: rgba(199,125,255,0.06);
+  box-shadow: 0 0 14px rgba(199,125,255,0.25);
+}
+
+/* ========================= */
+/* BOTÃO ELEGANTE MODERNO */
+/* ========================= */
+
+.register-box button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(199, 125, 255, 0.4);
+  background: rgba(199, 125, 255, 0.08);
+  color: #c77dff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.register-box button:hover {
+  background: #c77dff;
+  color: white;
+  box-shadow: 0 0 18px rgba(199, 125, 255, 0.35);
+}
+
+.register-box button:active {
+  transform: scale(0.97);
+}
+
+/* ========================= */
+/* LINK LOGIN */
+/* ========================= */
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #c77dff;
+  text-decoration: none;
+}
 
 footer {
   background: #1a001f;
