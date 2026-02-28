@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Codina Stream</title>
+  <meta charset="UTF-8">
+  <title>Codina Stream</title>
 
-<!-- Fonte Nunito -->
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Fonte Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 <header>
   <div class="logo-container">
-    <div class="energy-swirl"></div>
+    <div class="energy-swirl"></div> <!-- seu efeito de redemoinho -->
     <img src="images/codina-logosite.png" alt="Logo Codina" class="logo-main">
   </div>
 
@@ -31,40 +31,61 @@
   </nav>
 </header>
 
-<section style="height: 500px; display: flex; align-items: center; padding: 60px; background: linear-gradient(to right, #0f0a19, #1b0f2e);">
-  <div>
+<section class="hero" style="height: 500px; display: flex; align-items: center; padding: 60px; background: linear-gradient(to right, #0f0a19, #1b0f2e);">
+  <div class="hero-content">
     <h1 style="font-size: 60px; margin: 0;">Universo Codina</h1>
     <p style="font-size: 18px; max-width: 500px;">
       Entre no mundo oficial da Codina. Histórias, personagens, músicas, jogos e muito mais.
     </p>
-    <a href="historia.html" style="display: inline-block; margin-top: 20px; padding: 12px 25px; background-color: #b57aff; color: white; text-decoration: none; border-radius: 6px;">
+    <!-- Mantive o estilo inline existente e adicionei a classe pra animação -->
+    <a href="historia.html" class="cta-button" style="display: inline-block; margin-top: 20px; padding: 12px 25px; background-color: #b57aff; color: white; text-decoration: none; border-radius: 6px;">
       Explorar Agora
     </a>
   </div>
 </section>
 
-<section style="padding: 40px;">
+<section class="section highlights" style="padding: 40px;">
   <h2>Destaques</h2>
-  <div style="display: flex; gap: 15px; overflow-x: auto; margin-top: 20px;">
+  <div class="row" style="display: flex; gap: 15px; overflow-x: auto; margin-top: 20px;">
     
-    <div style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+    <div class="card large-card" style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
       História Oficial
     </div>
 
-    <div style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+    <div class="card large-card" style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
       Personagens
     </div>
 
-    <div style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+    <div class="card large-card" style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
       Loja Codina
     </div>
 
-    <div style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+    <div class="card large-card" style="min-width: 250px; height: 150px; background-color: #2b1c44; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
       Blog
     </div>
 
   </div>
 </section>
+
+<!-- footer adicionado (complementando) -->
+<footer class="site-footer" style="background-color:#140c24; padding:40px; text-align:center; margin-top:60px;">
+  <p style="margin:0; font-weight:600;">© 2026 Codina Universe</p>
+  <p style="opacity:0.6; font-size:14px;">Projeto oficial criado por Codin</p>
+</footer>
+
+<!-- (Opcional) pequenos scripts para melhorias UI — mantive mínimo para não bagunçar -->
+<script>
+  // comportamento simples: adicionar "active" no link do menu baseado em pathname
+  (function(){
+    try {
+      const links = document.querySelectorAll('header nav a');
+      const path = location.pathname.split('/').pop() || 'index.html';
+      links.forEach(a => {
+        if (a.getAttribute('href') === path) a.classList.add('active');
+      });
+    } catch(e){ /* silent */ }
+  })();
+</script>
 
 </body>
 </html>
