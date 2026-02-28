@@ -8,21 +8,34 @@ body {
 header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
-  background-color: #1a102b;
+  background-color: #140c24;
+  position: sticky;
+  top: 0;
 }
 
-header a {
+.logo {
+  font-size: 24px;
+  font-weight: bold;
   color: #b57aff;
+}
+
+nav a {
+  color: #ddd;
   text-decoration: none;
   margin-left: 15px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #b57aff;
 }
 
 .banner {
   height: 400px;
-  background: linear-gradient(to right, #0f0a19, transparent),
-  url('../images/banner.jpg');
-  background-size: cover;
+  background: linear-gradient(to right, #0f0a19, transparent);
   display: flex;
   align-items: center;
   padding-left: 50px;
@@ -33,7 +46,7 @@ header a {
 }
 
 .section {
-  padding: 20px;
+  padding: 40px;
 }
 
 .row {
@@ -52,4 +65,12 @@ header a {
 
 .card:hover {
   transform: scale(1.1);
+}
+
+.button {
+  background-color: #b57aff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
 }
