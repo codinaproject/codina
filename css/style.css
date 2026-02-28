@@ -1,50 +1,141 @@
+/* --- Base e tipografia --- */
 body {
   margin: 0;
-  background-color: #0f0a19;
-  font-family: Arial, sans-serif;
+  /* fundo radial (complementado) */
+  background: radial-gradient(circle at top left, #1b0f2e, #0f0a19);
+  font-family: 'Nunito', sans-serif;
   color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* header (mantive e complementei) */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #140c24;
+  background-color: rgba(20,12,36,0.95); /* leve transparência pra glow quando rolar depois */
   position: sticky;
   top: 0;
+  z-index: 50;
 }
 
+/* container da logo que você pediu */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* efeito 'redemoinho' — animated */
+.energy-swirl {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  filter: drop-shadow(0 0 6px rgba(181,122,255,0.25));
+  overflow: hidden;
+}
+
+/* desenho do swirl com conic-gradient + animação */
+.energy-swirl::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 180deg at 50% 50%, rgba(181,122,255,0.95), rgba(142,88,235,0.9) 30%, rgba(0,0,0,0) 55%);
+  transform: scale(1.3);
+  animation: swirl-rotate 6s linear infinite;
+  opacity: 0.95;
+  mix-blend-mode: screen;
+}
+
+@keyframes swirl-rotate {
+  from { transform: rotate(0deg) scale(1.3); }
+  to   { transform: rotate(360deg) scale(1.3); }
+}
+
+/* imagem principal da logo */
+.logo-main {
+  height: 48px;
+  display: block;
+  object-fit: contain;
+  /* glow roxo suave */
+  filter: drop-shadow(0 0 8px rgba(181,122,255,0.2));
+}
+
+/* nome da marca no header (se necessário) */
 .logo {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 800;
   color: #b57aff;
 }
 
+/* nav */
 nav a {
   color: #ddd;
   text-decoration: none;
   margin-left: 15px;
   font-size: 14px;
-  transition: 0.3s;
+  font-weight: 600;
+  transition: color .25s, transform .18s;
+  position: relative;
 }
 
 nav a:hover {
   color: #b57aff;
+  transform: translateY(-2px);
 }
 
-.banner {
-  height: 400px;
-  background: linear-gradient(to right, #0f0a19, transparent);
-  display: flex;
-  align-items: center;
-  padding-left: 50px;
+/* link ativo (script adiciona .active) */
+nav a.active {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(181,122,255,0.12);
 }
 
-.banner h1 {
-  font-size: 50px;
+/* HERO / BANNER */
+.hero {
+  /* Mantive o linear-gradient inline no HTML; aqui só complementos */
+  background-attachment: fixed;
 }
 
+.hero-content h1 {
+  margin: 0 0 12px 0;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.hero-content p {
+  margin-top: 14px;
+  color: rgba(255,255,255,0.92);
+}
+
+/* CTA button — animado */
+.cta-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background-color: #b57aff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 700;
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
+  box-shadow: 0 6px 18px rgba(181,122,255,0.12);
+}
+
+.cta-button:hover,
+.cta-button:focus {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 40px rgba(181,122,255,0.18);
+  outline: none;
+}
+
+/* Destaques / Cards */
 .section {
   padding: 40px;
 }
@@ -52,6 +143,7 @@ nav a:hover {
 .row {
   display: flex;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .card {
@@ -60,17 +152,57 @@ nav a:hover {
   background-color: #2b1c44;
   margin-right: 10px;
   border-radius: 8px;
-  transition: 0.3s;
+  transition: transform 0.25s cubic-bezier(.2,.9,.2,1), box-shadow 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
 }
 
+/* cards maiores */
+.large-card {
+  min-width: 250px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+/* hover premium */
 .card:hover {
-  transform: scale(1.1);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.45), 0 0 18px rgba(181,122,255,0.06);
 }
 
-.button {
-  background-color: #b57aff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: white;
-  text-decoration: none;
+/* botão específico (caso user tenha usado href direto) */
+a[href="historia.html"] {
+  transition: 0.3s ease;
+}
+a[href="historia.html"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #b57aff;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #140c24;
+  padding: 40px;
+  text-align: center;
+  margin-top: 60px;
+  color: rgba(255,255,255,0.92);
+}
+
+/* pequenas responsividades */
+@media (max-width: 900px) {
+  .hero { padding: 40px 24px; height: 440px; }
+  .hero-content h1 { font-size: 40px; }
+  .logo-main { height: 40px; }
+  nav a { font-size: 13px; margin-left: 10px; }
+}
+
+@media (max-width: 520px) {
+  header { padding: 12px; }
+  .logo-main { display: none; } /* em mobile, usar só swirl pra economizar espaço */
+  .energy-swirl { width: 36px; height: 36px; }
+  .hero { height: 360px; padding: 30px 18px; }
+  .hero-content h1 { font-size: 30px; }
 }
