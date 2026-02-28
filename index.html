@@ -30,7 +30,6 @@
         <a href="index.html">Início</a>
         <a href="historia.html">História</a>
         <a href="personagens.html">Personagens</a>
-        <a href="blog.html">Blog</a>
         <a href="equipe.html">Equipe</a>
         <a href="loja.html">Loja</a>
         <a href="sobre.html">Sobre</a>
@@ -41,51 +40,77 @@
 
     <main>
       <!-- HERO / BANNER -->
-      <section class="hero">
+      <section class="hero" aria-label="Banner principal">
         <div class="hero-content">
           <h1>UNIVERSO CODINA</h1>
           <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-          <a href="historia.html" class="cta-button">Explorar História</a>
+          <a href="#blog" class="cta-button">Ver Novidades</a>
         </div>
       </section>
 
       <!-- DESTAQUES -->
-      <section class="section highlights">
+      <section class="section highlights" aria-label="Destaques">
         <h2>Destaques</h2>
-        <div class="row">
-          <div class="card large-card">
+        <div class="row" role="list">
+          <div class="card large-card" role="listitem">
             <div class="card-inner">
               <h3>História Oficial</h3>
               <p>Conheça a origem e os arcos principais.</p>
             </div>
           </div>
 
-          <div class="card large-card">
+          <div class="card large-card" role="listitem">
             <div class="card-inner">
               <h3>Personagens</h3>
               <p>Ficha e personalidade dos personagens.</p>
             </div>
           </div>
 
-          <div class="card large-card">
+          <div class="card large-card" role="listitem">
             <div class="card-inner">
               <h3>Loja Codina</h3>
               <p>Produtos exclusivos e pelúcias.</p>
             </div>
           </div>
 
-          <div class="card large-card">
+          <div class="card large-card" role="listitem">
             <div class="card-inner">
-              <h3>Blog</h3>
-              <p>Notícias, bastidores e atualizações.</p>
+              <h3>Comunidade</h3>
+              <p>Fóruns, eventos e novidades daqui.</p>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- BLOG (mais embaixo) -->
+      <section id="blog" class="blog-section" aria-label="Últimas notícias">
+        <h2>Últimas Notícias</h2>
+
+        <article class="blog-post" aria-labelledby="post-1">
+          <h3 id="post-1">Lançamento do Novo Episódio</h3>
+          <p class="date">26 de Fevereiro, 2026</p>
+          <p>O episódio 5 do arco principal estreou hoje! Confira todos os detalhes e sneak peeks aqui mesmo. Mais conteúdo e bastidores em breve.</p>
+          <a href="#blog" class="read-more">Leia mais</a>
+        </article>
+
+        <article class="blog-post" aria-labelledby="post-2">
+          <h3 id="post-2">Arte da Codina Atualizada</h3>
+          <p class="date">14 de Fevereiro, 2026</p>
+          <p>Uma nova ilustração oficial foi divulgada — Codina em pose de abertura, estilo TV anime. Fique ligado para a versão completa.</p>
+          <a href="#blog" class="read-more">Leia mais</a>
+        </article>
+
+        <article class="blog-post" aria-labelledby="post-3">
+          <h3 id="post-3">Anúncio de Evento Online</h3>
+          <p class="date">01 de Fevereiro, 2026</p>
+          <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março. Mais detalhes serão postados nas atualizações.</p>
+          <a href="#blog" class="read-more">Leia mais</a>
+        </article>
+      </section>
     </main>
 
     <!-- FOOTER -->
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
       <p>© 2026 Codina Universe</p>
       <p class="muted">Projeto oficial criado por Codin</p>
     </footer>
