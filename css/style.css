@@ -1,5 +1,7 @@
 /* =========================
    style.css — Codina Stream
+   Inclui: intro CSS-only, particles quadrangulares caindo,
+   hover animado nos cards (roxo + branco), layout geral.
    ========================= */
 
 /* Root timing / cores */
@@ -11,6 +13,8 @@
   --bg-dark-2: #1b0f2e;
   --accent: #b57aff;
   --header-bg: rgba(20,12,36,0.95);
+  --particle-white: rgba(255,255,255,0.12);
+  --particle-purple: rgba(181,122,255,0.14);
 }
 
 /* -------------------------
@@ -29,6 +33,7 @@
   will-change: opacity, visibility;
 }
 
+/* logo used in intro and header */
 #intro .logo-reveal,
 .logo-reveal {
   width: clamp(160px, 22vw, 320px);
@@ -100,6 +105,8 @@
   opacity: 0;
   transform: translateY(6px);
   animation: content-in 0.45s ease var(--intro-total) forwards;
+  position: relative;
+  z-index: 2; /* acima das partículas */
 }
 
 @keyframes content-in {
@@ -121,19 +128,65 @@
 }
 
 /* -------------------------
-   Base, tipografia e fundo
+   PARTICULAS QUADRANGULARES CAINDO (CSS-only)
    ------------------------- */
-html,body {
-  height: 100%;
-}
-
+/* We'll create layered repeating gradients that look like small squares/tiles
+   and animate their background-position vertically to simulate falling. */
 body {
   margin: 0;
+  min-height: 100vh;
   background: radial-gradient(circle at top left, var(--bg-dark-2), var(--bg-dark-1));
   font-family: 'Nunito', sans-serif;
   color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* particle layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* two layers of square-ish grids with different sizes + colors */
+  background-image:
+    /* small white squares */
+    linear-gradient(90deg, var(--particle-white) 1px, transparent 1px),
+    linear-gradient(var(--particle-white) 1px, transparent 1px),
+    /* slightly bigger purple squares */
+    linear-gradient(90deg, var(--particle-purple) 1px, transparent 1px),
+    linear-gradient(var(--particle-purple) 1px, transparent 1px);
+  background-size:
+    10px 10px, 10px 10px,
+    18px 18px, 18px 18px;
+  /* start positions (we'll animate them) */
+  background-position:
+    0 0, 5px -40px,
+    0 -120px, 9px -60px;
+  mix-blend-mode: screen;
+  opacity: 0.95;
+  filter: blur(0px);
+  animation:
+    particles-fall-1 10s linear infinite,
+    particles-fall-2 16s linear infinite;
+}
+
+/* two animations that move the background-position vertically (simulate falling) */
+@keyframes particles-fall-1 {
+  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
+  to   { background-position: 0 1000px, 5px 960px, 0 880px, 9px 920px; }
+}
+@keyframes particles-fall-2 {
+  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
+  to   { background-position: 0 1500px, 5px 1460px, 0 1380px, 9px 1420px; }
+}
+
+/* tweak when on small screens to keep performance and clarity */
+@media (max-width: 520px) {
+  body::before { opacity: 0.65; background-size: 12px 12px, 12px 12px, 20px 20px, 20px 20px; animation-duration: 12s, 20s; }
 }
 
 /* -------------------------
@@ -143,12 +196,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 28px;
+  padding: 18px 28px;
   background-color: var(--header-bg);
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 60;
   gap: 12px;
+  backdrop-filter: blur(6px);
 }
 
 .logo-container {
@@ -186,7 +240,7 @@ header {
   height: 48px;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(181,122,255,0.2));
+  filter: drop-shadow(0 0 8px rgba(181,122,255,0.18));
 }
 
 /* Nav links */
@@ -198,6 +252,7 @@ nav a {
   font-weight: 600;
   transition: color .25s, transform .18s;
   position: relative;
+  z-index: 3; /* above particle layer */
 }
 nav a:hover {
   color: var(--accent);
@@ -221,6 +276,8 @@ nav a.active {
   background-image: url('../images/banner.jpg');
   background-size: cover;
   background-position: center;
+  position: relative;
+  z-index: 2;
 }
 .hero-content {
   max-width: 720px;
@@ -250,6 +307,7 @@ nav a.active {
   font-weight: 700;
   transition: transform .18s ease, box-shadow .18s ease;
   box-shadow: 0 6px 18px rgba(181,122,255,0.12);
+  z-index: 3;
 }
 .cta-button:hover,
 .cta-button:focus {
@@ -259,10 +317,12 @@ nav a.active {
 }
 
 /* -------------------------
-   Destaques / Cards
+   Destaques / Cards + Hover animado
    ------------------------- */
 .section {
   padding: 40px;
+  position: relative;
+  z-index: 3;
 }
 .row {
   display: flex;
@@ -273,36 +333,81 @@ nav a.active {
 }
 .card {
   min-width: 200px;
-  height: 120px;
-  background-color: #2b1c44;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(27,15,46,0.9), rgba(21,11,36,0.9));
   margin-right: 10px;
-  border-radius: 8px;
-  transition: transform 0.25s cubic-bezier(.2,.9,.2,1), box-shadow 0.25s;
+  border-radius: 12px;
+  transition: transform 0.25s cubic-bezier(.2,.9,.2,1), box-shadow 0.25s, filter 0.25s;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: 700;
-  padding: 12px;
+  padding: 18px;
   text-align: center;
-}
-.large-card {
-  min-width: 250px;
-  height: 150px;
-  border-radius: 10px;
-}
-.card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.45), 0 0 18px rgba(181,122,255,0.06);
+  position: relative;
+  overflow: hidden;
 }
 
-/* botão específico caso tenha href direto */
-a[href="historia.html"] {
-  transition: 0.3s ease;
+/* overlay gradient that appears on hover */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(181,122,255,0.18), rgba(255,255,255,0.12));
+  opacity: 0;
+  transform: scale(1.15);
+  transition: all 0.35s ease;
+  z-index: 1;
+  pointer-events: none;
 }
-a[href="historia.html"]:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px var(--accent);
+
+/* subtle moving stripes inside the card for shimmer */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 0 10%, transparent 10% 100%);
+  background-size: 200% 100%;
+  transform: translateX(-20%);
+  opacity: 0.35;
+  transition: transform 0.6s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card .card-inner {
+  position: relative;
+  z-index: 2; /* above overlays */
+}
+
+/* hover state */
+.card:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(181,122,255,0.18), 0 0 30px rgba(255,255,255,0.08);
+  filter: drop-shadow(0 0 14px #b57aff) drop-shadow(0 0 6px #fff);
+}
+.card:hover::after {
+  transform: translateX(0);
+  opacity: 0.45;
+}
+
+/* card sizes */
+.large-card {
+  min-width: 260px;
+  height: 160px;
+  border-radius: 12px;
+}
+
+/* small button link styling for card if needed later */
+.card a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 /* -------------------------
@@ -314,6 +419,8 @@ a[href="historia.html"]:hover {
   text-align: center;
   margin-top: 60px;
   color: rgba(255,255,255,0.92);
+  position: relative;
+  z-index: 3;
 }
 .site-footer .muted {
   opacity: 0.6;
@@ -324,7 +431,7 @@ a[href="historia.html"]:hover {
    Responsividade
    ------------------------- */
 @media (max-width: 900px) {
-  .hero { padding: 40px 24px; height: 440px; }
+  .hero { padding: 40px 24px; height: 60vh; }
   .hero-content h1 { font-size: 40px; }
   .logo-main { height: 40px; }
   nav a { font-size: 13px; margin-left: 10px; }
@@ -334,7 +441,7 @@ a[href="historia.html"]:hover {
   header { padding: 12px; }
   .logo-main { display: none; } /* em mobile, usa só swirl pra economizar espaço */
   .energy-swirl { width: 36px; height: 36px; }
-  .hero { height: 360px; padding: 30px 18px; }
-  .hero-content h1 { font-size: 30px; }
+  .hero { height: 48vh; padding: 28px 18px; }
+  .hero-content h1 { font-size: 26px; }
   .row { gap: 10px; }
 }
