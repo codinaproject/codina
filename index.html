@@ -10,27 +10,25 @@
   <meta property="og:title" content="Codina Universe">
   <meta property="og:description" content="Explore o universo oficial da Codina.">
   <meta property="og:image" content="images/banner.jpg">
-  <link rel="icon" href="images/favicon.png">
 
-  <!-- Google Fonts -->
+  <link rel="icon" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ================= INTRO LOGO ================= -->
+  <!-- ===== INTRO LOGO ===== -->
   <div id="intro">
-    <img src="images/codina-logosite.png" class="logo-reveal" alt="Codina Universe Logo">
+    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
   </div>
 
-  <!-- ================= HEADER ================= -->
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="logo-container">
-      <div class="energy-swirl" aria-hidden="true"></div>
       <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
     </div>
     <nav>
-      <a href="index.html" class="active">Início</a>
+      <a href="index.html">Início</a>
       <a href="historia.html">História</a>
       <a href="personagens.html">Personagens</a>
       <a href="equipe.html">Equipe</a>
@@ -41,7 +39,7 @@
     </nav>
   </header>
 
-  <!-- ================= HERO ================= -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="hero-content">
       <h1>UNIVERSO CODINA</h1>
@@ -49,98 +47,91 @@
     </div>
   </section>
 
-  <!-- ================= BLOG ================= -->
+  <!-- ===== BLOG POSTS ===== -->
   <main>
     <section class="blog-section" id="blog">
       <h2>Últimas Notícias</h2>
 
-      <!-- ===== POST 1 ===== -->
-      <article class="blog-post" id="post-1">
-        <h3>Lançamento do Novo Episódio</h3>
+      <!-- Post 1 -->
+      <article class="blog-post" id="post-1" role="article" aria-labelledby="post1-title">
+        <h3 id="post1-title">Lançamento do Novo Episódio</h3>
         <p class="date">26 de Fevereiro, 2026</p>
         <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
         <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
         <div class="extra-content" aria-hidden="true">
           <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-
           <div>
             <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
               Abrir comentários
             </button>
           </div>
-
           <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
         </div>
-        <label for="post1-toggle" class="read-more"></label>
+        <label for="post1-toggle" class="read-more">Leia mais</label>
       </article>
 
-      <!-- ===== POST 2 ===== -->
-      <article class="blog-post" id="post-2">
-        <h3>Arte da Codina Atualizada</h3>
+      <!-- Post 2 -->
+      <article class="blog-post" id="post-2" role="article" aria-labelledby="post2-title">
+        <h3 id="post2-title">Arte da Codina Atualizada</h3>
         <p class="date">14 de Fevereiro, 2026</p>
         <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
         <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
         <div class="extra-content" aria-hidden="true">
           <p>Descrição da arte, técnica e curiosidades.</p>
-
           <div>
             <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
               Abrir comentários
             </button>
           </div>
-
           <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
         </div>
-        <label for="post2-toggle" class="read-more"></label>
+        <label for="post2-toggle" class="read-more">Leia mais</label>
       </article>
 
-      <!-- ===== POST 3 ===== -->
-      <article class="blog-post" id="post-3">
-        <h3>Anúncio de Evento Online</h3>
+      <!-- Post 3 -->
+      <article class="blog-post" id="post-3" role="article" aria-labelledby="post3-title">
+        <h3 id="post3-title">Anúncio de Evento Online</h3>
         <p class="date">01 de Fevereiro, 2026</p>
         <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
         <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
         <div class="extra-content" aria-hidden="true">
           <p>Detalhes do evento, horários e prêmios.</p>
-
           <div>
             <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
               Abrir comentários
             </button>
           </div>
-
           <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
         </div>
-        <label for="post3-toggle" class="read-more"></label>
+        <label for="post3-toggle" class="read-more">Leia mais</label>
       </article>
     </section>
   </main>
 
-  <!-- ================= AUDIO ================= -->
-  <audio id="bg-audio" autoplay loop volume="0.5">
-    <source src="audio/ost.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-  <div class="audio-controls">
-    <label for="bg-audio" onclick="(function(a){a.paused?a.play():a.pause()})(document.getElementById('bg-audio'))">Pausar Música de Fundo</label>
-  </div>
-
-  <!-- ================= FOOTER ================= -->
   <footer class="site-footer">
     <p>© 2026 Codina Universe</p>
   </footer>
 
-  <!-- ================= DISQUS ================= -->
+  <!-- ===== AUDIO DE FUNDO ===== -->
+  <audio id="bg-music" autoplay loop volume="0.5">
+    <source src="https://drive.usercontent.google.com/u/0/uc?id=1Y678OurP2gf7nSeOhQrmgroG1gykI8rf&export=download" type="audio/mpeg">
+    Seu navegador não suporta áudio HTML5.
+  </audio>
+  <label id="music-toggle" for="bg-music">Pausar Música de Fundo</label>
+
+  <!-- ===== DISQUS ===== -->
   <div id="disqus_thread" style="display:none;"></div>
+
+  <!-- ===== SCRIPTS ===== -->
   <script>
     (function(){
       var DISQUS_SHORTNAME = 'codinaproject';
@@ -148,32 +139,47 @@
       var disqusLoaded = false;
 
       function loadDisqusScript(callback){
-        if(disqusLoaded){callback&&callback(); return;}
-        var d=document,s=d.createElement('script');
+        if(disqusLoaded){ callback&&callback(); return; }
+        var d=document, s=d.createElement('script');
         s.src='https://'+DISQUS_SHORTNAME+'.disqus.com/embed.js';
         s.setAttribute('data-timestamp',+new Date());
         s.async=true;
-        s.onload=function(){disqusLoaded=true; callback&&callback();};
+        s.onload=function(){ disqusLoaded=true; callback&&callback(); };
         (d.head||d.body).appendChild(s);
       }
 
       function showCommentsFor(identifier,url,placeholderId){
-        var fullUrl = SITE_BASE.replace(/\/$/,'') + (url.charAt(0)==='/'? url : '/'+url);
+        var fullUrl=SITE_BASE.replace(/\/$/,'')+(url.charAt(0)==='/'?url:('/'+url));
         var placeholder=document.getElementById(placeholderId);
         if(!placeholder) return;
+
         var disqusThread=document.getElementById('disqus_thread');
         disqusThread.style.display='block';
         placeholder.innerHTML='';
         placeholder.appendChild(disqusThread);
-        window.disqus_config=function(){this.page.url=fullUrl; this.page.identifier=identifier;};
+
+        window.disqus_config=function(){
+          this.page.url=fullUrl;
+          this.page.identifier=identifier;
+        };
+
         if(disqusLoaded && window.DISQUS){
-          try{window.DISQUS.reset({reload:true, config:function(){this.page.identifier=identifier; this.page.url=fullUrl;}});}
-          catch(e){disqusLoaded=false; loadDisqusScript();}
-        } else loadDisqusScript();
+          try{
+            window.DISQUS.reset({
+              reload:true,
+              config:function(){
+                this.page.identifier=identifier;
+                this.page.url=fullUrl;
+              }
+            });
+          }catch(e){ disqusLoaded=false; loadDisqusScript(function(){}); }
+        }else{
+          loadDisqusScript(function(){});
+        }
       }
 
       document.addEventListener('click',function(e){
-        var btn=e.target.closest&&e.target.closest('.open-comments-btn');
+        var btn=e.target.closest && e.target.closest('.open-comments-btn');
         if(!btn) return;
         var identifier=btn.getAttribute('data-identifier');
         var url=btn.getAttribute('data-url')||('#'+identifier);
@@ -193,19 +199,23 @@
     })();
   </script>
 
-  <!-- ================= ABRIR / FECHAR POSTS ================= -->
+  <!-- ===== TOGGLE POST ===== -->
   <script>
     (function(){
       function isInteractive(el){ return !!el.closest('a, button, label, input, textarea, select'); }
-      document.addEventListener('click',function(e){
-        var post=e.target.closest&&e.target.closest('.blog-post');
+
+      document.addEventListener('click', function(e){
+        var post=e.target.closest && e.target.closest('.blog-post');
         if(!post) return;
         if(isInteractive(e.target)) return;
+
         var toggle=post.querySelector('.toggle');
         if(!toggle) return;
+
         var wasChecked=toggle.checked;
-        document.querySelectorAll('.toggle').forEach(function(t){t.checked=false;});
+        document.querySelectorAll('.toggle').forEach(function(t){ t.checked=false; });
         toggle.checked=!wasChecked;
+
         if(toggle.checked){
           setTimeout(function(){
             var extra=post.querySelector('.extra-content');
@@ -216,6 +226,12 @@
     })();
   </script>
 
-  <noscript>Por favor habilite JavaScript para ver os comentários e músicas de fundo.</noscript>
+  <script>
+    // LOGO FADE OUT
+    window.addEventListener('load',function(){
+      setTimeout(()=>document.getElementById('intro').style.display='none',2000);
+    });
+  </script>
+
 </body>
 </html>
