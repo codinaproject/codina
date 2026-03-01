@@ -1,6 +1,6 @@
 /* =========================
    css/style.css — Codina Universe
-   Completo: intro, partículas, header, hero, cards, blog, footer
+   Completo: intro, partículas, header, hero, cards, blog, footer, posts animados
    ========================= */
 
 /* Root timing / cores */
@@ -174,335 +174,54 @@ header {
   gap: 12px;
   backdrop-filter: blur(6px);
 }
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 3;
-}
-.energy-swirl {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  position: relative;
-  display: inline-block;
-  filter: drop-shadow(0 0 6px rgba(181,122,255,0.25));
-  overflow: hidden;
-}
-.energy-swirl::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: conic-gradient(from 180deg at 50% 50%, rgba(181,122,255,0.95), rgba(142,88,235,0.9) 30%, rgba(0,0,0,0) 55%);
-  transform: scale(1.3);
-  animation: swirl-rotate 6s linear infinite;
-  opacity: 0.95;
-  mix-blend-mode: screen;
-}
-@keyframes swirl-rotate {
-  from { transform: rotate(0deg) scale(1.3); }
-  to   { transform: rotate(360deg) scale(1.3); }
-}
-.logo-main {
-  height: 48px;
-  display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(181,122,255,0.18));
-}
+.logo-container { display: flex; align-items: center; gap: 12px; z-index: 3; }
+.energy-swirl { width: 44px; height: 44px; border-radius: 50%; position: relative; display: inline-block; filter: drop-shadow(0 0 6px rgba(181,122,255,0.25)); overflow: hidden; }
+.energy-swirl::before { content: ""; position: absolute; inset: 0; background: conic-gradient(from 180deg at 50% 50%, rgba(181,122,255,0.95), rgba(142,88,235,0.9) 30%, rgba(0,0,0,0) 55%); transform: scale(1.3); animation: swirl-rotate 6s linear infinite; opacity: 0.95; mix-blend-mode: screen; }
+@keyframes swirl-rotate { from { transform: rotate(0deg) scale(1.3); } to { transform: rotate(360deg) scale(1.3); } }
+.logo-main { height: 48px; display: block; object-fit: contain; filter: drop-shadow(0 0 8px rgba(181,122,255,0.18)); }
 nav { z-index: 3; }
-nav a {
-  color: #ddd;
-  text-decoration: none;
-  margin-left: 15px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: color .25s, transform .18s;
-  position: relative;
-}
-nav a:hover {
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-nav a.active {
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(181,122,255,0.12);
-}
+nav a { color: #ddd; text-decoration: none; margin-left: 15px; font-size: 14px; font-weight: 600; transition: color .25s, transform .18s; position: relative; }
+nav a:hover { color: var(--accent); transform: translateY(-2px); }
+nav a.active { color: #ffffff; text-shadow: 0 0 8px rgba(181,122,255,0.12); }
 
 /* HERO / BANNER */
-.hero {
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  padding: 60px;
-  background: linear-gradient(to right, rgba(15,10,25,0.95), rgba(27,15,46,0.85));
-  background-attachment: fixed;
-  background-image: url('../images/banner.jpg');
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  z-index: 2;
-}
+.hero { height: 80vh; display: flex; align-items: center; padding: 60px; background: linear-gradient(to right, rgba(15,10,25,0.95), rgba(27,15,46,0.85)); background-attachment: fixed; background-image: url('../images/banner.jpg'); background-size: cover; background-position: center; position: relative; z-index: 2; }
 .hero-content { max-width: 720px; }
-.hero-content h1 {
-  margin: 0 0 12px 0;
-  font-weight: 800;
-  font-size: clamp(28px, 5.6vw, 64px);
-  letter-spacing: -0.5px;
-  text-shadow: 0 8px 30px rgba(11,6,20,0.4);
-}
-.hero-content p {
-  margin-top: 14px;
-  color: rgba(255,255,255,0.92);
-  font-size: 1.05rem;
-  line-height: 1.4;
-}
-.cta-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 25px;
-  background-color: var(--accent);
-  color: white;
-  text-decoration: none;
-  border-radius: 999px;
-  font-weight: 800;
-  transition: transform .18s ease, box-shadow .18s ease;
-  box-shadow: 0 6px 18px rgba(181,122,255,0.12);
-  z-index: 3;
-}
-.cta-button:hover,
-.cta-button:focus {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 18px 44px rgba(181,122,255,0.2);
-  outline: none;
-}
+.hero-content h1 { margin: 0 0 12px 0; font-weight: 800; font-size: clamp(28px, 5.6vw, 64px); letter-spacing: -0.5px; text-shadow: 0 8px 30px rgba(11,6,20,0.4); }
+.hero-content p { margin-top: 14px; color: rgba(255,255,255,0.92); font-size: 1.05rem; line-height: 1.4; }
+.cta-button { display: inline-block; margin-top: 20px; padding: 12px 25px; background-color: var(--accent); color: white; text-decoration: none; border-radius: 999px; font-weight: 800; transition: transform .18s ease, box-shadow .18s ease; box-shadow: 0 6px 18px rgba(181,122,255,0.12); z-index: 3; }
+.cta-button:hover, .cta-button:focus { transform: translateY(-4px) scale(1.02); box-shadow: 0 18px 44px rgba(181,122,255,0.2); outline: none; }
 
-/* DESTAQUES / CARDS + HOVER */
-.section {
-  padding: 40px;
-  position: relative;
-  z-index: 3;
-}
-.row {
-  display: flex;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  gap: 18px;
-  margin-top: 20px;
-}
-.card {
-  min-width: 220px;
-  height: 140px;
-  background: linear-gradient(180deg, var(--card-bg-1), var(--card-bg-2));
-  margin-right: 10px;
-  border-radius: 14px;
-  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), box-shadow 0.28s, filter 0.28s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 800;
-  padding: 18px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, rgba(181,122,255,0.18), rgba(255,255,255,0.12));
-  opacity: 0;
-  transform: scale(1.15);
-  transition: all 0.35s ease;
-  z-index: 1;
-  pointer-events: none;
-}
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 0 10%, transparent 10% 100%);
-  background-size: 200% 100%;
-  transform: translateX(-20%);
-  opacity: 0.35;
-  transition: transform 0.6s ease;
-  z-index: 0;
-  pointer-events: none;
-}
-.card .card-inner { position: relative; z-index: 2; }
-.card:hover::before { opacity: 1; transform: scale(1); }
-.card:hover {
-  transform: translateY(-14px) scale(1.04);
-  box-shadow: 0 36px 70px rgba(181,122,255,0.18), 0 0 34px rgba(255,255,255,0.08);
-  filter: drop-shadow(0 0 16px #b57aff) drop-shadow(0 0 8px #fff);
-}
-.card:hover::after { transform: translateX(0); opacity: 0.45; }
-.large-card { min-width: 260px; height: 160px; border-radius: 14px; }
+/* CARDS / POSTS */
+.blog-section { padding: 56px 20px; max-width: 880px; margin: 0 auto; color: #fff; position: relative; z-index: 3; }
+.blog-section h2 { font-size: 2rem; margin-bottom: 24px; text-align: center; color: var(--accent); text-shadow: 0 0 10px rgba(181,122,255,0.24); }
+.blog-post { background: linear-gradient(180deg, var(--card-bg-1), var(--card-bg-2)); border-radius: 14px; padding: 22px; margin-bottom: 18px; border: 1px solid rgba(181,122,255,0.05); display: block; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; }
+.blog-post h3 { font-size: 1.4rem; margin-bottom: 6px; }
+.blog-post p { margin: 0 0 8px 0; }
+.blog-post .extra-content { max-height: 0; overflow: hidden; transition: max-height 0.45s ease, opacity 0.35s ease; opacity: 0; }
+.blog-post:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 28px 50px rgba(181,122,255,0.12); }
+.read-more { display: inline-block; margin-top: 10px; padding: 6px 18px; background: var(--accent); color: #fff; border-radius: 999px; font-weight: 700; cursor: pointer; transition: background 0.25s, transform 0.25s; }
+.read-more:hover { background: #a04dff; transform: translateY(-2px); }
 
-/* BLOG (FOFO, SEM IMAGENS DESTAQUE) */
-.blog-section {
-  padding: 56px 20px;
-  max-width: 880px;
-  margin: 0 auto;
-  color: #fff;
-  position: relative;
-  z-index: 3;
-}
-.blog-section h2 {
-  font-size: 2rem;
-  margin-bottom: 24px;
-  text-align: center;
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(181,122,255,0.24);
-}
+/* Toggle checked para mostrar conteúdo */
+.toggle:checked ~ .extra-content { max-height: 500px; opacity: 1; }
+.toggle:checked + .read-more::after { content: 'Fechar'; }
+.read-more::after { content: 'Leia mais'; }
 
-/* =========================
-   NOVO BLOCO: POSTS FECHADOS, QUADRADOS, ANIMADOS
-   ========================= */
-.blog-post {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(27,15,46,0.95), rgba(21,11,36,0.9));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s ease;
-  -webkit-user-select: none;
-}
-
-/* esconder resumo / data / botões quando fechado */
-.blog-post p,
-.blog-post .date,
-.blog-post .read-more,
-.blog-post .meta {
-  display: none;
-}
-
-/* título grande e em destaque */
-.blog-post h3 {
-  font-size: 1.8rem;
-  font-weight: 900;
-  margin: 0;
-  z-index: 2;
-  position: relative;
-  line-height: 1.05;
-  padding: 0 8px;
-}
-
-/* brilho animado passando */
+/* efeito leve de movimento nos posts */
 .blog-post::before {
-  content: "";
+  content: '';
   position: absolute;
-  inset: -40%;
-  background: linear-gradient(120deg, transparent 30%, rgba(181,122,255,0.22), transparent 70%);
-  transform: rotate(25deg) translateX(-100%);
-  animation: shineMove 5s linear infinite;
-  opacity: 0.7;
-  pointer-events: none;
+  inset: -10px;
+  background: linear-gradient(135deg, rgba(181,122,255,0.12), rgba(255,255,255,0.06));
+  z-index: 0;
+  transform: rotate(0deg);
+  transition: transform 2s ease-in-out;
 }
-
-/* glow suave pulsando */
-.blog-post::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  box-shadow: 0 0 10px rgba(181,122,255,0.28);
-  animation: pulseGlow 3.2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* leve flutuação/parallax sutil pra dar vida */
-.blog-post {
-  animation: floatSlow 6s ease-in-out infinite;
-}
-
-/* hover mais forte (eleva + glow) */
-.blog-post:hover {
-  transform: translateY(-12px) scale(1.04);
-  box-shadow: 0 35px 70px rgba(181,122,255,0.22);
-}
-
-/* animações */
-@keyframes shineMove {
-  0% { transform: rotate(25deg) translateX(-120%); opacity: 0.35; }
-  50% { transform: rotate(25deg) translateX(0%); opacity: 0.9; }
-  100% { transform: rotate(25deg) translateX(120%); opacity: 0.35; }
-}
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 8px rgba(181,122,255,0.18); }
-  50% { box-shadow: 0 0 32px rgba(181,122,255,0.45); }
-  100% { box-shadow: 0 0 8px rgba(181,122,255,0.18); }
-}
-@keyframes floatSlow {
-  0% { transform: translateY(-3px); }
-  50% { transform: translateY(3px); }
-  100% { transform: translateY(-3px); }
-}
-
-/* =========================
-   Toggle / expansão (checkbox) — quando o usuário clicar em "Leia mais"
-   ========================= */
-/* o checkbox está invisível */
-.toggle { display: none; }
-
-/* conteúdo extra inicialmente escondido */
-.extra-content {
-  display: none;
-  width: 100%;
-  margin-top: 12px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s ease, opacity 0.35s ease;
-  opacity: 0;
-}
-
-/* quando o toggle estiver checado, mostra o conteúdo (expande) */
-/* estrutura no HTML: <input.toggle> + <div.extra-content> — usamos selector adjacente geral */
-.toggle:checked ~ .extra-content {
-  display: block;
-  max-height: 1500px; /* suficiente para o post + Disqus */
-  opacity: 1;
-}
-
-/* quando expandido, revele parágrafos e data dentro da extra-content */
-.extra-content p,
-.extra-content .date,
-.extra-content .read-more,
-.extra-content .meta {
-  display: block;
-  color: rgba(255,255,255,0.95);
-}
-
-/* ajuste visual do conteúdo expandido (o Disqus placeholder fica aqui) */
-.extra-content .comments-placeholder {
-  margin-top: 16px;
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.45));
-  border: 1px solid rgba(181,122,255,0.04);
-  color: rgba(255,255,255,0.9);
-}
-
-/* se quiser efeito hover que revela um pequeno resumo por cima, você pode usar (opcional)
-.blog-post:hover p { display:block; position: absolute; bottom: 18px; left: 18px; right: 18px; } 
-*/
+.blog-post:hover::before { transform: rotate(3deg) scale(1.03); }
 
 /* FOOTER */
-.site-footer {
-  background-color: #140c24;
-  padding: 40px;
-  text-align: center;
-  margin-top: 60px;
-  color: rgba(255,255,255,0.92);
-  position: relative;
-  z-index: 3;
-}
+.site-footer { background-color: #140c24; padding: 40px; text-align: center; margin-top: 60px; color: rgba(255,255,255,0.92); position: relative; z-index: 3; }
 .site-footer .muted { opacity: 0.6; font-size: 14px; }
 
 /* RESPONSIVIDADE */
@@ -511,7 +230,6 @@ nav a.active {
   .hero-content h1 { font-size: 40px; }
   .logo-main { height: 40px; }
   nav a { font-size: 13px; margin-left: 10px; }
-  .row { gap: 12px; }
 }
 @media (max-width: 520px) {
   header { padding: 12px 16px; }
@@ -519,20 +237,5 @@ nav a.active {
   .energy-swirl { width: 36px; height: 36px; }
   .hero { height: 48vh; padding: 28px 18px; }
   .hero-content h1 { font-size: 26px; }
-  .row { gap: 10px; }
-  .blog-section { padding: 28px 16px; }
-
-  /* em telas pequenas os cards deixam de ser quadriculados e viram bloco para leitura */
-  .blog-post {
-    aspect-ratio: auto;
-    height: auto;
-    padding: 18px;
-    display: block;
-    align-items: stretch;
-  }
-  .blog-post h3 { font-size: 1.15rem; text-align: left; }
-  /* por padrão em mobile, mostrar o resumo curto ao invés só do título (mais amigável) */
-  .blog-post p { display: block; color: rgba(255,255,255,0.92); margin-top: 8px; }
-  .blog-post .date { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.9); }
-  .blog-post .read-more { display: inline-block; }
+  .blog-post { padding: 16px; }
 }
