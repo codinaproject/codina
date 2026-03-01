@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Codina Universe</title>
   <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
+  <!-- Open Graph -->
   <meta property="og:title" content="Codina Universe">
   <meta property="og:description" content="Explore o universo oficial da Codina.">
   <meta property="og:image" content="images/banner.jpg">
   <link rel="icon" href="images/favicon.png">
 
+  <!-- Nunito -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 
   <style>
+    /* pequenos ajustes visuais pro bloco de comentários */
     .comments-placeholder {
       margin-top: 14px;
       border-radius: 10px;
@@ -21,7 +24,6 @@
       background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
       border: 1px solid rgba(181,122,255,0.05);
     }
-
     .open-comments-btn {
       display:inline-block;
       margin-top:8px;
@@ -32,121 +34,271 @@
       text-decoration:none;
       cursor:pointer;
       font-weight:700;
+      transition: 0.25s;
     }
+    .open-comments-btn:hover { transform: scale(1.05); }
 
-    .blog-post { cursor: pointer; }
-    .toggle { position: absolute; left: -9999px; }
-
-    /* ===== BOTÃO BONITO ===== */
-    .read-more{
-      display:inline-block;
-      margin-top:12px;
-      padding:10px 22px;
-      background:linear-gradient(135deg,#b57aff,#7a3cff);
-      color:#fff;
-      border-radius:999px;
-      font-weight:800;
-      font-size:14px;
-      letter-spacing:0.5px;
-      text-decoration:none;
-      cursor:pointer;
-      transition:all 0.25s ease;
-      box-shadow:0 4px 15px rgba(122,60,255,0.4);
+    /* Blog posts fechados com efeito hover */
+    .blog-post {
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 14px;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      position: relative;
     }
+    .blog-post:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(181,122,255,0.18); }
+    .blog-post .extra-content { display: none; opacity: 0; transition: all 0.35s ease; }
+    .toggle:checked ~ .extra-content { display: block; opacity: 1; margin-top: 12px; }
 
-    .read-more:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 25px rgba(122,60,255,0.7);
+    /* Label "Leia mais / Fechar" */
+    .read-more {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 8px 18px;
+      background-color: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
     }
+    .read-more:hover { transform: scale(1.05); }
 
-    .read-more:active{
-      transform:scale(0.95);
+    /* Intro com logo animada */
+    #intro {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      z-index: 9999;
+      animation: intro-fade var(--intro-total,2.8s) ease forwards;
     }
-
-    /* Cor quando aberto */
-    .toggle:checked + .extra-content + .read-more{
-      background:linear-gradient(135deg,#ff4b5c,#b31217);
-      box-shadow:0 5px 18px rgba(255,75,92,0.5);
+    .logo-reveal {
+      width: clamp(160px,22vw,320px);
+      max-width: 420px;
+      opacity: 0;
+      transform: scale(0.88);
+      filter: drop-shadow(0 0 0 rgba(181,122,255,0));
+      animation: logo-appear 1.6s cubic-bezier(.16,.9,.34,1) forwards, logo-pulse 1.6s cubic-bezier(.16,.9,.34,1) forwards;
     }
+    .logo-reveal::after {
+      content:"";
+      position:absolute;
+      width:70%;
+      height:8%;
+      left:15%;
+      bottom:-6%;
+      background: radial-gradient(closest-side, rgba(181,122,255,0.22), transparent 60%);
+      filter: blur(8px);
+      transform: translateY(6px);
+      opacity: 0;
+      animation: glow-appear 1.6s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes logo-appear {
+      0% { opacity:0; transform: scale(0.8); }
+      60% { opacity:1; transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(181,122,255,0.28)); }
+      100% { opacity:1; transform: scale(1); filter: drop-shadow(0 0 26px rgba(181,122,255,0.36)); }
+    }
+    @keyframes logo-pulse {
+      0%,100% { filter: drop-shadow(0 0 8px rgba(181,122,255,0.12)); }
+      50% { filter: drop-shadow(0 0 26px rgba(181,122,255,0.34)); transform: scale(1.01); }
+    }
+    @keyframes glow-appear { 0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(6px);} }
+    @keyframes intro-fade { 0%,78% { opacity:1; visibility: visible; } 100% { opacity:0; visibility:hidden; } }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo-container">
-    <div class="energy-swirl" aria-hidden="true"></div>
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+  <!-- ===== INTRO COM LOGO ANIMADA ===== -->
+  <div id="intro">
+    <img src="images/codina-logosite.png" alt="Codina Universe" class="logo-reveal">
   </div>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="historia.html">História</a>
-    <a href="personagens.html">Personagens</a>
-    <a href="equipe.html">Equipe</a>
-    <a href="loja.html">Loja</a>
-    <a href="sobre.html">Sobre</a>
-    <a href="perfil.html">Perfil</a>
-    <a href="login.html">Login</a>
-  </nav>
-</header>
 
-<main>
-<section class="hero">
-  <div class="hero-content">
-    <h1>UNIVERSO CODINA</h1>
-    <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-  </div>
-</section>
+  <!-- ====== Header / Hero / Menu ====== -->
+  <header>
+    <div class="logo-container">
+      <div class="energy-swirl" aria-hidden="true"></div>
+      <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+    </div>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historia.html">História</a>
+      <a href="personagens.html">Personagens</a>
+      <a href="equipe.html">Equipe</a>
+      <a href="loja.html">Loja</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
-<section class="blog-section" id="blog">
-<h2>Últimas Notícias</h2>
+  <main id="site-content">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>UNIVERSO CODINA</h1>
+        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+      </div>
+    </section>
 
-<!-- POST 1 -->
-<article class="blog-post" id="post-1">
-<h3>Lançamento do Novo Episódio</h3>
-<p class="date">26 de Fevereiro, 2026</p>
-<p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
+    <section class="blog-section" id="blog">
+      <h2>Últimas Notícias</h2>
 
-<input type="checkbox" id="post1-toggle" class="toggle">
-<div class="extra-content">
-<p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-</div>
+      <!-- ===== Post 1 ===== -->
+      <article class="blog-post" id="post-1">
+        <h3>Lançamento do Novo Episódio</h3>
+        <p class="date">26 de Fevereiro, 2026</p>
+        <p>O episódio 5 foi lançado oficialmente hoje.</p>
+        <input type="checkbox" id="post1-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-1">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+        <label for="post1-toggle" class="read-more">Leia mais</label>
+      </article>
 
-<label for="post1-toggle" class="read-more">Leia mais</label>
-</article>
+      <!-- ===== Post 2 ===== -->
+      <article class="blog-post" id="post-2">
+        <h3>Arte da Codina Atualizada</h3>
+        <p class="date">14 de Fevereiro, 2026</p>
+        <p>Uma nova ilustração oficial foi divulgada.</p>
+        <input type="checkbox" id="post2-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Descrição da arte, técnica e curiosidades.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-2">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+        <label for="post2-toggle" class="read-more">Leia mais</label>
+      </article>
 
-<!-- POST 2 -->
-<article class="blog-post" id="post-2">
-<h3>Arte da Codina Atualizada</h3>
-<p class="date">14 de Fevereiro, 2026</p>
-<p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
+      <!-- ===== Post 3 ===== -->
+      <article class="blog-post" id="post-3">
+        <h3>Anúncio de Evento Online</h3>
+        <p class="date">01 de Fevereiro, 2026</p>
+        <p>Live com Q&amp;A e sorteios especiais.</p>
+        <input type="checkbox" id="post3-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Detalhes do evento, horários e prêmios.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-3">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+        <label for="post3-toggle" class="read-more">Leia mais</label>
+      </article>
 
-<input type="checkbox" id="post2-toggle" class="toggle">
-<div class="extra-content">
-<p>Descrição da arte, técnica e curiosidades.</p>
-</div>
+    </section>
+  </main>
 
-<label for="post2-toggle" class="read-more">Leia mais</label>
-</article>
+  <footer class="site-footer">
+    <p>© 2026 Codina Universe</p>
+  </footer>
 
-</section>
-</main>
+  <!-- Disqus Thread -->
+  <div id="disqus_thread" style="display:none;"></div>
 
-<script>
-function updateReadMore(){
-  document.querySelectorAll('.toggle').forEach(function(toggle){
-    var label = document.querySelector('label[for="'+toggle.id+'"]');
-    if(label){
-      label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
-    }
-  });
-}
+  <!-- Scripts -->
+  <script>
+    // Disqus loader
+    (function(){
+      var DISQUS_SHORTNAME = 'codinaproject';
+      var SITE_BASE = 'https://codinaproject.github.io';
+      var disqusLoaded = false;
 
-document.querySelectorAll('.toggle').forEach(function(t){
-  t.addEventListener('change', updateReadMore);
-});
+      function loadDisqusScript(callback){
+        if(disqusLoaded){ callback && callback(); return; }
+        var s = document.createElement('script');
+        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.async = true;
+        s.setAttribute('data-timestamp', +new Date());
+        s.onload = function(){ disqusLoaded=true; callback && callback(); };
+        (document.head || document.body).appendChild(s);
+      }
 
-updateReadMore();
-</script>
+      function showCommentsFor(identifier,url,placeholderId){
+        var fullUrl = SITE_BASE.replace(/\/$/,'') + (url.charAt(0)==='/'?url:'/'+url);
+        var placeholder = document.getElementById(placeholderId);
+        if(!placeholder) return;
+        var disqusThread = document.getElementById('disqus_thread');
+        disqusThread.style.display='block';
+        placeholder.innerHTML='';
+        placeholder.appendChild(disqusThread);
 
+        window.disqus_config = function(){
+          this.page.url = fullUrl;
+          this.page.identifier = identifier;
+        };
+
+        if(disqusLoaded && window.DISQUS){
+          try{
+            window.DISQUS.reset({reload:true,config:function(){this.page.identifier=identifier;this.page.url=fullUrl;}});
+          }catch(e){ disqusLoaded=false; loadDisqusScript(); }
+        } else { loadDisqusScript(); }
+      }
+
+      document.addEventListener('click',function(e){
+        var btn = e.target.closest('.open-comments-btn');
+        if(!btn) return;
+        var id = btn.getAttribute('data-identifier');
+        var url = btn.getAttribute('data-url') || ('#'+id);
+        showCommentsFor(id,url,'comments-'+id);
+      });
+
+      window.addEventListener('load',function(){
+        var hash = location.hash.replace('#','');
+        if(hash && document.getElementById('comments-'+hash)){
+          var btn = document.querySelector('.open-comments-btn[data-identifier="'+hash+'"]');
+          if(btn) btn.click();
+        }
+      });
+    })();
+
+    // Toggle "Leia mais / Fechar"
+    (function(){
+      document.querySelectorAll('.blog-post').forEach(function(post){
+        var toggle = post.querySelector('.toggle');
+        var label = post.querySelector('.read-more');
+        toggle.addEventListener('change',function(){
+          label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
+        });
+      });
+    })();
+
+    // Fechar/abrir post clicando no card
+    (function(){
+      function isInteractive(el){ return !!el.closest('a, button, label, input, textarea, select'); }
+      document.addEventListener('click',function(e){
+        var post = e.target.closest('.blog-post');
+        if(!post) return;
+        if(isInteractive(e.target)) return;
+        var toggle = post.querySelector('.toggle');
+        if(!toggle) return;
+        var wasChecked = toggle.checked;
+        document.querySelectorAll('.toggle').forEach(t=>t.checked=false);
+        toggle.checked=!wasChecked;
+      });
+    })();
+  </script>
+
+  <noscript>Por favor habilite JavaScript para ver os comentários.</noscript>
 </body>
 </html>
