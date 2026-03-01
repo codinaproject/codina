@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Título do Post 1</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>Título do Post 1</h1>
+
+<p>
+Aqui vai o texto completo do primeiro post.
+Pode escrever o quanto quiser.
+Esse é o conteúdo que as pessoas vão ler antes de comentar.
+</p>
+
+<hr>
+
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = window.location.href;
+this.page.identifier = "post-1";
+};
+
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://SEU-SHORTNAME.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+</body>
+</html>
