@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Codina Universe</title>
   <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
-  <!-- Open Graph -->
   <meta property="og:title" content="Codina Universe">
   <meta property="og:description" content="Explore o universo oficial da Codina.">
   <meta property="og:image" content="images/banner.jpg">
   <link rel="icon" href="images/favicon.png">
 
-  <!-- Nunito -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+
   <style>
-    /* pequenos ajustes visuais pro bloco de comentários */
     .comments-placeholder {
       margin-top: 14px;
       border-radius: 10px;
@@ -23,6 +21,7 @@
       background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
       border: 1px solid rgba(181,122,255,0.05);
     }
+
     .open-comments-btn {
       display:inline-block;
       margin-top:8px;
@@ -35,250 +34,119 @@
       font-weight:700;
     }
 
-    /* Hint visual: card clicável */
     .blog-post { cursor: pointer; }
-    /* Não deixe o toggle visível no layout */
     .toggle { position: absolute; left: -9999px; }
+
+    /* ===== BOTÃO BONITO ===== */
+    .read-more{
+      display:inline-block;
+      margin-top:12px;
+      padding:10px 22px;
+      background:linear-gradient(135deg,#b57aff,#7a3cff);
+      color:#fff;
+      border-radius:999px;
+      font-weight:800;
+      font-size:14px;
+      letter-spacing:0.5px;
+      text-decoration:none;
+      cursor:pointer;
+      transition:all 0.25s ease;
+      box-shadow:0 4px 15px rgba(122,60,255,0.4);
+    }
+
+    .read-more:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 25px rgba(122,60,255,0.7);
+    }
+
+    .read-more:active{
+      transform:scale(0.95);
+    }
+
+    /* Cor quando aberto */
+    .toggle:checked + .extra-content + .read-more{
+      background:linear-gradient(135deg,#ff4b5c,#b31217);
+      box-shadow:0 5px 18px rgba(255,75,92,0.5);
+    }
   </style>
 </head>
 <body>
 
-  <!-- ====== (seu header/hero/etc) ====== -->
-  <header>
-    <div class="logo-container">
-      <div class="energy-swirl" aria-hidden="true"></div>
-      <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
-    </div>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="historia.html">História</a>
-      <a href="personagens.html">Personagens</a>
-      <a href="equipe.html">Equipe</a>
-      <a href="loja.html">Loja</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="perfil.html">Perfil</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
+<header>
+  <div class="logo-container">
+    <div class="energy-swirl" aria-hidden="true"></div>
+    <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+  </div>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="historia.html">História</a>
+    <a href="personagens.html">Personagens</a>
+    <a href="equipe.html">Equipe</a>
+    <a href="loja.html">Loja</a>
+    <a href="sobre.html">Sobre</a>
+    <a href="perfil.html">Perfil</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>UNIVERSO CODINA</h1>
-        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-      </div>
-    </section>
+<main>
+<section class="hero">
+  <div class="hero-content">
+    <h1>UNIVERSO CODINA</h1>
+    <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+  </div>
+</section>
 
-    <section class="blog-section" id="blog">
-      <h2>Últimas Notícias</h2>
+<section class="blog-section" id="blog">
+<h2>Últimas Notícias</h2>
 
-      <!-- ===== Post 1 ===== -->
-      <article class="blog-post" id="post-1" role="article" aria-labelledby="post1-title">
-        <h3 id="post1-title">Lançamento do Novo Episódio</h3>
-        <p class="date">26 de Fevereiro, 2026</p>
-        <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
+<!-- POST 1 -->
+<article class="blog-post" id="post-1">
+<h3>Lançamento do Novo Episódio</h3>
+<p class="date">26 de Fevereiro, 2026</p>
+<p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
-        <!-- Toggle expand (se usa) -->
-        <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
-        <div class="extra-content" aria-hidden="true">
-          <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+<input type="checkbox" id="post1-toggle" class="toggle">
+<div class="extra-content">
+<p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+</div>
 
-          <!-- botão pra abrir os comentários DO POST (dentro do conteúdo expandido também disponível) -->
-          <div>
-            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-              Abrir comentários
-            </button>
-          </div>
+<label for="post1-toggle" class="read-more">Leia mais</label>
+</article>
 
-          <!-- placeholder onde o Disqus será movido/mostrado para este post -->
-          <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-          </div>
-        </div>
-        <label for="post1-toggle" class="read-more" aria-hidden="false">Leia mais</label>
-      </article>
+<!-- POST 2 -->
+<article class="blog-post" id="post-2">
+<h3>Arte da Codina Atualizada</h3>
+<p class="date">14 de Fevereiro, 2026</p>
+<p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
-      <!-- ===== Post 2 ===== -->
-      <article class="blog-post" id="post-2" role="article" aria-labelledby="post2-title">
-        <h3 id="post2-title">Arte da Codina Atualizada</h3>
-        <p class="date">14 de Fevereiro, 2026</p>
-        <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
+<input type="checkbox" id="post2-toggle" class="toggle">
+<div class="extra-content">
+<p>Descrição da arte, técnica e curiosidades.</p>
+</div>
 
-        <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
-        <div class="extra-content" aria-hidden="true">
-          <p>Descrição da arte, técnica e curiosidades.</p>
+<label for="post2-toggle" class="read-more">Leia mais</label>
+</article>
 
-          <div>
-            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-              Abrir comentários
-            </button>
-          </div>
+</section>
+</main>
 
-          <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-          </div>
-        </div>
-        <label for="post2-toggle" class="read-more" aria-hidden="false">Leia mais</label>
-      </article>
+<script>
+function updateReadMore(){
+  document.querySelectorAll('.toggle').forEach(function(toggle){
+    var label = document.querySelector('label[for="'+toggle.id+'"]');
+    if(label){
+      label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
+    }
+  });
+}
 
-      <!-- ===== Post 3 ===== -->
-      <article class="blog-post" id="post-3" role="article" aria-labelledby="post3-title">
-        <h3 id="post3-title">Anúncio de Evento Online</h3>
-        <p class="date">01 de Fevereiro, 2026</p>
-        <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
+document.querySelectorAll('.toggle').forEach(function(t){
+  t.addEventListener('change', updateReadMore);
+});
 
-        <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
-        <div class="extra-content" aria-hidden="true">
-          <p>Detalhes do evento, horários e prêmios.</p>
+updateReadMore();
+</script>
 
-          <div>
-            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-              Abrir comentários
-            </button>
-          </div>
-
-          <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-          </div>
-        </div>
-        <label for="post3-toggle" class="read-more" aria-hidden="false">Leia mais</label>
-      </article>
-
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>© 2026 Codina Universe</p>
-  </footer>
-
-  <!-- ========================
-       Disqus inline loader script
-       ========================
-       Já configurado com shortname/site no seu CSS/HTML antes.
-  -->
-  <div id="disqus_thread" style="display:none;"></div>
-
-  <script>
-    (function(){
-      // CONFIG (já configurado)
-      var DISQUS_SHORTNAME = 'codinaproject';
-      var SITE_BASE = 'https://codinaproject.github.io';
-
-      // estados
-      var disqusLoaded = false;
-
-      // helper: cria o script disqus (apenas uma vez)
-      function loadDisqusScript(callback) {
-        if (disqusLoaded) { callback && callback(); return; }
-        var d = document, s = d.createElement('script');
-        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        s.async = true;
-        s.onload = function(){ disqusLoaded = true; callback && callback(); };
-        (d.head || d.body).appendChild(s);
-      }
-
-      // função que carrega/atualiza o thread para um post específico
-      function showCommentsFor(identifier, url, placeholderId) {
-        var fullUrl = SITE_BASE.replace(/\/$/, '') + (url.charAt(0)==='/'? url : ('/' + url));
-        var placeholder = document.getElementById(placeholderId);
-        if (!placeholder) return;
-
-        var disqusThread = document.getElementById('disqus_thread');
-        disqusThread.style.display = 'block';
-        placeholder.innerHTML = '';
-        placeholder.appendChild(disqusThread);
-
-        window.disqus_config = function () {
-          this.page.url = fullUrl;
-          this.page.identifier = identifier;
-        };
-
-        if (disqusLoaded && window.DISQUS) {
-          try {
-            window.DISQUS.reset({
-              reload: true,
-              config: function () {
-                this.page.identifier = identifier;
-                this.page.url = fullUrl;
-              }
-            });
-          } catch(e) {
-            disqusLoaded = false;
-            loadDisqusScript(function(){});
-          }
-        } else {
-          loadDisqusScript(function(){});
-        }
-      }
-
-      // conecta botões "Abrir comentários"
-      document.addEventListener('click', function(e){
-        var btn = e.target.closest && e.target.closest('.open-comments-btn');
-        if (!btn) return;
-        var identifier = btn.getAttribute('data-identifier');
-        var url = btn.getAttribute('data-url') || ('#' + identifier);
-        var placeholderId = 'comments-' + identifier.replace(/^post-?/,'post-');
-        var ph = document.getElementById(placeholderId);
-        if (ph) ph.scrollIntoView({behavior: 'smooth', block: 'center'});
-        showCommentsFor(identifier, url, placeholderId);
-      });
-
-      // acessibilidade: se o usuário abrir a página com #post-2, carregar automaticamente
-      window.addEventListener('load', function(){
-        var hash = location.hash.replace('#','');
-        if (hash && document.getElementById('comments-' + hash)) {
-          var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
-          if (btn) btn.click();
-        }
-      });
-
-    })();
-  </script>
-
-  <!-- === NOVO: script que controla abrir/fechar do card por clique === -->
-  <script>
-    (function(){
-      // Ignorar clicks em elementos que têm interação própria (links, botões, labels, inputs)
-      function isInteractive(el) {
-        return !!el.closest('a, button, label, input, textarea, select');
-      }
-
-      document.addEventListener('click', function(e){
-        var post = e.target.closest && e.target.closest('.blog-post');
-        if (!post) return;
-        // se o click foi em um elemento interativo dentro do post, não toggla aqui
-        if (isInteractive(e.target)) return;
-
-        var toggle = post.querySelector('.toggle');
-        if (!toggle) return;
-
-        var wasChecked = toggle.checked;
-
-        // feche todos os toggles (comportamento acordeão)
-        document.querySelectorAll('.toggle').forEach(function(t){
-          t.checked = false;
-        });
-
-        // abra/feche o atual
-        toggle.checked = !wasChecked;
-
-        // se abriu, rola pra o conteúdo expandido
-        if (toggle.checked) {
-          // espera a transição iniciar um pouco antes de rolar
-          setTimeout(function(){
-            var extra = post.querySelector('.extra-content');
-            if (extra) extra.scrollIntoView({behavior:'smooth', block:'center'});
-          }, 150);
-        }
-      });
-
-      // também permite que o label "Leia mais" continue funcionando naturalmente (é um label-for)
-      // nada adicional necessário aqui.
-    })();
-  </script>
-
-  <!-- (opcional) noscript notice para Disqus -->
-  <noscript>Por favor habilite JavaScript para ver os comentários.</noscript>
 </body>
 </html>
