@@ -1,119 +1,170 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Codina Universe</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codina Project</title>
 
-  <!-- Fonte Nunito -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-  <!-- CSS separado -->
-  <link rel="stylesheet" href="css/style.css">
+/* FUNDO */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom, #4b0082 0%, #4b0082 45%, #ffffff 100%);
+    color: #111;
+}
+
+/* NAVBAR */
+nav {
+    width: 100%;
+    padding: 20px 40px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.7;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 60px 20px;
+}
+
+/* BLOG */
+.blog-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.post-preview {
+    background: white;
+    padding: 30px;
+    margin-bottom: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.post-preview:hover {
+    transform: translateY(-6px);
+}
+
+.post-preview h2 {
+    margin-bottom: 15px;
+}
+
+.post-preview a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #4b0082;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.post-preview a:hover {
+    background: #32005a;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #111;
+    color: white;
+    margin-top: 60px;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- INTRO (CSS-only overlay) -->
-  <div id="intro" role="img" aria-label="Intro animada Codina — carregando">
-    <img class="logo-reveal" src="images/codina-logosite.png" alt="Codina" />
-  </div>
+<!-- NAVBAR -->
+<nav>
+    <ul>
+        <li><a href="#">Início</a></li>
+        <li><a href="#">História</a></li>
+        <li><a href="#">Personagens</a></li>
+        <li><a href="#">Contato</a></li>
+    </ul>
+</nav>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <div id="site-content">
-    <header>
-      <div class="logo-container">
-        <div class="energy-swirl" aria-hidden="true"></div>
-        <img src="images/codina-logosite.png" alt="Logo Codina" class="logo-main">
-      </div>
+<!-- HERO -->
+<section class="hero">
+    <h1>Codina Project</h1>
+    <p>Universo criativo, histórias e pensamentos.</p>
+</section>
 
-      <nav>
-        <a href="index.html">Início</a>
-        <a href="historia.html">História</a>
-        <a href="personagens.html">Personagens</a>
-        <a href="equipe.html">Equipe</a>
-        <a href="loja.html">Loja</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
+<!-- BLOG -->
+<div class="container">
+    <h2 class="blog-title">Últimos Posts</h2>
 
-    <main>
-      <!-- HERO / BANNER -->
-      <section class="hero" aria-label="Banner principal">
-        <div class="hero-content">
-          <h1>UNIVERSO CODINA</h1>
-          <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-          <a href="#blog" class="cta-button">Ver Novidades</a>
-        </div>
-      </section>
+    <section class="post-preview">
+        <h2>Título do Post 1</h2>
+        <p>
+            Um pequeno resumo do primeiro post.
+            Algo que desperte curiosidade para continuar lendo.
+        </p>
+        <a href="post-1.html">Ler mais</a>
+    </section>
 
-      <!-- DESTAQUES -->
-      <section class="section highlights" aria-label="Destaques">
-        <h2>Destaques</h2>
-        <div class="row" role="list">
-          <div class="card large-card" role="listitem">
-            <div class="card-inner">
-              <h3>História Oficial</h3>
-              <p>Conheça a origem e os arcos principais.</p>
-            </div>
-          </div>
+    <section class="post-preview">
+        <h2>Título do Post 2</h2>
+        <p>
+            Um pequeno resumo do segundo post.
+            Continue lendo para descobrir mais.
+        </p>
+        <a href="post-2.html">Ler mais</a>
+    </section>
 
-          <div class="card large-card" role="listitem">
-            <div class="card-inner">
-              <h3>Personagens</h3>
-              <p>Ficha e personalidade dos personagens.</p>
-            </div>
-          </div>
+</div>
 
-          <div class="card large-card" role="listitem">
-            <div class="card-inner">
-              <h3>Loja Codina</h3>
-              <p>Produtos exclusivos e pelúcias.</p>
-            </div>
-          </div>
+<!-- FOOTER -->
+<footer>
+    © 2026 Codina Project - Todos os direitos reservados.
+</footer>
 
-          <div class="card large-card" role="listitem">
-            <div class="card-inner">
-              <h3>Comunidade</h3>
-              <p>Fóruns, eventos e novidades daqui.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BLOG (mais embaixo) -->
-      <section id="blog" class="blog-section" aria-label="Últimas notícias">
-        <h2>Últimas Notícias</h2>
-
-        <article class="blog-post" aria-labelledby="post-1">
-          <h3 id="post-1">Lançamento do Novo Episódio</h3>
-          <p class="date">26 de Fevereiro, 2026</p>
-          <p>O episódio 5 do arco principal estreou hoje! Confira todos os detalhes e sneak peeks aqui mesmo. Mais conteúdo e bastidores em breve.</p>
-          <a href="#blog" class="read-more">Leia mais</a>
-        </article>
-
-        <article class="blog-post" aria-labelledby="post-2">
-          <h3 id="post-2">Arte da Codina Atualizada</h3>
-          <p class="date">14 de Fevereiro, 2026</p>
-          <p>Uma nova ilustração oficial foi divulgada — Codina em pose de abertura, estilo TV anime. Fique ligado para a versão completa.</p>
-          <a href="#blog" class="read-more">Leia mais</a>
-        </article>
-
-        <article class="blog-post" aria-labelledby="post-3">
-          <h3 id="post-3">Anúncio de Evento Online</h3>
-          <p class="date">01 de Fevereiro, 2026</p>
-          <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março. Mais detalhes serão postados nas atualizações.</p>
-          <a href="#blog" class="read-more">Leia mais</a>
-        </article>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="site-footer" role="contentinfo">
-      <p>© 2026 Codina Universe</p>
-      <p class="muted">Projeto oficial criado por Codin</p>
-    </footer>
-  </div>
 </body>
 </html>
