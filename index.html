@@ -34,6 +34,11 @@
       cursor:pointer;
       font-weight:700;
     }
+
+    /* Hint visual: card clicável */
+    .blog-post { cursor: pointer; }
+    /* Não deixe o toggle visível no layout */
+    .toggle { position: absolute; left: -9999px; }
   </style>
 </head>
 <body>
@@ -68,76 +73,75 @@
       <h2>Últimas Notícias</h2>
 
       <!-- ===== Post 1 ===== -->
-      <article class="blog-post" id="post-1">
-        <h3>Lançamento do Novo Episódio</h3>
+      <article class="blog-post" id="post-1" role="article" aria-labelledby="post1-title">
+        <h3 id="post1-title">Lançamento do Novo Episódio</h3>
         <p class="date">26 de Fevereiro, 2026</p>
         <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
         <!-- Toggle expand (se usa) -->
-        <input type="checkbox" id="post1-toggle" class="toggle">
-        <div class="extra-content">
+        <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
+        <div class="extra-content" aria-hidden="true">
           <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-        </div>
-        <label for="post1-toggle" class="read-more">Leia mais</label>
 
-        <!-- botão pra abrir os comentários DO POST -->
-        <div>
-          <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-            Abrir comentários
-          </button>
-        </div>
+          <!-- botão pra abrir os comentários DO POST (dentro do conteúdo expandido também disponível) -->
+          <div>
+            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
+              Abrir comentários
+            </button>
+          </div>
 
-        <!-- placeholder onde o Disqus será movido/mostrado para este post -->
-        <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-          <!-- inicialmente vazio: o container global do Disqus será movido pra cá -->
-          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          <!-- placeholder onde o Disqus será movido/mostrado para este post -->
+          <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
         </div>
+        <label for="post1-toggle" class="read-more" aria-hidden="false">Leia mais</label>
       </article>
 
       <!-- ===== Post 2 ===== -->
-      <article class="blog-post" id="post-2">
-        <h3>Arte da Codina Atualizada</h3>
+      <article class="blog-post" id="post-2" role="article" aria-labelledby="post2-title">
+        <h3 id="post2-title">Arte da Codina Atualizada</h3>
         <p class="date">14 de Fevereiro, 2026</p>
         <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
-        <input type="checkbox" id="post2-toggle" class="toggle">
-        <div class="extra-content">
+        <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
+        <div class="extra-content" aria-hidden="true">
           <p>Descrição da arte, técnica e curiosidades.</p>
-        </div>
-        <label for="post2-toggle" class="read-more">Leia mais</label>
 
-        <div>
-          <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-            Abrir comentários
-          </button>
-        </div>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
+              Abrir comentários
+            </button>
+          </div>
 
-        <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
         </div>
+        <label for="post2-toggle" class="read-more" aria-hidden="false">Leia mais</label>
       </article>
 
       <!-- ===== Post 3 ===== -->
-      <article class="blog-post" id="post-3">
-        <h3>Anúncio de Evento Online</h3>
+      <article class="blog-post" id="post-3" role="article" aria-labelledby="post3-title">
+        <h3 id="post3-title">Anúncio de Evento Online</h3>
         <p class="date">01 de Fevereiro, 2026</p>
         <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
-        <input type="checkbox" id="post3-toggle" class="toggle">
-        <div class="extra-content">
+        <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
+        <div class="extra-content" aria-hidden="true">
           <p>Detalhes do evento, horários e prêmios.</p>
-        </div>
-        <label for="post3-toggle" class="read-more">Leia mais</label>
 
-        <div>
-          <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-            Abrir comentários
-          </button>
-        </div>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
+              Abrir comentários
+            </button>
+          </div>
 
-        <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
         </div>
+        <label for="post3-toggle" class="read-more" aria-hidden="false">Leia mais</label>
       </article>
 
     </section>
@@ -150,10 +154,7 @@
   <!-- ========================
        Disqus inline loader script
        ========================
-       Instruções:
-       1) Troque SEU_SHORTNAME pelo shortname que o Disqus te deu.
-       2) Troque SEU_SITE_URL pelo endereço completo do seu site (ex.: https://seunome.github.io)
-       3) Faça commit e teste: clique em "Abrir comentários" no post desejado.
+       Já configurado com shortname/site no seu CSS/HTML antes.
   -->
   <div id="disqus_thread" style="display:none;"></div>
 
@@ -165,41 +166,34 @@
 
       // estados
       var disqusLoaded = false;
-      var pendingLoad = null;
 
       // helper: cria o script disqus (apenas uma vez)
       function loadDisqusScript(callback) {
-        if (disqusLoaded) { callback(); return; }
+        if (disqusLoaded) { callback && callback(); return; }
         var d = document, s = d.createElement('script');
         s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         s.async = true;
-        s.onload = function(){ disqusLoaded = true; callback(); };
+        s.onload = function(){ disqusLoaded = true; callback && callback(); };
         (d.head || d.body).appendChild(s);
       }
 
       // função que carrega/atualiza o thread para um post específico
       function showCommentsFor(identifier, url, placeholderId) {
-        // prepara URL absoluta
         var fullUrl = SITE_BASE.replace(/\/$/, '') + (url.charAt(0)==='/'? url : ('/' + url));
-
-        // move o container global do disqus para o placeholder desejado
         var placeholder = document.getElementById(placeholderId);
         if (!placeholder) return;
 
         var disqusThread = document.getElementById('disqus_thread');
-        // garantir que o disqus_thread exista no DOM e esteja escondido até carregado
         disqusThread.style.display = 'block';
-        placeholder.innerHTML = ''; // limpa placeholder
+        placeholder.innerHTML = '';
         placeholder.appendChild(disqusThread);
 
-        // configuração do disqus (será usada por embed ou reset)
         window.disqus_config = function () {
           this.page.url = fullUrl;
           this.page.identifier = identifier;
         };
 
-        // se o Disqus já foi carregado, reset com novo identificador
         if (disqusLoaded && window.DISQUS) {
           try {
             window.DISQUS.reset({
@@ -210,13 +204,11 @@
               }
             });
           } catch(e) {
-            // fallback: recarrega o script se reset falhar
             disqusLoaded = false;
-            loadDisqusScript(function(){ /* depois do load o reset será feito automaticamente */ });
+            loadDisqusScript(function(){});
           }
         } else {
-          // ainda não carregado: carrega o script (vai usar window.disqus_config)
-          loadDisqusScript(function(){ /* nada adicional necessário aqui */ });
+          loadDisqusScript(function(){});
         }
       }
 
@@ -226,9 +218,7 @@
         if (!btn) return;
         var identifier = btn.getAttribute('data-identifier');
         var url = btn.getAttribute('data-url') || ('#' + identifier);
-        // placeholder id baseado no identifier: 'comments-'+identifier (ex: comments-post-1)
         var placeholderId = 'comments-' + identifier.replace(/^post-?/,'post-');
-        // rola até o placeholder (suave) e mostra comentários
         var ph = document.getElementById(placeholderId);
         if (ph) ph.scrollIntoView({behavior: 'smooth', block: 'center'});
         showCommentsFor(identifier, url, placeholderId);
@@ -238,12 +228,53 @@
       window.addEventListener('load', function(){
         var hash = location.hash.replace('#','');
         if (hash && document.getElementById('comments-' + hash)) {
-          // simula clique no botão caso exista
           var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
           if (btn) btn.click();
         }
       });
 
+    })();
+  </script>
+
+  <!-- === NOVO: script que controla abrir/fechar do card por clique === -->
+  <script>
+    (function(){
+      // Ignorar clicks em elementos que têm interação própria (links, botões, labels, inputs)
+      function isInteractive(el) {
+        return !!el.closest('a, button, label, input, textarea, select');
+      }
+
+      document.addEventListener('click', function(e){
+        var post = e.target.closest && e.target.closest('.blog-post');
+        if (!post) return;
+        // se o click foi em um elemento interativo dentro do post, não toggla aqui
+        if (isInteractive(e.target)) return;
+
+        var toggle = post.querySelector('.toggle');
+        if (!toggle) return;
+
+        var wasChecked = toggle.checked;
+
+        // feche todos os toggles (comportamento acordeão)
+        document.querySelectorAll('.toggle').forEach(function(t){
+          t.checked = false;
+        });
+
+        // abra/feche o atual
+        toggle.checked = !wasChecked;
+
+        // se abriu, rola pra o conteúdo expandido
+        if (toggle.checked) {
+          // espera a transição iniciar um pouco antes de rolar
+          setTimeout(function(){
+            var extra = post.querySelector('.extra-content');
+            if (extra) extra.scrollIntoView({behavior:'smooth', block:'center'});
+          }, 150);
+        }
+      });
+
+      // também permite que o label "Leia mais" continue funcionando naturalmente (é um label-for)
+      // nada adicional necessário aqui.
     })();
   </script>
 
