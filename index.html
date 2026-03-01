@@ -5,26 +5,30 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Codina Universe</title>
   <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
-
-  <!-- Open Graph -->
   <meta property="og:title" content="Codina Universe">
   <meta property="og:description" content="Explore o universo oficial da Codina.">
   <meta property="og:image" content="images/banner.jpg">
-
   <link rel="icon" href="images/favicon.png">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ===== INTRO LOGO ===== -->
+  <!-- INTRO LOGO -->
   <div id="intro">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+    <div class="logo-reveal">
+      <img src="images/codina-logosite.png" alt="Codina Logo">
+    </div>
   </div>
 
-  <!-- ===== HEADER ===== -->
+  <!-- HEADER -->
   <header>
     <div class="logo-container">
+      <div class="energy-swirl" aria-hidden="true"></div>
       <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
     </div>
     <nav>
@@ -39,20 +43,26 @@
     </nav>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>UNIVERSO CODINA</h1>
-      <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-    </div>
-  </section>
+  <!-- MÚSICA DE FUNDO -->
+  <audio id="bg-music" autoplay loop volume="0.5">
+    <source src="https://drive.usercontent.google.com/u/0/uc?id=1Y678OurP2gf7nSeOhQrmgroG1gykI8rf&export=download" type="audio/mpeg">
+  </audio>
+  <button id="music-toggle">Pausar Música de Fundo</button>
 
-  <!-- ===== BLOG POSTS ===== -->
-  <main>
+  <main id="site-content">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>UNIVERSO CODINA</h1>
+        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+      </div>
+    </section>
+
+    <!-- BLOG -->
     <section class="blog-section" id="blog">
       <h2>Últimas Notícias</h2>
 
-      <!-- Post 1 -->
+      <!-- POST EXEMPLO -->
       <article class="blog-post" id="post-1" role="article" aria-labelledby="post1-title">
         <h3 id="post1-title">Lançamento do Novo Episódio</h3>
         <p class="date">26 de Fevereiro, 2026</p>
@@ -61,177 +71,118 @@
         <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
         <div class="extra-content" aria-hidden="true">
           <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-              Abrir comentários
-            </button>
-          </div>
+
+          <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">Abrir comentários</button>
           <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
         </div>
-        <label for="post1-toggle" class="read-more">Leia mais</label>
+        <label for="post1-toggle" class="read-more" aria-hidden="false">Leia mais</label>
       </article>
 
-      <!-- Post 2 -->
-      <article class="blog-post" id="post-2" role="article" aria-labelledby="post2-title">
-        <h3 id="post2-title">Arte da Codina Atualizada</h3>
-        <p class="date">14 de Fevereiro, 2026</p>
-        <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
-
-        <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
-        <div class="extra-content" aria-hidden="true">
-          <p>Descrição da arte, técnica e curiosidades.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-              Abrir comentários
-            </button>
-          </div>
-          <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-          </div>
-        </div>
-        <label for="post2-toggle" class="read-more">Leia mais</label>
-      </article>
-
-      <!-- Post 3 -->
-      <article class="blog-post" id="post-3" role="article" aria-labelledby="post3-title">
-        <h3 id="post3-title">Anúncio de Evento Online</h3>
-        <p class="date">01 de Fevereiro, 2026</p>
-        <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
-
-        <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
-        <div class="extra-content" aria-hidden="true">
-          <p>Detalhes do evento, horários e prêmios.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-              Abrir comentários
-            </button>
-          </div>
-          <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-          </div>
-        </div>
-        <label for="post3-toggle" class="read-more">Leia mais</label>
-      </article>
+      <!-- Você pode duplicar e atualizar para outros posts -->
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <p>© 2026 Codina Universe</p>
   </footer>
 
-  <!-- ===== AUDIO DE FUNDO ===== -->
-  <audio id="bg-music" autoplay loop volume="0.5">
-    <source src="https://drive.usercontent.google.com/u/0/uc?id=1Y678OurP2gf7nSeOhQrmgroG1gykI8rf&export=download" type="audio/mpeg">
-    Seu navegador não suporta áudio HTML5.
-  </audio>
-  <label id="music-toggle" for="bg-music">Pausar Música de Fundo</label>
-
-  <!-- ===== DISQUS ===== -->
+  <!-- DISQUS -->
   <div id="disqus_thread" style="display:none;"></div>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- SCRIPTS -->
   <script>
+    // CONTROLE MÚSICA
+    const musicBtn = document.getElementById('music-toggle');
+    const bgMusic = document.getElementById('bg-music');
+
+    musicBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.textContent = "Pausar Música de Fundo";
+      } else {
+        bgMusic.pause();
+        musicBtn.textContent = "Tocar Música de Fundo";
+      }
+    });
+
+    // ABRIR/FECHE POST
+    document.addEventListener('click', function(e){
+      var post = e.target.closest && e.target.closest('.blog-post');
+      if (!post) return;
+      if (e.target.closest('a, button, label, input')) return;
+
+      var toggle = post.querySelector('.toggle');
+      if (!toggle) return;
+
+      var wasChecked = toggle.checked;
+      document.querySelectorAll('.toggle').forEach(t => t.checked = false);
+      toggle.checked = !wasChecked;
+
+      if (toggle.checked) {
+        setTimeout(() => {
+          var extra = post.querySelector('.extra-content');
+          if (extra) extra.scrollIntoView({behavior:'smooth', block:'center'});
+        }, 150);
+      }
+    });
+
+    // DISQUS
     (function(){
       var DISQUS_SHORTNAME = 'codinaproject';
       var SITE_BASE = 'https://codinaproject.github.io';
       var disqusLoaded = false;
 
-      function loadDisqusScript(callback){
-        if(disqusLoaded){ callback&&callback(); return; }
-        var d=document, s=d.createElement('script');
-        s.src='https://'+DISQUS_SHORTNAME+'.disqus.com/embed.js';
-        s.setAttribute('data-timestamp',+new Date());
-        s.async=true;
-        s.onload=function(){ disqusLoaded=true; callback&&callback(); };
-        (d.head||d.body).appendChild(s);
+      function loadDisqusScript(callback) {
+        if (disqusLoaded) { callback && callback(); return; }
+        var d = document, s = d.createElement('script');
+        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.async = true;
+        s.onload = function(){ disqusLoaded = true; callback && callback(); };
+        (d.head || d.body).appendChild(s);
       }
 
-      function showCommentsFor(identifier,url,placeholderId){
-        var fullUrl=SITE_BASE.replace(/\/$/,'')+(url.charAt(0)==='/'?url:('/'+url));
-        var placeholder=document.getElementById(placeholderId);
-        if(!placeholder) return;
+      function showCommentsFor(identifier, url, placeholderId) {
+        var fullUrl = SITE_BASE.replace(/\/$/, '') + (url.charAt(0)==='/'? url : ('/' + url));
+        var placeholder = document.getElementById(placeholderId);
+        if (!placeholder) return;
 
-        var disqusThread=document.getElementById('disqus_thread');
-        disqusThread.style.display='block';
-        placeholder.innerHTML='';
+        var disqusThread = document.getElementById('disqus_thread');
+        disqusThread.style.display = 'block';
+        placeholder.innerHTML = '';
         placeholder.appendChild(disqusThread);
 
-        window.disqus_config=function(){
-          this.page.url=fullUrl;
-          this.page.identifier=identifier;
+        window.disqus_config = function () {
+          this.page.url = fullUrl;
+          this.page.identifier = identifier;
         };
 
-        if(disqusLoaded && window.DISQUS){
-          try{
-            window.DISQUS.reset({
-              reload:true,
-              config:function(){
-                this.page.identifier=identifier;
-                this.page.url=fullUrl;
-              }
-            });
-          }catch(e){ disqusLoaded=false; loadDisqusScript(function(){}); }
-        }else{
-          loadDisqusScript(function(){});
-        }
+        if (disqusLoaded && window.DISQUS) {
+          try {
+            window.DISQUS.reset({reload:true, config:function(){this.page.identifier=identifier; this.page.url=fullUrl;}});
+          } catch(e){ disqusLoaded=false; loadDisqusScript(); }
+        } else { loadDisqusScript(); }
       }
 
-      document.addEventListener('click',function(e){
-        var btn=e.target.closest && e.target.closest('.open-comments-btn');
-        if(!btn) return;
-        var identifier=btn.getAttribute('data-identifier');
-        var url=btn.getAttribute('data-url')||('#'+identifier);
-        var placeholderId='comments-'+identifier.replace(/^post-?/,'post-');
-        var ph=document.getElementById(placeholderId);
-        if(ph) ph.scrollIntoView({behavior:'smooth', block:'center'});
-        showCommentsFor(identifier,url,placeholderId);
-      });
-
-      window.addEventListener('load',function(){
-        var hash=location.hash.replace('#','');
-        if(hash && document.getElementById('comments-'+hash)){
-          var btn=document.querySelector('.open-comments-btn[data-identifier="'+hash+'"]');
-          if(btn) btn.click();
-        }
-      });
-    })();
-  </script>
-
-  <!-- ===== TOGGLE POST ===== -->
-  <script>
-    (function(){
-      function isInteractive(el){ return !!el.closest('a, button, label, input, textarea, select'); }
-
       document.addEventListener('click', function(e){
-        var post=e.target.closest && e.target.closest('.blog-post');
-        if(!post) return;
-        if(isInteractive(e.target)) return;
+        var btn = e.target.closest && e.target.closest('.open-comments-btn');
+        if (!btn) return;
+        var identifier = btn.getAttribute('data-identifier');
+        var url = btn.getAttribute('data-url') || ('#' + identifier);
+        showCommentsFor(identifier, url, 'comments-' + identifier.replace(/^post-?/,'post-'));
+      });
 
-        var toggle=post.querySelector('.toggle');
-        if(!toggle) return;
-
-        var wasChecked=toggle.checked;
-        document.querySelectorAll('.toggle').forEach(function(t){ t.checked=false; });
-        toggle.checked=!wasChecked;
-
-        if(toggle.checked){
-          setTimeout(function(){
-            var extra=post.querySelector('.extra-content');
-            if(extra) extra.scrollIntoView({behavior:'smooth', block:'center'});
-          },150);
+      window.addEventListener('load', function(){
+        var hash = location.hash.replace('#','');
+        if (hash && document.getElementById('comments-' + hash)) {
+          var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
+          if (btn) btn.click();
         }
       });
     })();
   </script>
-
-  <script>
-    // LOGO FADE OUT
-    window.addEventListener('load',function(){
-      setTimeout(()=>document.getElementById('intro').style.display='none',2000);
-    });
-  </script>
-
 </body>
 </html>
