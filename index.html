@@ -1,170 +1,253 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Codina Project</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Codina Universe</title>
+  <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Codina Universe">
+  <meta property="og:description" content="Explore o universo oficial da Codina.">
+  <meta property="og:image" content="images/banner.jpg">
+  <link rel="icon" href="images/favicon.png">
 
-<style>
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* FUNDO */
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #4b0082 0%, #4b0082 45%, #ffffff 100%);
-    color: #111;
-}
-
-/* NAVBAR */
-nav {
-    width: 100%;
-    padding: 20px 40px;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(6px);
-    position: sticky;
-    top: 0;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-}
-
-nav a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-nav a:hover {
-    opacity: 0.7;
-}
-
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    color: white;
-}
-
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 18px;
-}
-
-/* CONTAINER */
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 60px 20px;
-}
-
-/* BLOG */
-.blog-title {
-    font-size: 32px;
-    margin-bottom: 40px;
-}
-
-.post-preview {
-    background: white;
-    padding: 30px;
-    margin-bottom: 35px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    transition: 0.3s;
-}
-
-.post-preview:hover {
-    transform: translateY(-6px);
-}
-
-.post-preview h2 {
-    margin-bottom: 15px;
-}
-
-.post-preview a {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #4b0082;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.post-preview a:hover {
-    background: #32005a;
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 40px;
-    background: #111;
-    color: white;
-    margin-top: 60px;
-}
-</style>
+  <!-- Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* pequenos ajustes visuais pro bloco de comentários */
+    .comments-placeholder {
+      margin-top: 14px;
+      border-radius: 10px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
+      border: 1px solid rgba(181,122,255,0.05);
+    }
+    .open-comments-btn {
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 14px;
+      background: var(--accent, #b57aff);
+      color:#fff;
+      border-radius:999px;
+      text-decoration:none;
+      cursor:pointer;
+      font-weight:700;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav>
-    <ul>
-        <li><a href="#">Início</a></li>
-        <li><a href="#">História</a></li>
-        <li><a href="#">Personagens</a></li>
-        <li><a href="#">Contato</a></li>
-    </ul>
-</nav>
+  <!-- ====== (seu header/hero/etc) ====== -->
+  <header>
+    <div class="logo-container">
+      <div class="energy-swirl" aria-hidden="true"></div>
+      <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+    </div>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historia.html">História</a>
+      <a href="personagens.html">Personagens</a>
+      <a href="equipe.html">Equipe</a>
+      <a href="loja.html">Loja</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
-<!-- HERO -->
-<section class="hero">
-    <h1>Codina Project</h1>
-    <p>Universo criativo, histórias e pensamentos.</p>
-</section>
-
-<!-- BLOG -->
-<div class="container">
-    <h2 class="blog-title">Últimos Posts</h2>
-
-    <section class="post-preview">
-        <h2>Título do Post 1</h2>
-        <p>
-            Um pequeno resumo do primeiro post.
-            Algo que desperte curiosidade para continuar lendo.
-        </p>
-        <a href="post-1.html">Ler mais</a>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>UNIVERSO CODINA</h1>
+        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+      </div>
     </section>
 
-    <section class="post-preview">
-        <h2>Título do Post 2</h2>
-        <p>
-            Um pequeno resumo do segundo post.
-            Continue lendo para descobrir mais.
-        </p>
-        <a href="post-2.html">Ler mais</a>
+    <section class="blog-section" id="blog">
+      <h2>Últimas Notícias</h2>
+
+      <!-- ===== Post 1 ===== -->
+      <article class="blog-post" id="post-1">
+        <h3>Lançamento do Novo Episódio</h3>
+        <p class="date">26 de Fevereiro, 2026</p>
+        <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
+
+        <!-- Toggle expand (se usa) -->
+        <input type="checkbox" id="post1-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+        </div>
+        <label for="post1-toggle" class="read-more">Leia mais</label>
+
+        <!-- botão pra abrir os comentários DO POST -->
+        <div>
+          <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
+            Abrir comentários
+          </button>
+        </div>
+
+        <!-- placeholder onde o Disqus será movido/mostrado para este post -->
+        <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
+          <!-- inicialmente vazio: o container global do Disqus será movido pra cá -->
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
+      </article>
+
+      <!-- ===== Post 2 ===== -->
+      <article class="blog-post" id="post-2">
+        <h3>Arte da Codina Atualizada</h3>
+        <p class="date">14 de Fevereiro, 2026</p>
+        <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
+
+        <input type="checkbox" id="post2-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Descrição da arte, técnica e curiosidades.</p>
+        </div>
+        <label for="post2-toggle" class="read-more">Leia mais</label>
+
+        <div>
+          <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
+            Abrir comentários
+          </button>
+        </div>
+
+        <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
+      </article>
+
+      <!-- ===== Post 3 ===== -->
+      <article class="blog-post" id="post-3">
+        <h3>Anúncio de Evento Online</h3>
+        <p class="date">01 de Fevereiro, 2026</p>
+        <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
+
+        <input type="checkbox" id="post3-toggle" class="toggle">
+        <div class="extra-content">
+          <p>Detalhes do evento, horários e prêmios.</p>
+        </div>
+        <label for="post3-toggle" class="read-more">Leia mais</label>
+
+        <div>
+          <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
+            Abrir comentários
+          </button>
+        </div>
+
+        <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
+      </article>
+
     </section>
+  </main>
 
-</div>
+  <footer class="site-footer">
+    <p>© 2026 Codina Universe</p>
+  </footer>
 
-<!-- FOOTER -->
-<footer>
-    © 2026 Codina Project - Todos os direitos reservados.
-</footer>
+  <!-- ========================
+       Disqus inline loader script
+       ========================
+       Instruções:
+       1) Troque SEU_SHORTNAME pelo shortname que o Disqus te deu.
+       2) Troque SEU_SITE_URL pelo endereço completo do seu site (ex.: https://seunome.github.io)
+       3) Faça commit e teste: clique em "Abrir comentários" no post desejado.
+  -->
+  <div id="disqus_thread" style="display:none;"></div>
 
+  <script>
+    (function(){
+      // CONFIG (já configurado)
+      var DISQUS_SHORTNAME = 'codinaproject';
+      var SITE_BASE = 'https://codinaproject.github.io';
+
+      // estados
+      var disqusLoaded = false;
+      var pendingLoad = null;
+
+      // helper: cria o script disqus (apenas uma vez)
+      function loadDisqusScript(callback) {
+        if (disqusLoaded) { callback(); return; }
+        var d = document, s = d.createElement('script');
+        s.src = 'https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.async = true;
+        s.onload = function(){ disqusLoaded = true; callback(); };
+        (d.head || d.body).appendChild(s);
+      }
+
+      // função que carrega/atualiza o thread para um post específico
+      function showCommentsFor(identifier, url, placeholderId) {
+        // prepara URL absoluta
+        var fullUrl = SITE_BASE.replace(/\/$/, '') + (url.charAt(0)==='/'? url : ('/' + url));
+
+        // move o container global do disqus para o placeholder desejado
+        var placeholder = document.getElementById(placeholderId);
+        if (!placeholder) return;
+
+        var disqusThread = document.getElementById('disqus_thread');
+        // garantir que o disqus_thread exista no DOM e esteja escondido até carregado
+        disqusThread.style.display = 'block';
+        placeholder.innerHTML = ''; // limpa placeholder
+        placeholder.appendChild(disqusThread);
+
+        // configuração do disqus (será usada por embed ou reset)
+        window.disqus_config = function () {
+          this.page.url = fullUrl;
+          this.page.identifier = identifier;
+        };
+
+        // se o Disqus já foi carregado, reset com novo identificador
+        if (disqusLoaded && window.DISQUS) {
+          try {
+            window.DISQUS.reset({
+              reload: true,
+              config: function () {
+                this.page.identifier = identifier;
+                this.page.url = fullUrl;
+              }
+            });
+          } catch(e) {
+            // fallback: recarrega o script se reset falhar
+            disqusLoaded = false;
+            loadDisqusScript(function(){ /* depois do load o reset será feito automaticamente */ });
+          }
+        } else {
+          // ainda não carregado: carrega o script (vai usar window.disqus_config)
+          loadDisqusScript(function(){ /* nada adicional necessário aqui */ });
+        }
+      }
+
+      // conecta botões "Abrir comentários"
+      document.addEventListener('click', function(e){
+        var btn = e.target.closest && e.target.closest('.open-comments-btn');
+        if (!btn) return;
+        var identifier = btn.getAttribute('data-identifier');
+        var url = btn.getAttribute('data-url') || ('#' + identifier);
+        // placeholder id baseado no identifier: 'comments-'+identifier (ex: comments-post-1)
+        var placeholderId = 'comments-' + identifier.replace(/^post-?/,'post-');
+        // rola até o placeholder (suave) e mostra comentários
+        var ph = document.getElementById(placeholderId);
+        if (ph) ph.scrollIntoView({behavior: 'smooth', block: 'center'});
+        showCommentsFor(identifier, url, placeholderId);
+      });
+
+      // acessibilidade: se o usuário abrir a página com #post-2, carregar automaticamente
+      window.addEventListener('load', function(){
+        var hash = location.hash.replace('#','');
+        if (hash && document.getElementById('comments-' + hash)) {
+          // simula clique no botão caso exista
+          var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
+          if (btn) btn.click();
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- (opcional) noscript notice para Disqus -->
+  <noscript>Por favor habilite JavaScript para ver os comentários.</noscript>
 </body>
 </html>
