@@ -355,67 +355,143 @@ nav a.active {
   color: var(--accent);
   text-shadow: 0 0 10px rgba(181,122,255,0.24);
 }
+
+/* =========================
+   NOVO BLOCO: POSTS FECHADOS, QUADRADOS, ANIMADOS
+   ========================= */
 .blog-post {
-  background: linear-gradient(180deg, rgba(27,15,46,0.85), rgba(21,11,36,0.78));
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 18px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(181,122,255,0.05);
   position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(27,15,46,0.95), rgba(21,11,36,0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s ease;
+  -webkit-user-select: none;
 }
+
+/* esconder resumo / data / botões quando fechado */
+.blog-post p,
+.blog-post .date,
+.blog-post .read-more,
+.blog-post .meta {
+  display: none;
+}
+
+/* título grande e em destaque */
+.blog-post h3 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin: 0;
+  z-index: 2;
+  position: relative;
+  line-height: 1.05;
+  padding: 0 8px;
+}
+
+/* brilho animado passando */
 .blog-post::before {
   content: "";
   position: absolute;
-  right: -30px;
-  top: -30px;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle at 30% 30%, rgba(181,122,255,0.06), transparent 40%);
-  transform: rotate(20deg);
+  inset: -40%;
+  background: linear-gradient(120deg, transparent 30%, rgba(181,122,255,0.22), transparent 70%);
+  transform: rotate(25deg) translateX(-100%);
+  animation: shineMove 5s linear infinite;
+  opacity: 0.7;
   pointer-events: none;
-  z-index: 0;
 }
+
+/* glow suave pulsando */
+.blog-post::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  box-shadow: 0 0 10px rgba(181,122,255,0.28);
+  animation: pulseGlow 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* leve flutuação/parallax sutil pra dar vida */
+.blog-post {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+/* hover mais forte (eleva + glow) */
 .blog-post:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 60px rgba(181,122,255,0.18), 0 0 28px rgba(255,255,255,0.08);
+  transform: translateY(-12px) scale(1.04);
+  box-shadow: 0 35px 70px rgba(181,122,255,0.22);
 }
-.blog-post h3 {
-  font-size: 1.25rem;
-  margin: 0 0 6px 0;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(181,122,255,0.12);
+
+/* animações */
+@keyframes shineMove {
+  0% { transform: rotate(25deg) translateX(-120%); opacity: 0.35; }
+  50% { transform: rotate(25deg) translateX(0%); opacity: 0.9; }
+  100% { transform: rotate(25deg) translateX(120%); opacity: 0.35; }
 }
-.blog-post .date {
-  font-size: 0.9rem;
-  opacity: 0.85;
-  margin-bottom: 12px;
-  color: rgba(255,255,255,0.92);
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 8px rgba(181,122,255,0.18); }
+  50% { box-shadow: 0 0 32px rgba(181,122,255,0.45); }
+  100% { box-shadow: 0 0 8px rgba(181,122,255,0.18); }
 }
-.blog-post p {
-  margin: 0;
+@keyframes floatSlow {
+  0% { transform: translateY(-3px); }
+  50% { transform: translateY(3px); }
+  100% { transform: translateY(-3px); }
+}
+
+/* =========================
+   Toggle / expansão (checkbox) — quando o usuário clicar em "Leia mais"
+   ========================= */
+/* o checkbox está invisível */
+.toggle { display: none; }
+
+/* conteúdo extra inicialmente escondido */
+.extra-content {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
+  opacity: 0;
+}
+
+/* quando o toggle estiver checado, mostra o conteúdo (expande) */
+/* estrutura no HTML: <input.toggle> + <div.extra-content> — usamos selector adjacente geral */
+.toggle:checked ~ .extra-content {
+  display: block;
+  max-height: 1500px; /* suficiente para o post + Disqus */
+  opacity: 1;
+}
+
+/* quando expandido, revele parágrafos e data dentro da extra-content */
+.extra-content p,
+.extra-content .date,
+.extra-content .read-more,
+.extra-content .meta {
+  display: block;
   color: rgba(255,255,255,0.95);
-  line-height: 1.5;
-  margin-bottom: 12px;
-  font-size: 1rem;
 }
-.blog-post .read-more {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 8px 18px;
-  background-color: var(--accent);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 999px;
-  font-weight: 800;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+/* ajuste visual do conteúdo expandido (o Disqus placeholder fica aqui) */
+.extra-content .comments-placeholder {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.45));
+  border: 1px solid rgba(181,122,255,0.04);
+  color: rgba(255,255,255,0.9);
 }
-.blog-post .read-more:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(181,122,255,0.22);
-}
-.blog-post .meta { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+/* se quiser efeito hover que revela um pequeno resumo por cima, você pode usar (opcional)
+.blog-post:hover p { display:block; position: absolute; bottom: 18px; left: 18px; right: 18px; } 
+*/
 
 /* FOOTER */
 .site-footer {
@@ -445,5 +521,18 @@ nav a.active {
   .hero-content h1 { font-size: 26px; }
   .row { gap: 10px; }
   .blog-section { padding: 28px 16px; }
-  .card { min-width: 180px; height: 120px; }
+
+  /* em telas pequenas os cards deixam de ser quadriculados e viram bloco para leitura */
+  .blog-post {
+    aspect-ratio: auto;
+    height: auto;
+    padding: 18px;
+    display: block;
+    align-items: stretch;
+  }
+  .blog-post h3 { font-size: 1.15rem; text-align: left; }
+  /* por padrão em mobile, mostrar o resumo curto ao invés só do título (mais amigável) */
+  .blog-post p { display: block; color: rgba(255,255,255,0.92); margin-top: 8px; }
+  .blog-post .date { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.9); }
+  .blog-post .read-more { display: inline-block; }
 }
