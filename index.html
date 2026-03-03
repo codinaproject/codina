@@ -7,14 +7,13 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- INTRO LOGO -->
+  <!-- INTRO / LOGO -->
   <div id="intro">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+    <img src="images/codina-logosite.png" class="logo-reveal" alt="Codina">
   </div>
 
-  <!-- PARTICLES NOVAS -->
-  <div id="particles-new"></div>
+  <!-- PARTICLES NOVAS (quadrados caindo) -->
+  <div id="particles-new" class="particles-new"></div>
 
   <!-- HEADER -->
   <header>
@@ -33,14 +32,6 @@
       <a href="login.html">Login</a>
     </nav>
   </header>
-
-  <!-- MUSIC -->
-  <audio id="bg-music" loop>
-    <source src="audio/musica.mp3" type="audio/mpeg">
-    <source src="musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-  <button id="music-toggle">Pausar Música de Fundo</button>
 
   <!-- HERO -->
   <section class="hero">
@@ -124,6 +115,14 @@
     </section>
   </main>
 
+  <!-- AUDIO -->
+  <audio id="bg-music" loop>
+    <source src="audio/musica.mp3" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+  <button id="music-toggle">Pausar Música de Fundo</button>
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <p>© 2026 Codina Universe</p>
@@ -131,17 +130,17 @@
       <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
       <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
       <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-      <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em; max-height:1em; margin-left:.2em;">
     </p>
   </footer>
 
-  <!-- DISQUS container (hidden until loaded) -->
+  <!-- DISQUS (placeholder) -->
   <div id="disqus_thread" style="display:none;"></div>
 
-  <!-- SCRIPT -->
-  <script src="js/script.js"></script>
+  <!-- SCRIPT JS -->
+  <script src="script.js/js"></script>
 </body>
 </html>
