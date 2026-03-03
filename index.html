@@ -10,7 +10,7 @@
 
   <!-- INTRO LOGO -->
   <div id="intro">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+    <img src="images/codina-logosite.png" class="logo-reveal" alt="Codina">
   </div>
 
   <!-- PARTICLES NOVAS -->
@@ -34,6 +34,14 @@
     </nav>
   </header>
 
+  <!-- MUSIC (local sources) -->
+  <audio id="bg-music" loop>
+    <source src="audio/musica.mp3" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+  <button id="music-toggle">Pausar Música de Fundo</button>
+
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
@@ -41,14 +49,6 @@
       <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
     </div>
   </section>
-
-  <!-- MUSIC -->
-  <audio id="bg-music" loop>
-    <source src="audio/musica.mp3" type="audio/mpeg">
-    <source src="musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-  <button id="music-toggle">Pausar Música de Fundo</button>
 
   <!-- BLOG -->
   <main>
@@ -60,17 +60,11 @@
         <h3>Lançamento do Novo Episódio</h3>
         <p class="date">26 de Fevereiro, 2026</p>
         <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
-
         <input type="checkbox" id="post1-toggle" class="toggle">
-        <label for="post1-toggle" class="read-more"></label>
-
+        <label for="post1-toggle" class="read-more">Leia mais</label>
         <div class="extra-content">
           <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-              Abrir comentários
-            </button>
-          </div>
+          <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">Abrir comentários</button>
           <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
@@ -82,17 +76,11 @@
         <h3>Arte da Codina Atualizada</h3>
         <p class="date">14 de Fevereiro, 2026</p>
         <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
-
         <input type="checkbox" id="post2-toggle" class="toggle">
-        <label for="post2-toggle" class="read-more"></label>
-
+        <label for="post2-toggle" class="read-more">Leia mais</label>
         <div class="extra-content">
           <p>Descrição da arte, técnica e curiosidades.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-              Abrir comentários
-            </button>
-          </div>
+          <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">Abrir comentários</button>
           <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
@@ -104,17 +92,11 @@
         <h3>Anúncio de Evento Online</h3>
         <p class="date">01 de Fevereiro, 2026</p>
         <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
-
         <input type="checkbox" id="post3-toggle" class="toggle">
-        <label for="post3-toggle" class="read-more"></label>
-
+        <label for="post3-toggle" class="read-more">Leia mais</label>
         <div class="extra-content">
           <p>Detalhes do evento, horários e prêmios.</p>
-          <div>
-            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-              Abrir comentários
-            </button>
-          </div>
+          <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">Abrir comentários</button>
           <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
           </div>
@@ -138,10 +120,6 @@
     </p>
   </footer>
 
-  <!-- DISQUS (opcional) -->
-  <div id="disqus_thread" style="display:none;"></div>
-
-  <!-- SCRIPT -->
   <script src="js/script.js"></script>
 
 </body>
