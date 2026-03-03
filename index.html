@@ -47,9 +47,13 @@
       </nav>
     </header>
 
-    <!-- MUSIC (autoplay/loop) -->
-    <audio id="bg-music" autoplay loop>
-      <source src="https://drive.usercontent.google.com/u/0/uc?id=1Y678OurP2gf7nSeOhQrmgroG1gykI8rf&export=download" type="audio/mpeg">
+    <!-- MUSIC (local sources) -->
+    <!-- coloque o arquivo no repositório: audio/musica.mp3  OU  musica.mp3 na raiz -->
+    <audio id="bg-music" loop>
+      <!-- preferencial: dentro da pasta audio/ -->
+      <source src="audio/musica.mp3" type="audio/mpeg">
+      <!-- fallback: raiz do repositório -->
+      <source src="musica.mp3" type="audio/mpeg">
       Seu navegador não suporta áudio.
     </audio>
     <button id="music-toggle">Pausar Música de Fundo</button>
@@ -192,20 +196,45 @@
       });
     })();
 
-    /* ===== music control ===== */
+    /* ===== music control (robust version) ===== */
     (function(){
       const audio = document.getElementById('bg-music');
       const btn = document.getElementById('music-toggle');
       if(!audio || !btn) return;
+
+      // volume
       audio.volume = 0.5;
-      // initial text
-      btn.textContent = audio.paused ? 'Tocar Música de Fundo' : 'Pausar Música de Fundo';
+
+      // helper to update button text
+      function updateText() {
+        btn.textContent = audio.paused ? 'Tocar Música de Fundo' : 'Pausar Música de Fundo';
+      }
+
+      // try to play on first user interaction (many browsers require a gesture)
+      function tryPlayOnce() {
+        if (audio.paused) {
+          audio.play().then(()=> {
+            updateText();
+            btn.classList.add('playing');
+          }).catch(()=>{ /* fail silently */ });
+        }
+        document.removeEventListener('click', tryPlayOnce);
+      }
+      document.addEventListener('click', tryPlayOnce);
+
+      // button toggles play/pause
       btn.addEventListener('click', function(){
-        if(audio.paused){ audio.play(); btn.textContent = 'Pausar Música de Fundo'; }
-        else { audio.pause(); btn.textContent = 'Tocar Música de Fundo'; }
+        if(audio.paused){
+          audio.play().then(()=>{ updateText(); btn.classList.add('playing'); }).catch(()=>{});
+        } else {
+          audio.pause();
+          updateText();
+          btn.classList.remove('playing');
+        }
       });
-      // try-unmute on user interaction (some browsers block autoplay)
-      document.addEventListener('click', function once(){ if(audio.paused) { try{ audio.play(); btn.textContent = 'Pausar Música de Fundo'; } catch(e){} } document.removeEventListener('click', once); });
+
+      // init button text
+      updateText();
     })();
 
     /* ===== Disqus loader for inline comments ===== */
