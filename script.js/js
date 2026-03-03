@@ -34,7 +34,7 @@ for (let i = 0; i < numSquares; i++) {
   particlesContainer.appendChild(square);
 }
 
-// ====== ABRIR COMENTÁRIOS / LEIA MAIS ======
+// ====== ABRIR COMENTÁRIOS ======
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const postId = btn.dataset.identifier;
