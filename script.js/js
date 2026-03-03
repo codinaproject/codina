@@ -1,3 +1,5 @@
+// ===================== SCRIPT COMPLETO CODINA =====================
+
 // ====== INTRO / LOGO ======
 window.addEventListener("load", () => {
   const intro = document.getElementById("intro");
@@ -42,5 +44,16 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     comments.innerHTML = `<em>Carregando comentários para ${postId}...</em>`;
     // Aqui você pode adicionar Disqus ou outro sistema de comentários
     comments.style.display = "block";
+  });
+});
+
+// ====== "LER MAIS" (conteúdo extra do blog) ======
+document.querySelectorAll(".blog-post").forEach(post => {
+  const toggle = post.querySelector(".toggle");
+  const extra = post.querySelector(".extra-content");
+  const readMore = post.querySelector(".read-more");
+
+  readMore.addEventListener("click", () => {
+    toggle.checked = !toggle.checked;
   });
 });
