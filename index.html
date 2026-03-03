@@ -1,319 +1,301 @@
-/* =========================
-   css/style.css — Codina Universe
-   Completo atualizado: intro, partículas (antiga + nova), header, hero, blog, footer, áudio
-   ========================= */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Codina Universe</title>
+  <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
+  <meta property="og:title" content="Codina Universe">
+  <meta property="og:description" content="Explore o universo oficial da Codina.">
+  <meta property="og:image" content="images/banner.jpg">
+  <link rel="icon" href="images/favicon.png">
 
-/* Root timing / cores */
-:root{
-  --intro-total: 2.8s;
-  --logo-in-time: 1.6s;
-  --glow-color: #b57aff;
-  --bg-dark-1: #0f0a19;
-  --bg-dark-2: #1b0f2e;
-  --accent: #b57aff;
-  --header-bg: rgba(20,12,36,0.95);
-  --particle-white: rgba(255,255,255,0.12);
-  --particle-purple: rgba(181,122,255,0.14);
-  --square-purple: rgba(181,122,255,0.9);
-  --square-white: rgba(255,255,255,0.85);
-}
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-/* RESET / BASE */
-* { box-sizing: border-box; }
-html,body { height: 100%; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at top left, var(--bg-dark-2), var(--bg-dark-1));
-  font-family: 'Nunito', sans-serif;
-  color: white;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow-x: hidden;
-}
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-/* INTRO (logo) */
-#intro {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  z-index: 9999;
-  pointer-events: auto;
-  animation: intro-fade var(--intro-total) ease forwards;
-}
-.logo-reveal {
-  width: clamp(160px, 22vw, 320px);
-  max-width: 420px;
-  opacity: 0;
-  transform: scale(0.88);
-  animation:
-    logo-appear var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards,
-    logo-pulse var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards;
-}
-@keyframes logo-appear {
-  0% { opacity: 0; transform: scale(0.8); }
-  60% { opacity: 1; transform: scale(1.06); }
-  100% { opacity: 1; transform: scale(1); }
-}
-@keyframes logo-pulse {
-  0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(181,122,255,0.12)); }
-  50% { transform: scale(1.01); filter: drop-shadow(0 0 26px rgba(181,122,255,0.34)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(181,122,255,0.30)); }
-}
-@keyframes intro-fade {
-  0% { opacity: 1; visibility: visible; }
-  78% { opacity: 1; visibility: visible; }
-  100% { opacity: 0; visibility: hidden; pointer-events: none; }
-}
+  <!-- INTRO -->
+  <div id="intro">
+    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+  </div>
 
-/* site content stacked above particles */
-#site-content { position: relative; z-index: 3; }
+  <!-- NEW PARTICLE CONTAINER (squares falling) -->
+  <div id="particles-new" class="particles-new" aria-hidden="true"></div>
 
-/* PARTICULAS ANTIGAS (background grid-like) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(90deg, var(--particle-white) 1px, transparent 1px),
-    linear-gradient(var(--particle-white) 1px, transparent 1px),
-    linear-gradient(90deg, var(--particle-purple) 1px, transparent 1px),
-    linear-gradient(var(--particle-purple) 1px, transparent 1px);
-  background-size:
-    10px 10px, 10px 10px,
-    18px 18px, 18px 18px;
-  background-position:
-    0 0, 5px -40px,
-    0 -120px, 9px -60px;
-  mix-blend-mode: screen;
-  opacity: 0.95;
-  animation:
-    particles-fall-1 10s linear infinite,
-    particles-fall-2 16s linear infinite;
-}
-@keyframes particles-fall-1 {
-  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
-  to   { background-position: 0 1000px, 5px 960px, 0 880px, 9px 920px; }
-}
-@keyframes particles-fall-2 {
-  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
-  to   { background-position: 0 1500px, 5px 1460px, 0 1380px, 9px 1420px; }
-}
+  <!-- SITE CONTENT -->
+  <div id="site-content">
 
-/* NOVA CAMADA: quadrados que CAEM (será composta por elementos .square dentro do HTML container #particles-new) */
-#particles-new {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1; /* acima da camada antiga (body::before) e abaixo do conteúdo (#site-content z-index:3) */
-  overflow: hidden;
-}
-.particles-new .square {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--square-purple);
-  opacity: 0.9;
-  will-change: transform, opacity;
-  border-radius: 2px;
-  animation-name: fall-square;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.particles-new .square.white { background: var(--square-white); opacity: 0.85; }
+    <!-- HEADER -->
+    <header>
+      <div class="logo-container">
+        <div class="energy-swirl" aria-hidden="true"></div>
+        <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+      </div>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="historia.html">História</a>
+        <a href="personagens.html">Personagens</a>
+        <a href="equipe.html">Equipe</a>
+        <a href="loja.html">Loja</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="perfil.html">Perfil</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </header>
 
-/* animate from above to below, with slight horizontal drift */
-@keyframes fall-square {
-  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
-}
+    <!-- MUSIC (local sources) 
+         --> 
+    <!-- === Substituí a fonte remota pelo arquivo local (preferência: audio/musica.mp3; fallback: musica.mp3) === -->
+    <audio id="bg-music" loop>
+      <source src="audio/musica.mp3" type="audio/mpeg">
+      <source src="musica.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+    <button id="music-toggle">Pausar Música de Fundo</button>
 
-/* HEADER / NAV */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 28px;
-  background-color: var(--header-bg);
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  gap: 12px;
-  backdrop-filter: blur(6px);
-}
-.logo-container { display:flex; align-items:center; gap:12px; }
-.logo-main { height:48px; filter: drop-shadow(0 0 8px rgba(181,122,255,0.18)); }
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>UNIVERSO CODINA</h1>
+        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+      </div>
+    </section>
 
-/* HERO */
-.hero {
-  height: 60vh;
-  display:flex;
-  align-items:center;
-  padding: 40px;
-  background: linear-gradient(to right, rgba(15,10,25,0.95), rgba(27,15,46,0.85));
-  background-image: url('../images/banner.jpg');
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  z-index: 3;
-}
-.hero-content h1{ font-size:clamp(28px,5.6vw,64px); margin:0; font-weight:800; color:#fff; text-shadow:0 8px 30px rgba(11,6,20,0.4);}
-.hero-content p{ margin-top:12px; color:rgba(255,255,255,0.92); }
+    <!-- BLOG -->
+    <main>
+      <section class="blog-section" id="blog">
+        <h2>Últimas Notícias</h2>
 
-/* BLOG */
-.blog-section{ padding:56px 20px; max-width:880px; margin:0 auto; z-index:3; position:relative;}
-.blog-section h2 { text-align:center; color:var(--accent); margin-bottom:24px; font-size:2rem; text-shadow:0 0 10px rgba(181,122,255,0.24); }
+        <!-- Post 1 -->
+        <article class="blog-post" id="post-1">
+          <h3>Lançamento do Novo Episódio</h3>
+          <p class="date">26 de Fevereiro, 2026</p>
+          <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
-.blog-post {
-  background: linear-gradient(180deg, rgba(27,15,46,0.85), rgba(21,11,36,0.78));
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 18px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(181,122,255,0.05);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 3;
-}
-.blog-post h3 { margin:0 0 6px 0; color:#fff; }
-.blog-post .date { font-size:0.9rem; opacity:0.85; margin-bottom:12px; color:rgba(255,255,255,0.92); }
+          <input type="checkbox" id="post1-toggle" class="toggle">
+          <div class="extra-content">
+            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">Abrir comentários</button>
+            <div class="comments-placeholder" id="comments-post-1" aria-live="polite"><em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em></div>
+          </div>
+          <label for="post1-toggle" class="read-more"></label>
+        </article>
 
-.extra-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s ease, opacity 0.45s ease;
-  opacity: 0;
-}
-.toggle:checked ~ .extra-content {
-  max-height: 800px;
-  opacity: 1;
-}
+        <!-- Post 2 -->
+        <article class="blog-post" id="post-2">
+          <h3>Arte da Codina Atualizada</h3>
+          <p class="date">14 de Fevereiro, 2026</p>
+          <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
-/* Read more / Fechar */
-.read-more {
-  display:inline-block;
-  margin-top:12px;
-  padding:8px 18px;
-  background: var(--accent);
-  color:#fff;
-  border-radius:999px;
-  font-weight:800;
-  cursor:pointer;
-}
-.toggle:checked + .read-more::after { content: " Fechar"; }
-.read-more::after { content: " Leia mais"; }
+          <input type="checkbox" id="post2-toggle" class="toggle">
+          <div class="extra-content">
+            <p>Descrição da arte, técnica e curiosidades.</p>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">Abrir comentários</button>
+            <div class="comments-placeholder" id="comments-post-2" aria-live="polite"><em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em></div>
+          </div>
+          <label for="post2-toggle" class="read-more"></label>
+        </article>
 
-/* Comentários botão */
-.open-comments-btn {
-  display:inline-block;
-  margin-top:10px;
-  padding:8px 14px;
-  background: #6f2cb5;
-  color:#fff;
-  border-radius:999px;
-  font-weight:700;
-  cursor:pointer;
-  transition: transform .18s ease;
-}
-.open-comments-btn:hover { transform: translateY(-3px); }
+        <!-- Post 3 -->
+        <article class="blog-post" id="post-3">
+          <h3>Anúncio de Evento Online</h3>
+          <p class="date">01 de Fevereiro, 2026</p>
+          <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
-/* Placeholder comments */
-.comments-placeholder {
-  margin-top: 14px;
-  border-radius: 10px;
-  padding: 12px;
-  background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
-  border: 1px solid rgba(181,122,255,0.05);
-}
+          <input type="checkbox" id="post3-toggle" class="toggle">
+          <div class="extra-content">
+            <p>Detalhes do evento, horários e prêmios.</p>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">Abrir comentários</button>
+            <div class="comments-placeholder" id="comments-post-3" aria-live="polite"><em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em></div>
+          </div>
+          <label for="post3-toggle" class="read-more"></label>
+        </article>
 
-/* Footer */
-.site-footer { background-color:#140c24; padding:40px; text-align:center; color:rgba(255,255,255,0.92); z-index:3; position:relative; }
+      </section>
+    </main>
 
-/* Music toggle button (HTML will have #music-toggle) */
-#music-toggle {
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  z-index: 6;
-  padding: 10px 18px;
-  background: var(--accent);
-  color: white;
-  font-weight: 700;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(181,122,255,0.18);
-}
-#music-toggle:hover { transform: translateY(-2px); }
+    <!-- FOOTER (inclui o snippet de licença que você pediu) -->
+    <footer class="site-footer">
+      <p>© 2026 Codina Universe</p>
 
-/* hide native checkbox inputs visually */
-.toggle { position: absolute; left: -9999px; }
+      <p style="margin-top:12px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
+        <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
+        <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+      </p>
+    </footer>
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .hero { height: 50vh; padding:28px; }
-  .blog-section { padding:32px 16px; }
-}
-@media (max-width: 520px) {
-  header { padding:12px 16px; }
-  .hero { height: 40vh; padding:20px; }
-  #music-toggle { right: 12px; bottom: 12px; padding:8px 12px; }
-}
+    <!-- DISQUS container (hidden until loaded) -->
+    <div id="disqus_thread" style="display:none;"></div>
 
-/* =========================
-   NOVAS MELHORIAS VISUAIS (ADICIONADO)
-   ========================= */
+  </div><!-- /site-content -->
 
-/* Glow animado no fundo (sutileza por cima das partículas) */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle at 20% 30%, rgba(181,122,255,0.12), transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(111,44,181,0.09), transparent 40%);
-  animation: glowMove 12s ease-in-out infinite alternate;
-}
-@keyframes glowMove {
-  from { transform: translateY(-20px) translateX(-20px); }
-  to { transform: translateY(20px) translateX(20px); }
-}
+  <!-- SCRIPTS: particles, posts, music, disqus -->
+  <script>
+    /* ===== particles (squares falling) - generate elements inside #particles-new ===== */
+    (function(){
+      const container = document.getElementById('particles-new');
+      if(!container) return;
+      const COUNT = 60; // adjust density
+      for(let i=0;i<COUNT;i++){
+        const el = document.createElement('div');
+        el.className = 'square';
+        if(Math.random() < 0.28) el.classList.add('white');
+        const size = 3 + Math.random()*8; // 3-11px
+        el.style.width = el.style.height = size + 'px';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = (-Math.random()*60) + 'vh'; // start above viewport
+        const dur = 6 + Math.random()*10; // 6-16s
+        el.style.animationDuration = dur + 's';
+        el.style.animationDelay = Math.random()*5 + 's';
+        // slight horizontal drift (via transform at end in keyframes)
+        container.appendChild(el);
+      }
+      // ensure squares use the .particles-new scope (CSS expects .particles-new .square)
+      container.classList.add('particles-new');
+    })();
 
-/* pequenas melhorias visuais nas squares */
-.particles-new .square {
-  box-shadow: 0 0 8px rgba(181,122,255,0.45);
-}
+    /* ===== open/close posts and update label text ===== */
+    (function(){
+      document.querySelectorAll('.blog-post').forEach(post=>{
+        const toggle = post.querySelector('.toggle');
+        const label = post.querySelector('.read-more');
+        // initialize label
+        if(toggle && label) label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
+        if(toggle){
+          toggle.addEventListener('change', ()=> {
+            if(label) label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
+          });
+        }
+      });
 
-/* efeito hover leve nos posts */
-.blog-post:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 15px 40px rgba(181,122,255,0.18);
-}
+      // click-to-toggle (except on interactive elements)
+      function isInteractive(el){ return !!el.closest('a, button, label, input, textarea, select'); }
+      document.addEventListener('click', function(e){
+        var post = e.target.closest && e.target.closest('.blog-post');
+        if(!post) return;
+        if(isInteractive(e.target)) return;
+        var toggle = post.querySelector('.toggle');
+        if(!toggle) return;
+        var was = toggle.checked;
+        document.querySelectorAll('.toggle').forEach(t=>t.checked=false);
+        toggle.checked = !was;
+        // scroll if opened
+        if(toggle.checked){
+          setTimeout(()=> { var extra = post.querySelector('.extra-content'); if(extra) extra.scrollIntoView({behavior:'smooth', block:'center'}); }, 150);
+        }
+      });
+    })();
 
-/* animação ao abrir o conteúdo extra do post */
-.toggle:checked ~ .extra-content {
-  animation: fadeInContent 0.5s ease both;
-}
-@keyframes fadeInContent {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* ===== music control (robust version) ===== */
+    (function(){
+      const audio = document.getElementById('bg-music');
+      const btn = document.getElementById('music-toggle');
+      if(!audio || !btn) return;
 
-/* botão música animação quando tocando */
-#music-toggle.playing {
-  animation: musicPulse 2.2s infinite;
-}
-@keyframes musicPulse {
-  0% { box-shadow: 0 0 0 0 rgba(181,122,255,0.35); }
-  70% { box-shadow: 0 0 0 16px rgba(181,122,255,0); }
-  100% { box-shadow: 0 0 0 0 rgba(181,122,255,0); }
-}
+      // volume
+      audio.volume = 0.5;
+
+      // helper to update button text
+      function updateText(){
+        btn.textContent = audio.paused ? 'Tocar Música de Fundo' : 'Pausar Música de Fundo';
+      }
+
+      // try to play on first user interaction (many browsers require a gesture)
+      function tryPlayOnce(){
+        if (audio.paused) {
+          audio.play().then(()=> {
+            updateText();
+            btn.classList.add('playing');
+          }).catch(()=>{ /* fail silently */ });
+        }
+        document.removeEventListener('click', tryPlayOnce);
+      }
+      document.addEventListener('click', tryPlayOnce);
+
+      // button toggles play/pause
+      btn.addEventListener('click', function(){
+        if(audio.paused){
+          audio.play().then(()=>{ updateText(); btn.classList.add('playing'); }).catch(()=>{});
+        } else {
+          audio.pause();
+          updateText();
+          btn.classList.remove('playing');
+        }
+      });
+
+      // init button text
+      updateText();
+    })();
+
+    /* ===== Disqus loader for inline comments ===== */
+    (function(){
+      var DISQUS_SHORTNAME = 'codinaproject';
+      var SITE_BASE = 'https://codinaproject.github.io';
+      var disqusLoaded = false;
+
+      function loadDisqusScript(callback){
+        if(disqusLoaded){ callback && callback(); return; }
+        var d=document, s=d.createElement('script');
+        s.src='https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.async=true;
+        s.onload = function(){ disqusLoaded = true; callback && callback(); };
+        (d.head || d.body).appendChild(s);
+      }
+
+      function showCommentsFor(identifier, url, placeholderId){
+        var fullUrl = SITE_BASE.replace(/\/$/,'') + (url.charAt(0)==='/'? url : ('/' + url));
+        var placeholder = document.getElementById(placeholderId);
+        if(!placeholder) return;
+        var disqusThread = document.getElementById('disqus_thread');
+        disqusThread.style.display = 'block';
+        placeholder.innerHTML = '';
+        placeholder.appendChild(disqusThread);
+
+        window.disqus_config = function(){ this.page.url = fullUrl; this.page.identifier = identifier; };
+
+        if(disqusLoaded && window.DISQUS){
+          try{ window.DISQUS.reset({reload:true, config:function(){ this.page.identifier = identifier; this.page.url = fullUrl; }}); }
+          catch(e){ disqusLoaded = false; loadDisqusScript(); }
+        } else {
+          loadDisqusScript();
+        }
+      }
+
+      document.addEventListener('click', function(e){
+        var btn = e.target.closest && e.target.closest('.open-comments-btn');
+        if(!btn) return;
+        var identifier = btn.getAttribute('data-identifier');
+        var url = btn.getAttribute('data-url') || ('#' + identifier);
+        var phId = 'comments-' + identifier.replace(/^post-?/,'post-');
+        var ph = document.getElementById(phId);
+        if(ph) ph.scrollIntoView({behavior:'smooth', block:'center'});
+        showCommentsFor(identifier, url, phId);
+      });
+
+      // auto-load if hash present
+      window.addEventListener('load', function(){
+        var hash = location.hash.replace('#','');
+        if(hash && document.getElementById('comments-' + hash)){
+          var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
+          if(btn) btn.click();
+        }
+      });
+    })();
+
+    /* ===== hide intro after animation end (so site-content visible) ===== */
+    window.addEventListener('load', function(){
+      setTimeout(function(){ var intro = document.getElementById('intro'); if(intro) intro.style.display='none'; }, Math.max(1800, (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--intro-total'))||2.8)*1000));
+    });
+  </script>
+</body>
+</html>
