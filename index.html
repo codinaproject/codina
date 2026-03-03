@@ -8,13 +8,13 @@
 </head>
 <body>
 
-  <!-- INTRO / LOGO -->
+  <!-- INTRO LOGO -->
   <div id="intro">
-    <img src="images/codina-logosite.png" class="logo-reveal" alt="Codina Logo">
+    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
   </div>
 
-  <!-- PARTICLES NOVAS (quadrados caindo) -->
-  <div id="particles-new" class="particles-new"></div>
+  <!-- PARTICLES NOVAS -->
+  <div id="particles-new"></div>
 
   <!-- HEADER -->
   <header>
@@ -34,7 +34,7 @@
     </nav>
   </header>
 
-  <!-- AUDIO -->
+  <!-- MUSIC -->
   <audio id="bg-music" loop>
     <source src="audio/musica.mp3" type="audio/mpeg">
     <source src="musica.mp3" type="audio/mpeg">
@@ -67,7 +67,9 @@
         <div class="extra-content">
           <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
           <div>
-            <button class="open-comments-btn" data-identifier="post-1">Abrir comentários</button>
+            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
+              Abrir comentários
+            </button>
           </div>
           <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
@@ -87,7 +89,9 @@
         <div class="extra-content">
           <p>Descrição da arte, técnica e curiosidades.</p>
           <div>
-            <button class="open-comments-btn" data-identifier="post-2">Abrir comentários</button>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
+              Abrir comentários
+            </button>
           </div>
           <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
@@ -107,7 +111,9 @@
         <div class="extra-content">
           <p>Detalhes do evento, horários e prêmios.</p>
           <div>
-            <button class="open-comments-btn" data-identifier="post-3">Abrir comentários</button>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
+              Abrir comentários
+            </button>
           </div>
           <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
             <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
@@ -125,14 +131,17 @@
       <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
       <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
       <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-      <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width:1em;margin-left:.2em;">
-      <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width:1em;margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width:1em; max-height:1em; margin-left:.2em;">
     </p>
   </footer>
 
-  <!-- JS -->
+  <!-- DISQUS container (hidden until loaded) -->
+  <div id="disqus_thread" style="display:none;"></div>
+
+  <!-- SCRIPT -->
   <script src="js/script.js"></script>
 </body>
 </html>
