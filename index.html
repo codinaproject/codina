@@ -1,32 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Codina Universe</title>
-  <meta name="description" content="Universo oficial da Codina — histórias, personagens, novidades e loja.">
-  <meta property="og:title" content="Codina Universe">
-  <meta property="og:description" content="Explore o universo oficial da Codina.">
-  <meta property="og:image" content="images/banner.jpg">
-  <link rel="icon" href="images/favicon.png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- INTRO -->
+  <!-- INTRO / LOGO -->
   <div id="intro">
     <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
   </div>
 
-  <!-- NEW PARTICLE CONTAINER (squares falling) -->
-  <div id="particles-new" class="particles-new" aria-hidden="true"></div>
-
-  <!-- SITE CONTENT -->
+  <!-- SITE CONTENT (stacked above particles) -->
   <div id="site-content">
 
     <!-- HEADER -->
@@ -36,7 +23,7 @@
         <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
       </div>
       <nav>
-        <a href="index.html">Início</a>
+        <a href="index.html" class="active">Início</a>
         <a href="historia.html">História</a>
         <a href="personagens.html">Personagens</a>
         <a href="equipe.html">Equipe</a>
@@ -46,15 +33,6 @@
         <a href="login.html">Login</a>
       </nav>
     </header>
-
-    <!-- MUSIC (local sources) -->
-    <!-- preferencial: audio/musica.mp3  OU  musica.mp3 na raiz -->
-    <audio id="bg-music" loop>
-      <source src="audio/musica.mp3" type="audio/mpeg">
-      <source src="musica.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
-    </audio>
-    <button id="music-toggle">Pausar Música de Fundo</button>
 
     <!-- HERO -->
     <section class="hero">
@@ -76,7 +54,6 @@
           <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
           <input type="checkbox" id="post1-toggle" class="toggle">
-          <!-- LABEL MOVIDO PRA CIMA DA EXTRA-CONTENT -->
           <label for="post1-toggle" class="read-more"></label>
 
           <div class="extra-content">
@@ -86,7 +63,6 @@
                 Abrir comentários
               </button>
             </div>
-
             <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
               <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
@@ -100,7 +76,6 @@
           <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
           <input type="checkbox" id="post2-toggle" class="toggle">
-          <!-- LABEL MOVIDO PRA CIMA DA EXTRA-CONTENT -->
           <label for="post2-toggle" class="read-more"></label>
 
           <div class="extra-content">
@@ -110,7 +85,6 @@
                 Abrir comentários
               </button>
             </div>
-
             <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
               <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
@@ -124,7 +98,6 @@
           <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
           <input type="checkbox" id="post3-toggle" class="toggle">
-          <!-- LABEL MOVIDO PRA CIMA DA EXTRA-CONTENT -->
           <label for="post3-toggle" class="read-more"></label>
 
           <div class="extra-content">
@@ -134,7 +107,6 @@
                 Abrir comentários
               </button>
             </div>
-
             <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
               <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
@@ -144,184 +116,38 @@
       </section>
     </main>
 
-    <!-- FOOTER (inclui o snippet de licença que você pediu) -->
+    <!-- FOOTER -->
     <footer class="site-footer">
       <p>© 2026 Codina Universe</p>
-
       <p style="margin-top:12px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
         <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
         <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
         <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
       </p>
     </footer>
 
-    <!-- DISQUS container (hidden until loaded) -->
-    <div id="disqus_thread" style="display:none;"></div>
+    <!-- AUDIO -->
+    <audio id="bg-music" loop>
+      <source src="audio/musica.mp3" type="audio/mpeg">
+      <source src="musica.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+    <button id="music-toggle">Pausar Música de Fundo</button>
 
-  </div><!-- /site-content -->
+  </div> <!-- #site-content -->
 
-  <!-- SCRIPTS: particles, posts, music, disqus -->
-  <script>
-    /* ===== particles (squares falling) - generate elements inside #particles-new ===== */
-    (function(){
-      const container = document.getElementById('particles-new');
-      if(!container) return;
-      const COUNT = 60; // adjust density
-      for(let i=0;i<COUNT;i++){
-        const el = document.createElement('div');
-        el.className = 'square';
-        if(Math.random() < 0.28) el.classList.add('white');
-        const size = 3 + Math.random()*8; // 3-11px
-        el.style.width = el.style.height = size + 'px';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.top = (-Math.random()*60) + 'vh'; // start above viewport
-        const dur = 6 + Math.random()*10; // 6-16s
-        el.style.animationDuration = dur + 's';
-        el.style.animationDelay = Math.random()*5 + 's';
-        // slight horizontal drift (via transform at end in keyframes)
-        container.appendChild(el);
-      }
-      // ensure squares use the .particles-new scope (CSS expects .particles-new .square)
-      container.classList.add('particles-new');
-    })();
+  <!-- PARTICLES NOVAS (squares) -->
+  <div id="particles-new" class="particles-new"></div>
 
-    /* ===== open/close posts and update label text ===== */
-    (function(){
-      document.querySelectorAll('.blog-post').forEach(post=>{
-        const toggle = post.querySelector('.toggle');
-        const label = post.querySelector('.read-more');
-        // initialize label
-        if(toggle && label) label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
-        if(toggle){
-          toggle.addEventListener('change', ()=> {
-            if(label) label.textContent = toggle.checked ? 'Fechar' : 'Leia mais';
-          });
-        }
-      });
+  <!-- DISQUS -->
+  <div id="disqus_thread" style="display:none;"></div>
 
-      // click-to-toggle (except on interactive elements)
-      function isInteractive(el){ return !!el.closest('a, button, label, input, textarea, select'); }
-      document.addEventListener('click', function(e){
-        var post = e.target.closest && e.target.closest('.blog-post');
-        if(!post) return;
-        if(isInteractive(e.target)) return;
-        var toggle = post.querySelector('.toggle');
-        if(!toggle) return;
-        var was = toggle.checked;
-        document.querySelectorAll('.toggle').forEach(t=>t.checked=false);
-        toggle.checked = !was;
-        // scroll if opened
-        if(toggle.checked){
-          setTimeout(()=> { var extra = post.querySelector('.extra-content'); if(extra) extra.scrollIntoView({behavior:'smooth', block:'center'}); }, 150);
-        }
-      });
-    })();
+  <!-- LINK JS -->
+  <script src="js/script.js"></script>
 
-    /* ===== music control (robust version) ===== */
-    (function(){
-      const audio = document.getElementById('bg-music');
-      const btn = document.getElementById('music-toggle');
-      if(!audio || !btn) return;
-
-      // volume
-      audio.volume = 0.5;
-
-      // helper to update button text
-      function updateText(){
-        btn.textContent = audio.paused ? 'Tocar Música de Fundo' : 'Pausar Música de Fundo';
-      }
-
-      // try to play on first user interaction (many browsers require a gesture)
-      function tryPlayOnce(){
-        if (audio.paused) {
-          audio.play().then(()=> {
-            updateText();
-            btn.classList.add('playing');
-          }).catch(()=>{ /* fail silently */ });
-        }
-        document.removeEventListener('click', tryPlayOnce);
-      }
-      document.addEventListener('click', tryPlayOnce);
-
-      // button toggles play/pause
-      btn.addEventListener('click', function(){
-        if(audio.paused){
-          audio.play().then(()=>{ updateText(); btn.classList.add('playing'); }).catch(()=>{});
-        } else {
-          audio.pause();
-          updateText();
-          btn.classList.remove('playing');
-        }
-      });
-
-      // init button text
-      updateText();
-    })();
-
-    /* ===== Disqus loader for inline comments ===== */
-    (function(){
-      var DISQUS_SHORTNAME = 'codinaproject';
-      var SITE_BASE = 'https://codinaproject.github.io';
-      var disqusLoaded = false;
-
-      function loadDisqusScript(callback){
-        if(disqusLoaded){ callback && callback(); return; }
-        var d=document, s=d.createElement('script');
-        s.src='https://' + DISQUS_SHORTNAME + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        s.async=true;
-        s.onload = function(){ disqusLoaded = true; callback && callback(); };
-        (d.head || d.body).appendChild(s);
-      }
-
-      function showCommentsFor(identifier, url, placeholderId){
-        var fullUrl = SITE_BASE.replace(/\/$/,'') + (url.charAt(0)==='/'? url : ('/' + url));
-        var placeholder = document.getElementById(placeholderId);
-        if(!placeholder) return;
-        var disqusThread = document.getElementById('disqus_thread');
-        disqusThread.style.display = 'block';
-        placeholder.innerHTML = '';
-        placeholder.appendChild(disqusThread);
-
-        window.disqus_config = function(){ this.page.url = fullUrl; this.page.identifier = identifier; };
-
-        if(disqusLoaded && window.DISQUS){
-          try{ window.DISQUS.reset({reload:true, config:function(){ this.page.identifier = identifier; this.page.url = fullUrl; }}); }
-          catch(e){ disqusLoaded = false; loadDisqusScript(); }
-        } else {
-          loadDisqusScript();
-        }
-      }
-
-      document.addEventListener('click', function(e){
-        var btn = e.target.closest && e.target.closest('.open-comments-btn');
-        if(!btn) return;
-        var identifier = btn.getAttribute('data-identifier');
-        var url = btn.getAttribute('data-url') || ('#' + identifier);
-        var phId = 'comments-' + identifier.replace(/^post-?/,'post-');
-        var ph = document.getElementById(phId);
-        if(ph) ph.scrollIntoView({behavior:'smooth', block:'center'});
-        showCommentsFor(identifier, url, phId);
-      });
-
-      // auto-load if hash present
-      window.addEventListener('load', function(){
-        var hash = location.hash.replace('#','');
-        if(hash && document.getElementById('comments-' + hash)){
-          var btn = document.querySelector('.open-comments-btn[data-identifier="' + hash + '"]');
-          if(btn) btn.click();
-        }
-      });
-    })();
-
-    /* ===== hide intro after animation end (so site-content visible) ===== */
-    window.addEventListener('load', function(){
-      setTimeout(function(){ var intro = document.getElementById('intro'); if(intro) intro.style.display='none'; }, Math.max(1800, (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--intro-total'))||2.8)*1000));
-    });
-  </script>
 </body>
 </html>
