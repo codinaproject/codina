@@ -1,42 +1,37 @@
 // ====== INTRO / LOGO ======
 window.addEventListener("load", () => {
   const intro = document.getElementById("intro");
-  setTimeout(() => intro.style.display = "none", 2800);
+  setTimeout(() => intro.style.display = "none", 2800); // remove intro após 2.8s
 });
 
 // ====== MUSIC TOGGLE ======
 const musicBtn = document.getElementById("music-toggle");
 const bgMusic = document.getElementById("bg-music");
 
-// Garantir que o botão funcione mesmo se o elemento ainda não tiver sido carregado
-if(musicBtn && bgMusic){
-  musicBtn.addEventListener("click", () => {
-    if(bgMusic.paused){
-      bgMusic.play().catch(err => console.log("Erro ao tocar música:", err));
-      musicBtn.textContent = "Pausar Música de Fundo";
-      musicBtn.classList.add("playing");
-    } else {
-      bgMusic.pause();
-      musicBtn.textContent = "Tocar Música de Fundo";
-      musicBtn.classList.remove("playing");
-    }
-  });
-}
+musicBtn.addEventListener("click", () => {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicBtn.textContent = "Pausar Música de Fundo";
+    musicBtn.classList.add("playing");
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent = "Tocar Música de Fundo";
+    musicBtn.classList.remove("playing");
+  }
+});
 
 // ====== PARTICLES NOVAS ======
 const particlesContainer = document.getElementById("particles-new");
 const numSquares = 60;
 
-if(particlesContainer){
-  for(let i = 0; i < numSquares; i++){
-    const square = document.createElement("div");
-    square.classList.add("square");
-    if(Math.random() > 0.7) square.classList.add("white");
-    square.style.left = `${Math.random() * 100}vw`;
-    square.style.animationDuration = `${Math.random() * 5 + 6}s`;
-    square.style.animationDelay = `${Math.random() * 5}s`;
-    particlesContainer.appendChild(square);
-  }
+for (let i = 0; i < numSquares; i++) {
+  const square = document.createElement("div");
+  square.classList.add("square");
+  if (Math.random() > 0.7) square.classList.add("white");
+  square.style.left = `${Math.random() * 100}vw`;
+  square.style.animationDuration = `${Math.random() * 5 + 6}s`; // 6s a 11s
+  square.style.animationDelay = `${Math.random() * 5}s`;
+  particlesContainer.appendChild(square);
 }
 
 // ====== ABRIR COMENTÁRIOS ======
@@ -46,23 +41,6 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     const comments = document.getElementById(`comments-${postId}`);
     comments.innerHTML = `<em>Carregando comentários para ${postId}...</em>`;
     comments.style.display = "block";
-  });
-});
-
-// ====== LEIA MAIS / MENOS ======
-document.querySelectorAll(".read-more").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const extraContent = btn.closest(".blog-post").querySelector(".extra-content");
-    if(extraContent.style.maxHeight && extraContent.style.maxHeight !== "0px"){
-      // esconder
-      extraContent.style.maxHeight = null;
-      extraContent.style.opacity = 0;
-      btn.textContent = "Leia mais";
-    } else {
-      // mostrar
-      extraContent.style.maxHeight = extraContent.scrollHeight + "px";
-      extraContent.style.opacity = 1;
-      btn.textContent = "Leia menos";
-    }
+    // Aqui você pode adicionar Disqus ou outro sistema de comentários
   });
 });
