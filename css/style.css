@@ -1,6 +1,7 @@
 /* =========================
    css/style.css — Codina Universe
    Completo atualizado: intro, partículas (antiga + nova), header, hero, blog, footer, áudio
+   Corrigido: remoção de ::after conflitante com JS para "Leia mais"
    ========================= */
 
 /* Root timing / cores */
@@ -207,9 +208,8 @@ header {
   border-radius:999px;
   font-weight:800;
   cursor:pointer;
+  /* removed ::after-based text to avoid duplication with JS */
 }
-.toggle:checked + .read-more::after { content: " Fechar"; }
-.read-more::after { content: " Leia mais"; }
 
 /* Comentários botão */
 .open-comments-btn {
