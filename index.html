@@ -10,144 +10,138 @@
 
   <!-- INTRO / LOGO -->
   <div id="intro">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+    <img src="images/codina-logosite.png" alt="Codina Logo" class="logo-reveal">
   </div>
 
-  <!-- SITE CONTENT (stacked above particles) -->
-  <div id="site-content">
-
-    <!-- HEADER -->
-    <header>
-      <div class="logo-container">
-        <div class="energy-swirl" aria-hidden="true"></div>
-        <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
-      </div>
-      <nav>
-        <a href="index.html" class="active">Início</a>
-        <a href="historia.html">História</a>
-        <a href="personagens.html">Personagens</a>
-        <a href="equipe.html">Equipe</a>
-        <a href="loja.html">Loja</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>UNIVERSO CODINA</h1>
-        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <main>
-      <section class="blog-section" id="blog">
-        <h2>Últimas Notícias</h2>
-
-        <!-- Post 1 -->
-        <article class="blog-post" id="post-1">
-          <h3>Lançamento do Novo Episódio</h3>
-          <p class="date">26 de Fevereiro, 2026</p>
-          <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
-
-          <input type="checkbox" id="post1-toggle" class="toggle">
-          <label for="post1-toggle" class="read-more"></label>
-
-          <div class="extra-content">
-            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-            <div>
-              <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-                Abrir comentários
-              </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
-
-        <!-- Post 2 -->
-        <article class="blog-post" id="post-2">
-          <h3>Arte da Codina Atualizada</h3>
-          <p class="date">14 de Fevereiro, 2026</p>
-          <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
-
-          <input type="checkbox" id="post2-toggle" class="toggle">
-          <label for="post2-toggle" class="read-more"></label>
-
-          <div class="extra-content">
-            <p>Descrição da arte, técnica e curiosidades.</p>
-            <div>
-              <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-                Abrir comentários
-              </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
-
-        <!-- Post 3 -->
-        <article class="blog-post" id="post-3">
-          <h3>Anúncio de Evento Online</h3>
-          <p class="date">01 de Fevereiro, 2026</p>
-          <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
-
-          <input type="checkbox" id="post3-toggle" class="toggle">
-          <label for="post3-toggle" class="read-more"></label>
-
-          <div class="extra-content">
-            <p>Detalhes do evento, horários e prêmios.</p>
-            <div>
-              <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-                Abrir comentários
-              </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
-
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <p>© 2026 Codina Universe</p>
-      <p style="margin-top:12px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
-        <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
-        <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em; max-height:1em; margin-left: .2em;">
-      </p>
-    </footer>
-
-    <!-- AUDIO -->
-    <audio id="bg-music" loop>
-      <source src="audio/musica.mp3" type="audio/mpeg">
-      <source src="musica.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
-    </audio>
-    <button id="music-toggle">Pausar Música de Fundo</button>
-
-  </div> <!-- #site-content -->
-
-  <!-- PARTICLES NOVAS (squares) -->
+  <!-- PARTICLES NOVAS -->
   <div id="particles-new" class="particles-new"></div>
 
-  <!-- DISQUS -->
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container">
+      <div class="energy-swirl" aria-hidden="true"></div>
+      <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+    </div>
+    <nav>
+      <a href="index.html" class="active">Início</a>
+      <a href="historia.html">História</a>
+      <a href="personagens.html">Personagens</a>
+      <a href="equipe.html">Equipe</a>
+      <a href="loja.html">Loja</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- MUSIC (local sources) -->
+  <audio id="bg-music" loop>
+    <source src="audio/musica.mp3" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+  <button id="music-toggle">Pausar Música de Fundo</button>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>UNIVERSO CODINA</h1>
+      <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <main>
+    <section class="blog-section" id="blog">
+      <h2>Últimas Notícias</h2>
+
+      <!-- Post 1 -->
+      <article class="blog-post" id="post-1">
+        <h3>Lançamento do Novo Episódio</h3>
+        <p class="date">26 de Fevereiro, 2026</p>
+        <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
+
+        <input type="checkbox" id="post1-toggle" class="toggle">
+        <label for="post1-toggle" class="read-more">Ler mais</label>
+
+        <div class="extra-content">
+          <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="blog-post" id="post-2">
+        <h3>Arte da Codina Atualizada</h3>
+        <p class="date">14 de Fevereiro, 2026</p>
+        <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
+
+        <input type="checkbox" id="post2-toggle" class="toggle">
+        <label for="post2-toggle" class="read-more">Ler mais</label>
+
+        <div class="extra-content">
+          <p>Descrição da arte, técnica e curiosidades.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="blog-post" id="post-3">
+        <h3>Anúncio de Evento Online</h3>
+        <p class="date">01 de Fevereiro, 2026</p>
+        <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
+
+        <input type="checkbox" id="post3-toggle" class="toggle">
+        <label for="post3-toggle" class="read-more">Ler mais</label>
+
+        <div class="extra-content">
+          <p>Detalhes do evento, horários e prêmios.</p>
+          <div>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
+              Abrir comentários
+            </button>
+          </div>
+          <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
+            <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2026 Codina Universe</p>
+    <p style="margin-top:12px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
+      <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
+      <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
+      <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+      <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+      <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+    </p>
+  </footer>
+
+  <!-- DISQUS container (hidden until loaded) -->
   <div id="disqus_thread" style="display:none;"></div>
 
-  <!-- LINK JS -->
+  <!-- SCRIPT -->
   <script src="js/script.js"></script>
-
 </body>
 </html>
