@@ -317,3 +317,98 @@ body::after {
   70% { box-shadow: 0 0 0 16px rgba(181,122,255,0); }
   100% { box-shadow: 0 0 0 0 rgba(181,122,255,0); }
 }
+
+/* =========================
+   Header: botões coloridos e bonitos (ADICIONADO)
+   Colei aqui sem remover nada
+   ========================= */
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+}
+
+/* base dos "botões" do nav */
+header nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  color: #e8def8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 999px;
+  background: transparent;
+  position: relative;
+  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* leve fundo translúcido por baixo para dar volume */
+header nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(181,122,255,0.08), rgba(255,255,255,0.03));
+  z-index: -2;
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+
+/* linha de baixo animada (indicador) */
+header nav a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  bottom: -8px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent), rgba(142,88,235,0.95));
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform .28s cubic-bezier(.2,.9,.2,1);
+  opacity: 0.95;
+}
+
+/* hover — sobe, aumenta brilho e mostra o background */
+header nav a:hover {
+  transform: translateY(-4px);
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(181,122,255,0.12);
+}
+header nav a:hover::before { opacity: 1; }
+header nav a:hover::after { transform: scaleX(1); }
+
+/* estado ativo (a página atual) */
+header nav a.active {
+  background: linear-gradient(90deg, rgba(181,122,255,0.16), rgba(142,88,235,0.08));
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(181,122,255,0.14);
+}
+header nav a.active::before { opacity: 1; }
+header nav a.active::after { transform: scaleX(1); }
+
+/* acessibilidade: foco por teclado */
+header nav a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(181,122,255,0.12);
+  transform: translateY(-3px);
+}
+
+/* responsividade — evita que fiquem apertados em mobile */
+@media (max-width: 520px) {
+  header nav {
+    gap: 6px;
+  }
+  header nav a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  header nav a::after { left: 8px; right: 8px; bottom: -6px; }
+}
