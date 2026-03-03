@@ -1,7 +1,7 @@
 // ====== INTRO / LOGO ======
 window.addEventListener("load", () => {
   const intro = document.getElementById("intro");
-  setTimeout(() => intro.style.display = "none", 2800); // remove intro após 2.8s
+  setTimeout(() => intro.style.display = "none", 2800);
 });
 
 // ====== MUSIC TOGGLE ======
@@ -29,18 +29,17 @@ for (let i = 0; i < numSquares; i++) {
   square.classList.add("square");
   if (Math.random() > 0.7) square.classList.add("white");
   square.style.left = `${Math.random() * 100}vw`;
-  square.style.animationDuration = `${Math.random() * 5 + 6}s`; // 6s a 11s
+  square.style.animationDuration = `${Math.random() * 5 + 6}s`;
   square.style.animationDelay = `${Math.random() * 5}s`;
   particlesContainer.appendChild(square);
 }
 
-// ====== ABRIR COMENTÁRIOS ======
+// ====== ABRIR COMENTÁRIOS / LEIA MAIS ======
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const postId = btn.dataset.identifier;
     const comments = document.getElementById(`comments-${postId}`);
     comments.innerHTML = `<em>Carregando comentários para ${postId}...</em>`;
-    // Aqui você pode adicionar Disqus ou outro sistema de comentários
     comments.style.display = "block";
   });
 });
