@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Codina Universe</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -60,25 +60,23 @@
           <h3>Lançamento do Novo Episódio</h3>
           <p class="date">26 de Fevereiro, 2026</p>
 
-          <div class="post-text">
-            <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
+          <!-- input.toggle antes do label.read-more — estrutura requerida -->
+          <input type="checkbox" id="post1-toggle" class="toggle">
+          <label for="post1-toggle" class="read-more"></label>
 
-            <div class="extra-content" style="display:none">
-              <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+          <div class="extra-content">
+            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
 
-              <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
-                Abrir comentários
-              </button>
+            <!-- botão que dispara o carregamento dinâmico do Disqus -->
+            <button class="open-comments-btn" data-identifier="post-1" data-url="https://yourdomain.com/#post-1">
+              Abrir comentários
+            </button>
 
-              <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-              </div>
+            <!-- local onde o Disqus será inserido quando o usuário clicar -->
+            <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
+              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
           </div>
-
-          <button class="read-more-btn" onclick="togglePost(this)">
-            Leia mais
-          </button>
         </article>
 
         <!-- Post 2 -->
@@ -86,25 +84,20 @@
           <h3>Arte da Codina Atualizada</h3>
           <p class="date">14 de Fevereiro, 2026</p>
 
-          <div class="post-text">
-            <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
+          <input type="checkbox" id="post2-toggle" class="toggle">
+          <label for="post2-toggle" class="read-more"></label>
 
-            <div class="extra-content" style="display:none">
-              <p>Descrição da arte, técnica e curiosidades.</p>
+          <div class="extra-content">
+            <p>Descrição da arte, técnica e curiosidades.</p>
 
-              <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
-                Abrir comentários
-              </button>
+            <button class="open-comments-btn" data-identifier="post-2" data-url="https://yourdomain.com/#post-2">
+              Abrir comentários
+            </button>
 
-              <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-              </div>
+            <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
+              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
           </div>
-
-          <button class="read-more-btn" onclick="togglePost(this)">
-            Leia mais
-          </button>
         </article>
 
         <!-- Post 3 -->
@@ -112,25 +105,20 @@
           <h3>Anúncio de Evento Online</h3>
           <p class="date">01 de Fevereiro, 2026</p>
 
-          <div class="post-text">
-            <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
+          <input type="checkbox" id="post3-toggle" class="toggle">
+          <label for="post3-toggle" class="read-more"></label>
 
-            <div class="extra-content" style="display:none">
-              <p>Detalhes do evento, horários e prêmios.</p>
+          <div class="extra-content">
+            <p>Detalhes do evento, horários e prêmios.</p>
 
-              <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
-                Abrir comentários
-              </button>
+            <button class="open-comments-btn" data-identifier="post-3" data-url="https://yourdomain.com/#post-3">
+              Abrir comentários
+            </button>
 
-              <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-              </div>
+            <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
+              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
             </div>
           </div>
-
-          <button class="read-more-btn" onclick="togglePost(this)">
-            Leia mais
-          </button>
         </article>
 
       </section>
@@ -150,61 +138,97 @@
       </p>
     </footer>
 
-    <!-- DISQUS (embed com seu shortname codinaproject) -->
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = window.location.href;
-        this.page.identifier = window.location.pathname;
-      };
+    <!-- NOTE: no static disqus_thread here; we will inject it per post dynamically -->
+  </div> <!-- /site-content -->
 
-      (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://codinaproject.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-
-    <noscript>
-      Please enable JavaScript to view the comments powered by Disqus.
-    </noscript>
-
-  </div>
-
-  <!-- SCRIPT -->
+  <!-- EXTERNAL JS (seu script atualizado) -->
   <script src="script.js/js"></script>
 
+  <!-- DISQUS DYNAMIC LOADER (usa seu shortname codinaproject) -->
   <script>
-  // togglePost mantém sua lógica: abre/fecha post e altera o botão
-  function togglePost(btn){
-    const post = btn.parentElement;
-    const extra = post.querySelector(".extra-content");
+    (function(){
+      const shortname = 'codinaproject'; // seu shortname do Disqus
 
-    if (extra.style.display === "block") {
-      extra.style.display = "none";
-      btn.textContent = "Leia mais";
-      btn.style.background = "";
-      btn.classList.remove("close");
-    } else {
-      extra.style.display = "block";
-      btn.textContent = "Clique aqui para Fechar";
-      btn.style.background = "red";
-      btn.classList.add("close");
-    }
-  }
+      // cria script embed apenas uma vez (se necessário)
+      function loadEmbedScript(callback){
+        if (window.DISQUS) {
+          callback && callback();
+          return;
+        }
+        // evita múltiplas inserções
+        if (document.getElementById('dsq-embed-script')) {
+          // espera até carregar
+          const check = setInterval(() => {
+            if (window.DISQUS) {
+              clearInterval(check);
+              callback && callback();
+            }
+          }, 200);
+          return;
+        }
+        const d = document;
+        const s = d.createElement('script');
+        s.id = 'dsq-embed-script';
+        s.src = 'https://' + shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.async = true;
+        (d.head || d.body).appendChild(s);
+        s.onload = () => { callback && callback(); };
+      }
 
-  // mantém o carregamento do Disqus se o usuário clicar "Abrir comentários" em um post:
-  document.querySelectorAll('.open-comments-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.identifier; // ex: "post-1"
-      const placeholder = document.getElementById(`comments-${id}`);
-      if (placeholder) placeholder.innerHTML = '<em>Carregando comentários...</em>';
+      // função que inicializa / troca Disqus para um post específico
+      function loadDisqusFor(postIdentifier, postUrl, container){
+        // cria (ou recria) a div #disqus_thread dentro do container
+        // remove qualquer #disqus_thread existente em outro lugar
+        const existing = document.getElementById('disqus_thread');
+        if (existing && existing.parentNode !== container) {
+          existing.parentNode.removeChild(existing);
+        }
+        // se ainda não existe dentro do container, cria
+        if (!container.querySelector('#disqus_thread')) {
+          const div = document.createElement('div');
+          div.id = 'disqus_thread';
+          container.appendChild(div);
+        }
 
-      // Disqus padrão já foi adicionado acima; caso queira carregar por post dinamicamente
-      // você pode resetar Disqus com a API do Disqus (se necessário).
-    });
-  });
+        // define função de config para esse carregamento
+        window.disqus_config = function () {
+          this.page.url = postUrl;       // URL única do post
+          this.page.identifier = postIdentifier; // identificador do post
+        };
+
+        // se DISQUS já carregado, faz reset para novo post
+        if (window.DISQUS && typeof DISQUS.reset === 'function') {
+          DISQUS.reset({
+            reload: true,
+            config: window.disqus_config
+          });
+        } else {
+          // carrega o embed script (vai usar window.disqus_config definido acima)
+          loadEmbedScript();
+        }
+      }
+
+      // attach aos botões Abrir comentários
+      document.addEventListener('click', function(e){
+        const btn = e.target.closest('.open-comments-btn');
+        if (!btn) return;
+        const id = btn.dataset.identifier;
+        const url = btn.dataset.url || window.location.href;
+        const placeholder = document.getElementById('comments-' + id);
+        if (!placeholder) return;
+
+        // feedback rápido
+        placeholder.innerHTML = '<em>Carregando comentários...</em>';
+        placeholder.style.display = 'block';
+
+        loadDisqusFor(id, url, placeholder);
+      });
+    })();
   </script>
+
+  <noscript>
+    Please enable JavaScript to view the comments powered by Disqus.
+  </noscript>
 </body>
 </html>
