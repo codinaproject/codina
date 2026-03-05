@@ -7,7 +7,7 @@
   --glow-color: #b57aff;
   --bg-dark-1: #1b0f2e;
   --bg-dark-2: #0f0a19;
-  --accent: #b57aff;
+  --accent: #9d5cff;
   --header-bg: rgba(20,12,36,0.95);
   --particle-white: rgba(255,255,255,0.12);
   --particle-purple: rgba(181,122,255,0.14);
@@ -28,7 +28,6 @@ body {
   position: relative;
   overflow-x: hidden;
 
-  /* FUNDO ROXO COM BRILHO */
   background: radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%),
               radial-gradient(circle at 75% 80%, #7c2fff33, transparent 50%);
 }
@@ -92,6 +91,7 @@ body::before {
   opacity: 0.95;
   animation: particles-fall-1 10s linear infinite, particles-fall-2 16s linear infinite;
 }
+
 @keyframes particles-fall-1 {
   from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
   to { background-position: 0 1000px, 5px 960px, 0 880px, 9px 920px; }
@@ -101,7 +101,7 @@ body::before {
   to { background-position: 0 1500px, 5px 1460px, 0 1380px, 9px 1420px; }
 }
 
-/* PARTICULAS NOVAS (squares) */
+/* PARTICULAS NOVAS */
 #particles-new {
   position: fixed;
   inset: 0;
@@ -109,129 +109,28 @@ body::before {
   z-index: 1;
   overflow: hidden;
 }
-.particles-new .square {
+
+#particles-new .square {
   position: absolute;
   width: 6px;
   height: 6px;
   background: var(--square-purple);
   opacity: 0.9;
-  will-change: transform, opacity;
   border-radius: 2px;
   animation-name: fall-square;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   box-shadow: 0 0 8px rgba(181,122,255,0.45);
 }
-.particles-new .square.white { background: var(--square-white); opacity: 0.85; }
+
+#particles-new .square.white {
+  background: var(--square-white);
+}
 
 @keyframes fall-square {
-  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
-}
-
-/* HEADER / NAV */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 28px;
-  background-color: var(--header-bg);
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  gap: 12px;
-  backdrop-filter: blur(6px);
-  flex-wrap: wrap;
-}
-.logo-container { display:flex; align-items:center; gap:12px; }
-.logo-main { height:48px; filter: drop-shadow(0 0 8px rgba(181,122,255,0.18)); }
-
-header nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 5;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-header nav a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 14px;
-  color: #e8def8;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 999px;
-  background: transparent;
-  position: relative;
-  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background .18s ease;
-}
-header nav a::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(181,122,255,0.08), rgba(255,255,255,0.03));
-  z-index: -2;
-  opacity: 0;
-  transition: opacity .22s ease;
-}
-header nav a::after {
-  content: "";
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  height: 3px;
-  bottom: -8px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--accent), rgba(142,88,235,0.95));
-  transform-origin: left center;
-  transform: scaleX(0);
-  transition: transform .28s cubic-bezier(.2,.9,.2,1);
-  opacity: 0.95;
-}
-header nav a:hover {
-  transform: translateY(-4px);
-  color: #fff;
-  box-shadow: 0 14px 30px rgba(181,122,255,0.12);
-}
-header nav a:hover::before { opacity: 1; }
-header nav a:hover::after { transform: scaleX(1); }
-header nav a.active {
-  background: linear-gradient(90deg, rgba(181,122,255,0.16), rgba(142,88,235,0.08));
-  color: #fff;
-  box-shadow: 0 18px 40px rgba(181,122,255,0.14);
-}
-header nav a.active::before { opacity: 1; }
-header nav a.active::after { transform: scaleX(1); }
-header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12); transform: translateY(-3px); }
-
-/* HERO */
-.hero {
-  height: 60vh;
-  display:flex;
-  align-items:center;
-  padding: 40px;
-  background: linear-gradient(to right, rgba(15,10,25,0.95), rgba(27,15,46,0.85)),
-              url('../images/banner.jpg') no-repeat center center/cover;
-  position: relative;
-  z-index: 3;
-}
-.hero-content h1{
-  font-size:clamp(28px,5.6vw,64px);
-  margin:0;
-  font-weight:800;
-  color:#fff;
-  text-shadow:0 8px 30px rgba(11,6,20,0.4);
-}
-.hero-content p{
-  margin-top:12px;
-  color:rgba(255,255,255,0.92);
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  90% { opacity: .6; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
 /* BLOG */
@@ -242,278 +141,119 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   z-index:3;
   position:relative;
 }
-.blog-section h2 {
-  text-align:center;
-  color:var(--accent);
-  margin-bottom:24px;
-  font-size:2rem;
-  text-shadow:0 0 10px rgba(181,122,255,0.24);
-}
+
 .blog-post {
   background: linear-gradient(180deg, rgba(27,15,46,0.85), rgba(21,11,36,0.78));
   border-radius: 14px;
   padding: 22px;
   margin-bottom: 18px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(181,122,255,0.05);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 3;
-}
-.blog-post h3 { margin:0 0 6px 0; color:#fff; }
-.blog-post .date { font-size:0.9rem; opacity:0.85; margin-bottom:12px; color:rgba(255,255,255,0.92); }
-.extra-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s ease, opacity 0.45s ease;
-  opacity: 0;
-}
-.toggle:checked ~ .extra-content {
-  max-height: 800px;
-  opacity: 1;
-  animation: fadeInContent 0.5s ease both;
-}
-@keyframes fadeInContent {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-/* READ MORE / CLOSE (melhorado) */
-/* esconde visualmente os checkboxes (a estrutura do HTML usa input.toggle + label.read-more + .extra-content) */
+.blog-post:hover{
+  transform: translateY(-6px);
+  box-shadow:0 20px 50px rgba(181,122,255,0.18);
+}
+
+/* READ MORE */
 .toggle {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  position:absolute;
+  left:-9999px;
 }
 
-/* label estilizado que age como botão */
-.read-more {
+.read-more{
   display:inline-block;
   margin-top:12px;
   padding:8px 18px;
-  background: var(--accent);
-  color:#fff;
+  background:var(--accent);
   border-radius:999px;
   font-weight:800;
   cursor:pointer;
-  transition: background 0.25s ease, transform 0.2s ease;
-  /* escondemos o texto interno e usamos ::after para melhor controle do conteúdo dinâmico */
-  font-size: 0;
-  line-height: 0;
+  font-size:0;
 }
 
-/* texto real do botão via pseudo-elemento (acessível pelo CSS) */
 .read-more::after{
-  content: "Leia mais";
-  font-size: 14px;
-  line-height: 1;
-  color: #fff;
-  display: inline-block;
+  content:"Leia mais";
+  font-size:14px;
 }
 
-/* estilo hover */
-.read-more:hover{
-  transform: translateY(-2px);
+.toggle:checked + .read-more{
+  background:#ff3b3b;
 }
 
-/* quando o checkbox está marcado, transforma o botão em vermelho e troca o texto */
-.toggle:checked + .read-more {
-  background: #ff3b3b; /* vermelho */
-}
-.toggle:checked + .read-more::after {
-  content: "Clique aqui para Fechar";
-}
-
-/* quando aberto, garantir que extra-content fique visível (caso use JS ou checkbox) */
-.read-more.open,
-.toggle:checked ~ .extra-content {
-  /* these rules ensure open state shows content — max-height handled above */
+.toggle:checked + .read-more::after{
+  content:"Clique aqui para Fechar";
 }
 
 /* COMENTÁRIOS */
-/* botão abrir comentários (mantive o seu estilo) */
-.open-comments-btn {
-  display:inline-block;
+
+.open-comments-btn{
   margin-top:10px;
   padding:8px 14px;
-  background: #6f2cb5;
+  background:#6f2cb5;
   color:#fff;
   border-radius:999px;
   font-weight:700;
   cursor:pointer;
-  transition: transform .18s ease, box-shadow .18s ease;
-  border: none;
-}
-.open-comments-btn:hover { transform: translateY(-3px); }
-
-/* estado "aberto" do botão (aplica cor de fechar) */
-.open-comments-btn.open {
-  background: #ff3b3b;
-  box-shadow: 0 10px 20px rgba(255,59,59,0.18);
+  border:none;
 }
 
-/* se você preferir usar um botão separado de fechar, este estilo cobre .close-comments-btn */
-.close-comments-btn {
-  display: none;
-  margin-top: 10px;
-  padding: 8px 14px;
-  background: #ff3b3b;
-  color: #fff;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  margin-left: 8px;
-  transition: transform .18s ease, box-shadow .18s ease;
+.open-comments-btn:hover{
+  transform:translateY(-3px);
 }
-.close-comments-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(255,60,60,0.3);
-}
-
-/* placeholder base do seu CSS (mantive as regras que você tinha e estendi logo abaixo) */
-.comments-placeholder {
-  margin-top: 14px;
-  border-radius: 10px;
-  padding: 12px;
-  background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
-  border: 1px solid rgba(181,122,255,0.05);
-  min-height: 48px;
-  transition: box-shadow .28s ease, transform .18s ease, background .25s ease;
-}
-
-/* ======== Estilos novos/estendidos para Disqus (loading, highlight, rounded iframe) ======== */
-
-/* container de loading (texto + spinner) */
-.comments-placeholder .loading-msg {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255,255,255,0.92);
-  font-style: italic;
-  font-size: 0.95rem;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(181,122,255,0.02));
-}
-
-/* spinner simples */
-.comments-placeholder .loading-msg::before {
-  content: "";
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.14);
-  border-top-color: #fff;
-  animation: dsq-spinner 0.9s linear infinite;
-}
-@keyframes dsq-spinner { to { transform: rotate(360deg); } }
-
-/* visual forte quando Disqus carregou (classe adicionada pelo JS) */
-.comments-placeholder.disqus-loaded {
-  background: linear-gradient(180deg, rgba(36,10,68,0.95), rgba(22,7,44,0.88));
-  border: 1px solid rgba(181,122,255,0.12);
-  box-shadow: 0 12px 40px rgba(74, 18, 134, 0.22);
-  padding: 8px;
-}
-
-/* força borda arredondada nos iframes do Disqus e melhora contraste */
-.comments-placeholder.disqus-loaded iframe {
-  border-radius: 10px !important;
-  background: transparent !important;
-}
-
-/* pequeno fade quando o placeholder aparece */
-.comments-placeholder {
-  animation: disqusFade 0.32s ease;
-}
-@keyframes disqusFade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* FOOTER */
-.site-footer {
-  background-color:#140c24;
-  padding:40px;
-  text-align:center;
-  color:rgba(255,255,255,0.92);
-  z-index:3;
-  position:relative;
-}
-
-/* MUSIC TOGGLE */
-#music-toggle {
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  z-index: 6;
-  padding: 10px 18px;
-  background: var(--accent);
-  color: white;
-  font-weight: 700;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(181,122,255,0.18);
-}
-#music-toggle:hover { transform: translateY(-2px); }
-#music-toggle.playing {
-  animation: musicPulse 2.2s infinite;
-}
-@keyframes musicPulse {
-  0% { box-shadow: 0 0 0 0 rgba(181,122,255,0.35); }
-  70% { box-shadow: 0 0 0 16px rgba(181,122,255,0); }
-  100% { box-shadow: 0 0 0 0 rgba(181,122,255,0); }
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 1024px) {
-  header { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
-  header nav { justify-content: center; }
-  .hero { height: auto; padding: 60px 20px; text-align: center; }
-  .hero-content h1 { font-size: clamp(26px, 7vw, 48px); }
-  .hero-content p { font-size: 16px; }
-  .blog-section { padding: 40px 18px; }
-  .blog-post { padding: 18px; }
-}
-@media (max-width: 768px) {
-  header nav a { font-size: 13px; padding: 6px 12px; }
-  .logo-main { height: 40px; }
-  .hero { padding: 50px 16px; }
-  .blog-section h2 { font-size: 1.6rem; }
-  .blog-post h3 { font-size: 1.1rem; }
-  #music-toggle { right: 12px; bottom: 12px; font-size: 13px; padding: 8px 14px; }
-}
-@media (max-width: 520px) {
-  header nav { gap: 6px; }
-  header nav a { padding: 6px 10px; font-size: 13px; }
-  header nav a::after { left: 8px; right: 8px; bottom: -6px; }
-}
-@media (max-width: 480px) {
-  header nav a { font-size: 12px; padding: 5px 10px; }
-  .hero-content h1 { font-size: 22px; }
-  .hero-content p { font-size: 14px; }
-}
-
-/* BOTÃO FECHAR COMENTÁRIOS */
 
 .open-comments-btn.open{
-background:#ff3b3b;
+  background:#ff3b3b;
 }
 
-
-/* ANIMAÇÃO DO BLOCO DE COMENTÁRIOS */
+/* CONTAINER DO DISQUS */
 
 .comments-placeholder{
-max-height:0;
-overflow:hidden;
-transition:max-height .5s ease;
+  margin-top:14px;
+  border-radius:10px;
+  padding:12px;
+  background:linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
+  border:1px solid rgba(181,122,255,0.05);
+  min-height:48px;
+
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .5s ease;
 }
 
 .comments-placeholder.active{
-max-height:2000px;
+  max-height:2000px;
+}
+
+/* DISQUS VISUAL */
+
+#disqus_thread{
+  background:transparent;
+  padding:12px;
+  border-radius:12px;
+}
+
+.comments-placeholder iframe{
+  border-radius:10px !important;
+}
+
+/* FOOTER */
+
+.site-footer{
+  background:#140c24;
+  padding:40px;
+  text-align:center;
+}
+
+/* BOTÃO MÚSICA */
+
+#music-toggle{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  padding:10px 18px;
+  background:var(--accent);
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
 }
