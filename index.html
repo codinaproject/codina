@@ -59,67 +59,80 @@
         <article class="blog-post" id="post-1">
           <h3>Lançamento do Novo Episódio</h3>
           <p class="date">26 de Fevereiro, 2026</p>
-          <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
-          <input type="checkbox" id="post1-toggle" class="toggle">
-          <label for="post1-toggle" class="read-more">Leia mais</label>
+          <div class="post-text">
+            <p>O episódio 5 foi lançado oficialmente hoje — resumo rápido do conteúdo.</p>
 
-          <div class="extra-content">
-            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
-            <div>
+            <div class="extra-content" style="display:none">
+              <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+
               <button class="open-comments-btn" data-identifier="post-1" data-url="/#post-1">
                 Abrir comentários
               </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+
+              <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
+                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+              </div>
             </div>
           </div>
+
+          <button class="read-more-btn" onclick="togglePost(this)">
+            Leia mais
+          </button>
         </article>
 
         <!-- Post 2 -->
         <article class="blog-post" id="post-2">
           <h3>Arte da Codina Atualizada</h3>
           <p class="date">14 de Fevereiro, 2026</p>
-          <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
-          <input type="checkbox" id="post2-toggle" class="toggle">
-          <label for="post2-toggle" class="read-more">Leia mais</label>
+          <div class="post-text">
+            <p>Uma nova ilustração oficial foi divulgada — preview e notas do artista.</p>
 
-          <div class="extra-content">
-            <p>Descrição da arte, técnica e curiosidades.</p>
-            <div>
+            <div class="extra-content" style="display:none">
+              <p>Descrição da arte, técnica e curiosidades.</p>
+
               <button class="open-comments-btn" data-identifier="post-2" data-url="/#post-2">
                 Abrir comentários
               </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+
+              <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
+                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+              </div>
             </div>
           </div>
+
+          <button class="read-more-btn" onclick="togglePost(this)">
+            Leia mais
+          </button>
         </article>
 
         <!-- Post 3 -->
         <article class="blog-post" id="post-3">
           <h3>Anúncio de Evento Online</h3>
           <p class="date">01 de Fevereiro, 2026</p>
-          <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
-          <input type="checkbox" id="post3-toggle" class="toggle">
-          <label for="post3-toggle" class="read-more">Leia mais</label>
+          <div class="post-text">
+            <p>Live com Q&amp;A e sorteios especiais da Codina Universe em Março.</p>
 
-          <div class="extra-content">
-            <p>Detalhes do evento, horários e prêmios.</p>
-            <div>
+            <div class="extra-content" style="display:none">
+              <p>Detalhes do evento, horários e prêmios.</p>
+
               <button class="open-comments-btn" data-identifier="post-3" data-url="/#post-3">
                 Abrir comentários
               </button>
-            </div>
-            <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+
+              <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
+                <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+              </div>
             </div>
           </div>
+
+          <button class="read-more-btn" onclick="togglePost(this)">
+            Leia mais
+          </button>
         </article>
+
       </section>
     </main>
 
@@ -130,18 +143,68 @@
         <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
         <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
         <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width:1em">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width:1em">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" style="max-width:1em">
+        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" style="max-width:1em">
       </p>
     </footer>
 
-    <!-- DISQUS (mantido como você tinha) -->
+    <!-- DISQUS (embed com seu shortname codinaproject) -->
     <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = window.location.pathname;
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codinaproject.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+
+    <noscript>
+      Please enable JavaScript to view the comments powered by Disqus.
+    </noscript>
+
   </div>
 
   <!-- SCRIPT -->
   <script src="script.js/js"></script>
+
+  <script>
+  // togglePost mantém sua lógica: abre/fecha post e altera o botão
+  function togglePost(btn){
+    const post = btn.parentElement;
+    const extra = post.querySelector(".extra-content");
+
+    if (extra.style.display === "block") {
+      extra.style.display = "none";
+      btn.textContent = "Leia mais";
+      btn.style.background = "";
+      btn.classList.remove("close");
+    } else {
+      extra.style.display = "block";
+      btn.textContent = "Clique aqui para Fechar";
+      btn.style.background = "red";
+      btn.classList.add("close");
+    }
+  }
+
+  // mantém o carregamento do Disqus se o usuário clicar "Abrir comentários" em um post:
+  document.querySelectorAll('.open-comments-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.identifier; // ex: "post-1"
+      const placeholder = document.getElementById(`comments-${id}`);
+      if (placeholder) placeholder.innerHTML = '<em>Carregando comentários...</em>';
+
+      // Disqus padrão já foi adicionado acima; caso queira carregar por post dinamicamente
+      // você pode resetar Disqus com a API do Disqus (se necessário).
+    });
+  });
+  </script>
 </body>
 </html>
