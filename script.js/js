@@ -8,188 +8,119 @@ window.addEventListener("load", () => {
   }
 });
 
-
 // ====== MUSIC TOGGLE ======
 const musicBtn = document.getElementById("music-toggle");
 const bgMusic = document.getElementById("bg-music");
 
 if (musicBtn && bgMusic) {
-
   try { bgMusic.pause(); } catch (e) {}
-
   musicBtn.addEventListener("click", () => {
-
     if (bgMusic.paused) {
-
       bgMusic.play();
       musicBtn.textContent = "Pausar Música de Fundo";
       musicBtn.classList.add("playing");
-
     } else {
-
       bgMusic.pause();
       musicBtn.textContent = "Tocar Música de Fundo";
       musicBtn.classList.remove("playing");
-
     }
-
   });
 }
-
 
 // ====== PARTICLES ======
 const particlesContainer = document.getElementById("particles-new");
 const numSquares = 60;
 
 if (particlesContainer) {
-
   for (let i = 0; i < numSquares; i++) {
-
     const square = document.createElement("div");
     square.classList.add("square");
-
-    if (Math.random() > 0.7) {
-      square.classList.add("white");
-    }
-
+    if (Math.random() > 0.7) square.classList.add("white");
     square.style.left = `${Math.random() * 100}vw`;
     square.style.top = `${Math.random() * -20}vh`;
-
     square.style.animationDuration = `${Math.random() * 5 + 6}s`;
     square.style.animationDelay = `${Math.random() * 5}s`;
-
     particlesContainer.appendChild(square);
-
   }
-
 }
 
-
-// ====== DISQUS COMMENT COUNT ======
+// ====== DISQUS COUNT ======
 (function(){
-
   const d = document;
   const s = d.createElement("script");
-
   s.src = "https://codinaproject.disqus.com/count.js";
   s.async = true;
-
   (d.head || d.body).appendChild(s);
-
 })();
 
-
-// ====== DISQUS ======
+// ====== DISQUS LAZY LOAD ======
 let disqusLoaded = false;
 
-
-// ====== ABRIR / FECHAR COMENTÁRIOS ======
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
-
   btn.addEventListener("click", () => {
-
     const postId = btn.dataset.identifier;
     const comments = document.getElementById(`comments-${postId}`);
-
     if (!comments) return;
 
     const aberto = btn.classList.contains("open");
 
-
     // ===== FECHAR =====
     if (aberto) {
-
       comments.style.display = "none";
-
       btn.textContent = "Abrir comentários";
       btn.classList.remove("open");
-
       return;
     }
-
 
     // ===== ABRIR =====
     btn.textContent = "Fechar comentários";
     btn.classList.add("open");
-
     comments.style.display = "block";
-
 
     window.disqus_config = function () {
       this.page.url = window.location.href + "#" + postId;
       this.page.identifier = postId;
     };
 
-
     if (!disqusLoaded) {
-
       comments.innerHTML = `
         <div class="loading-msg">Carregando comentários...</div>
         <div id="disqus_thread"></div>
       `;
-
       const d = document;
       const s = d.createElement("script");
-
       s.src = "https://codinaproject.disqus.com/embed.js";
       s.setAttribute("data-timestamp", +new Date());
-
       (d.head || d.body).appendChild(s);
-
       disqusLoaded = true;
-
     } else {
-
       DISQUS.reset({
-
         reload: true,
-
         config: function () {
-
           this.page.identifier = postId;
           this.page.url = window.location.href + "#" + postId;
-
         }
-
       });
-
     }
-
   });
-
 });
-
 
 // ====== READ MORE ======
 function togglePostButton(btn){
-
   const post = btn.closest('.blog-post');
   if (!post) return;
-
   const extra = post.querySelector('.extra-content');
   if (!extra) return;
-
   const checkbox = post.querySelector('.toggle');
-
   if (checkbox) {
-
     checkbox.checked = !checkbox.checked;
-
     const readBtn = post.querySelector('.read-more');
-
     if (checkbox.checked) {
-
       readBtn.textContent = "Clique aqui para Fechar";
       readBtn.classList.add("open");
-
     } else {
-
       readBtn.textContent = "Leia mais";
       readBtn.classList.remove("open");
-
     }
-
-    return;
   }
-
 }
