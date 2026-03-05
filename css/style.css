@@ -277,6 +277,18 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ========================= READ MORE / CLOSE (melhorado) ========================= */
+/* esconde visualmente os checkboxes (a estrutura do HTML usa input.toggle + label.read-more + .extra-content) */
+.toggle {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* label estilizado que age como botão */
 .read-more {
   display:inline-block;
   margin-top:12px;
@@ -286,6 +298,38 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   border-radius:999px;
   font-weight:800;
   cursor:pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+  /* escondemos o texto interno e usamos ::after para melhor controle do conteúdo dinâmico */
+  font-size: 0;
+  line-height: 0;
+}
+
+/* texto real do botão via pseudo-elemento (acessível pelo CSS) */
+.read-more::after{
+  content: "Leia mais";
+  font-size: 14px;
+  line-height: 1;
+  color: #fff;
+  display: inline-block;
+}
+
+/* estilo hover */
+.read-more:hover{
+  transform: translateY(-2px);
+}
+
+/* quando o checkbox está marcado, transforma o botão em vermelho e troca o texto */
+.toggle:checked + .read-more {
+  background: #ff3b3b; /* vermelho */
+}
+.toggle:checked + .read-more::after {
+  content: "Clique aqui para Fechar";
+}
+
+/* quando aberto, garantir que extra-content fique visível (caso use JS ou checkbox) */
+.read-more.open,
+.toggle:checked ~ .extra-content {
+  /* these rules ensure open state shows content — max-height handled above */
 }
 
 /* ========================= COMENTÁRIOS ========================= */
