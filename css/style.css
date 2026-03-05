@@ -186,7 +186,6 @@ body::before {
 }
 
 /* COMENTÁRIOS */
-
 .open-comments-btn{
   margin-top:10px;
   padding:8px 14px;
@@ -196,6 +195,7 @@ body::before {
   font-weight:700;
   cursor:pointer;
   border:none;
+  transition:0.2s ease;
 }
 
 .open-comments-btn:hover{
@@ -207,7 +207,6 @@ body::before {
 }
 
 /* CONTAINER DO DISQUS */
-
 .comments-placeholder{
   margin-top:14px;
   border-radius:10px;
@@ -226,7 +225,6 @@ body::before {
 }
 
 /* DISQUS VISUAL */
-
 #disqus_thread{
   background:transparent;
   padding:12px;
@@ -238,7 +236,6 @@ body::before {
 }
 
 /* FOOTER */
-
 .site-footer{
   background:#140c24;
   padding:40px;
@@ -246,7 +243,6 @@ body::before {
 }
 
 /* BOTÃO MÚSICA */
-
 #music-toggle{
   position:fixed;
   bottom:22px;
