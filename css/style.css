@@ -46,7 +46,8 @@ body {
 
 .logo-reveal {
   width: clamp(140px, 15vw, 260px);
-  max-width: 300px;
+  max-width: 260px;
+  height: auto;
   opacity: 0;
   transform: scale(0.88);
   animation: logo-appear var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards,
@@ -59,7 +60,7 @@ body {
   margin:0 0 12px;
 }
 .hero-content p{
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
   line-height: 1.4;
 }
 
@@ -120,9 +121,14 @@ body {
   font-size: 1.3rem;
   margin:0 0 6px;
 }
+.blog-post p{
+  font-size: 0.95rem;
+  margin:0 0 10px;
+  line-height:1.4;
+}
 .blog-post p.date{
   font-size:0.85rem;
-  color: #ccc;
+  color:#ccc;
   margin:0 0 10px;
 }
 
@@ -201,6 +207,8 @@ body {
 
 /* DISQUS VISUAL */
 #disqus_thread{
+  width: 100% !important;
+  max-width:100% !important;
   background:transparent;
   padding:12px;
   border-radius:12px;
