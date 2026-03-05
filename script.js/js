@@ -115,15 +115,13 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     comments.style.display = "block";
 
 
-    // cria thread se não existir
-    if (!comments.querySelector("#disqus_thread")) {
-
-      comments.innerHTML = `
-        <div class="loading-msg">Carregando comentários...</div>
-        <div id="disqus_thread"></div>
-      `;
-
-    }
+    // cria estrutura do disqus
+    comments.innerHTML = `
+      <div class="loading-msg" id="loading-${postId}">
+      Carregando comentários...
+      </div>
+      <div id="disqus_thread"></div>
+    `;
 
 
     window.disqus_config = function () {
@@ -141,6 +139,13 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
       s.src = "https://codinaproject.disqus.com/embed.js";
       s.setAttribute("data-timestamp", +new Date());
+
+      s.onload = () => {
+
+        const loading = document.getElementById(`loading-${postId}`);
+        if (loading) loading.remove();
+
+      };
 
       (d.head || d.body).appendChild(s);
 
@@ -160,6 +165,13 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
         }
 
       });
+
+      setTimeout(() => {
+
+        const loading = document.getElementById(`loading-${postId}`);
+        if (loading) loading.remove();
+
+      }, 800);
 
     }
 
