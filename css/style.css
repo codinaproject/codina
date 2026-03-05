@@ -333,6 +333,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
 }
 
 /* ========================= COMENTÁRIOS ========================= */
+/* botão abrir comentários (mantive o seu estilo) */
 .open-comments-btn {
   display:inline-block;
   margin-top:10px;
@@ -345,12 +346,66 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   transition: transform .18s ease;
 }
 .open-comments-btn:hover { transform: translateY(-3px); }
+
+/* placeholder base do seu CSS (mantive as regras que você tinha e substituí/estendi logo abaixo) */
 .comments-placeholder {
   margin-top: 14px;
   border-radius: 10px;
   padding: 12px;
   background: linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
   border: 1px solid rgba(181,122,255,0.05);
+  min-height: 48px;
+  transition: box-shadow .28s ease, transform .18s ease, background .25s ease;
+}
+
+/* ======== Estilos novos/estendidos para Disqus (loading, highlight, rounded iframe) ======== */
+
+/* container de loading (texto + spinner) */
+.comments-placeholder .loading-msg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.92);
+  font-style: italic;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(181,122,255,0.02));
+}
+
+/* spinner simples */
+.comments-placeholder .loading-msg::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.14);
+  border-top-color: #fff;
+  animation: dsq-spinner 0.9s linear infinite;
+}
+@keyframes dsq-spinner { to { transform: rotate(360deg); } }
+
+/* visual forte quando Disqus carregou (classe adicionada pelo JS) */
+.comments-placeholder.disqus-loaded {
+  background: linear-gradient(180deg, rgba(36,10,68,0.95), rgba(22,7,44,0.88));
+  border: 1px solid rgba(181,122,255,0.12);
+  box-shadow: 0 12px 40px rgba(74, 18, 134, 0.22);
+  padding: 8px;
+}
+
+/* força borda arredondada nos iframes do Disqus e melhora contraste */
+.comments-placeholder.disqus-loaded iframe {
+  border-radius: 10px !important;
+  background: transparent !important;
+}
+
+/* pequeno fade quando o placeholder aparece */
+.comments-placeholder {
+  animation: disqusFade 0.32s ease;
+}
+@keyframes disqusFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ========================= FOOTER ========================= */
