@@ -149,15 +149,13 @@
     (function(){
       const shortname = 'codinaproject'; // seu shortname do Disqus
 
-      // cria script embed apenas uma vez (se necessário)
+      // Carrega embed script apenas uma vez
       function loadEmbedScript(callback){
         if (window.DISQUS) {
           callback && callback();
           return;
         }
-        // evita múltiplas inserções
         if (document.getElementById('dsq-embed-script')) {
-          // espera até carregar
           const check = setInterval(() => {
             if (window.DISQUS) {
               clearInterval(check);
@@ -174,42 +172,95 @@
         s.async = true;
         (d.head || d.body).appendChild(s);
         s.onload = () => { callback && callback(); };
+        s.onerror = () => { callback && callback(); };
       }
 
-      // função que inicializa / troca Disqus para um post específico
+      // Observa o placeholder até o Disqus renderizar conteúdo (iframe ou filhos)
+      function waitForDisqusReady(container, timeout = 9000) {
+        return new Promise((resolve) => {
+          if (!container) return resolve();
+          // se já tem iframe ou thread com filhos, resolve rápido
+          if (container.querySelector('iframe') || (container.querySelector('#disqus_thread') && container.querySelector('#disqus_thread').childElementCount > 0)) {
+            return resolve();
+          }
+          const observer = new MutationObserver((mutations, obs) => {
+            if (container.querySelector('iframe') || (container.querySelector('#disqus_thread') && container.querySelector('#disqus_thread').childElementCount > 0)) {
+              obs.disconnect();
+              return resolve();
+            }
+          });
+          observer.observe(container, { childList: true, subtree: true });
+
+          // fallback timeout
+          setTimeout(() => {
+            try { observer.disconnect(); } catch (e) {}
+            resolve();
+          }, timeout);
+        });
+      }
+
+      // Insere o disqus_thread no placeholder e configura para o post
       function loadDisqusFor(postIdentifier, postUrl, container){
-        // cria (ou recria) a div #disqus_thread dentro do container
-        // remove qualquer #disqus_thread existente em outro lugar
-        const existing = document.getElementById('disqus_thread');
-        if (existing && existing.parentNode !== container) {
-          existing.parentNode.removeChild(existing);
-        }
-        // se ainda não existe dentro do container, cria
-        if (!container.querySelector('#disqus_thread')) {
-          const div = document.createElement('div');
-          div.id = 'disqus_thread';
-          container.appendChild(div);
+        if (!container) return;
+
+        // remove qualquer classe anterior e loading antigo
+        container.classList.remove('disqus-loaded');
+        const prevLoader = container.querySelector('.loading-msg');
+        if (prevLoader) prevLoader.remove();
+
+        // adiciona mensagem de loading (será removida automaticamente quando carregar)
+        const loader = document.createElement('div');
+        loader.className = 'loading-msg';
+        loader.innerHTML = '<em>Carregando comentários...</em>';
+        container.appendChild(loader);
+        container.style.display = 'block';
+
+        // garante #disqus_thread dentro do container
+        let disq = container.querySelector('#disqus_thread');
+        if (disq && disq.parentNode !== container) {
+          disq.parentNode.removeChild(disq);
+          container.appendChild(disq);
+        } else if (!disq) {
+          disq = document.createElement('div');
+          disq.id = 'disqus_thread';
+          container.appendChild(disq);
         }
 
-        // define função de config para esse carregamento
+        // define config específica para este post
         window.disqus_config = function () {
-          this.page.url = postUrl;       // URL única do post
-          this.page.identifier = postIdentifier; // identificador do post
+          this.page.url = postUrl;
+          this.page.identifier = postIdentifier;
         };
 
-        // se DISQUS já carregado, faz reset para novo post
+        // se já tem DISQUS carregado, tenta resetar
         if (window.DISQUS && typeof DISQUS.reset === 'function') {
-          DISQUS.reset({
-            reload: true,
-            config: window.disqus_config
+          try {
+            DISQUS.reset({
+              reload: true,
+              config: window.disqus_config
+            });
+          } catch (e) {
+            // em caso de erro, tenta recarregar o script
+            loadEmbedScript();
+          }
+          // espera até ver conteúdo e então remove loader
+          waitForDisqusReady(container).then(() => {
+            const lm = container.querySelector('.loading-msg'); if (lm) lm.remove();
+            container.classList.add('disqus-loaded');
           });
         } else {
-          // carrega o embed script (vai usar window.disqus_config definido acima)
-          loadEmbedScript();
+          // primeiro carregamento do embed
+          loadEmbedScript(() => {
+            // após injetar, espera Disqus renderizar
+            waitForDisqusReady(container).then(() => {
+              const lm = container.querySelector('.loading-msg'); if (lm) lm.remove();
+              container.classList.add('disqus-loaded');
+            });
+          });
         }
       }
 
-      // attach aos botões Abrir comentários
+      // evento delegação: ao clicar em "Abrir comentários" para qualquer post
       document.addEventListener('click', function(e){
         const btn = e.target.closest('.open-comments-btn');
         if (!btn) return;
@@ -218,11 +269,12 @@
         const placeholder = document.getElementById('comments-' + id);
         if (!placeholder) return;
 
-        // feedback rápido
-        placeholder.innerHTML = '<em>Carregando comentários...</em>';
-        placeholder.style.display = 'block';
-
+        // limpa e mostra feedback imediato
+        placeholder.innerHTML = ''; // limpamos para inserir loader + thread
         loadDisqusFor(id, url, placeholder);
+
+        // rolar o placeholder pra centro da tela para visibilidade (suave)
+        try { placeholder.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) {}
       });
     })();
   </script>
