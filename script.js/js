@@ -111,10 +111,13 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
     comments.style.display = "block";
 
-    comments.innerHTML =
-    `<div class="loading-msg" id="loading-${postId}">
-    Carregando comentários...
-    </div>`;
+    // cria estrutura correta do disqus
+    comments.innerHTML = `
+      <div class="loading-msg" id="loading-${postId}">
+      Carregando comentários...
+      </div>
+      <div id="disqus_thread"></div>
+    `;
 
     window.disqus_config = function () {
 
