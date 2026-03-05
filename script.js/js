@@ -79,7 +79,7 @@ if (particlesContainer) {
 })();
 
 
-// ====== DISQUS THREAD GLOBAL ======
+// ====== DISQUS ======
 let disqusLoaded = false;
 
 
@@ -115,37 +115,24 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     comments.style.display = "block";
 
 
-    // cria estrutura do disqus
-    comments.innerHTML = `
-      <div class="loading-msg" id="loading-${postId}">
-      Carregando comentários...
-      </div>
-      <div id="disqus_thread"></div>
-    `;
-
-
     window.disqus_config = function () {
-
       this.page.url = window.location.href + "#" + postId;
       this.page.identifier = postId;
-
     };
 
 
     if (!disqusLoaded) {
+
+      comments.innerHTML = `
+        <div class="loading-msg">Carregando comentários...</div>
+        <div id="disqus_thread"></div>
+      `;
 
       const d = document;
       const s = d.createElement("script");
 
       s.src = "https://codinaproject.disqus.com/embed.js";
       s.setAttribute("data-timestamp", +new Date());
-
-      s.onload = () => {
-
-        const loading = document.getElementById(`loading-${postId}`);
-        if (loading) loading.remove();
-
-      };
 
       (d.head || d.body).appendChild(s);
 
@@ -165,13 +152,6 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
         }
 
       });
-
-      setTimeout(() => {
-
-        const loading = document.getElementById(`loading-${postId}`);
-        if (loading) loading.remove();
-
-      }, 800);
 
     }
 
@@ -210,30 +190,6 @@ function togglePostButton(btn){
     }
 
     return;
-  }
-
-  if (extra.style.display === "block") {
-
-    extra.style.display = "none";
-
-    const readBtn = post.querySelector('.read-more');
-
-    if (readBtn){
-      readBtn.textContent = "Leia mais";
-      readBtn.classList.remove('open');
-    }
-
-  } else {
-
-    extra.style.display = "block";
-
-    const readBtn = post.querySelector('.read-more');
-
-    if (readBtn){
-      readBtn.textContent = "Clique aqui para Fechar";
-      readBtn.classList.add('open');
-    }
-
   }
 
 }
