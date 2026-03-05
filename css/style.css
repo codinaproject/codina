@@ -1,4 +1,4 @@
-/* ========================= css/style.css — Codina Universe Completo atualizado ========================= */
+/* ========================= css/style.css — Codina Universe Atualizado ========================= */
 
 /* Root timing / cores */
 :root{
@@ -27,7 +27,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   overflow-x: hidden;
-
   background: radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%),
               radial-gradient(circle at 75% 80%, #7c2fff33, transparent 50%);
 }
@@ -46,60 +45,26 @@ body {
 }
 
 .logo-reveal {
-  width: clamp(160px, 22vw, 320px);
-  max-width: 420px;
+  width: clamp(140px, 15vw, 260px);
+  max-width: 300px;
   opacity: 0;
   transform: scale(0.88);
   animation: logo-appear var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards,
              logo-pulse var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards;
 }
 
-@keyframes logo-appear {
-  0% { opacity: 0; transform: scale(0.8); }
-  60% { opacity: 1; transform: scale(1.06); }
-  100% { opacity: 1; transform: scale(1); }
+/* Ajuste hero e textos */
+.hero-content h1{
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin:0 0 12px;
 }
-@keyframes logo-pulse {
-  0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(181,122,255,0.12)); }
-  50% { transform: scale(1.01); filter: drop-shadow(0 0 26px rgba(181,122,255,0.34)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(181,122,255,0.30)); }
-}
-@keyframes intro-fade {
-  0% { opacity: 1; visibility: visible; }
-  78% { opacity: 1; visibility: visible; }
-  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+.hero-content p{
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.4;
 }
 
 /* SITE CONTENT */
 #site-content { position: relative; z-index: 3; }
-
-/* PARTICULAS ANTIGAS (grid) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(90deg, var(--particle-white) 1px, transparent 1px),
-    linear-gradient(var(--particle-white) 1px, transparent 1px),
-    linear-gradient(90deg, var(--particle-purple) 1px, transparent 1px),
-    linear-gradient(var(--particle-purple) 1px, transparent 1px);
-  background-size: 10px 10px, 10px 10px, 18px 18px, 18px 18px;
-  background-position: 0 0, 5px -40px, 0 -120px, 9px -60px;
-  mix-blend-mode: screen;
-  opacity: 0.95;
-  animation: particles-fall-1 10s linear infinite, particles-fall-2 16s linear infinite;
-}
-
-@keyframes particles-fall-1 {
-  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
-  to { background-position: 0 1000px, 5px 960px, 0 880px, 9px 920px; }
-}
-@keyframes particles-fall-2 {
-  from { background-position: 0 0, 5px -40px, 0 -120px, 9px -60px; }
-  to { background-position: 0 1500px, 5px 1460px, 0 1380px, 9px 1420px; }
-}
 
 /* PARTICULAS NOVAS */
 #particles-new {
@@ -148,6 +113,17 @@ body::before {
   padding: 22px;
   margin-bottom: 18px;
   transition: transform .25s ease, box-shadow .25s ease;
+  font-size: 1rem;
+}
+
+.blog-post h3{
+  font-size: 1.3rem;
+  margin:0 0 6px;
+}
+.blog-post p.date{
+  font-size:0.85rem;
+  color: #ccc;
+  margin:0 0 10px;
 }
 
 .blog-post:hover{
@@ -214,7 +190,6 @@ body::before {
   background:linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
   border:1px solid rgba(181,122,255,0.05);
   min-height:48px;
-
   max-height:0;
   overflow:hidden;
   transition:max-height .5s ease;
