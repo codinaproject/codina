@@ -14,6 +14,7 @@ const musicBtn = document.getElementById("music-toggle");
 const bgMusic = document.getElementById("bg-music");
 
 if (musicBtn && bgMusic) {
+
   try { bgMusic.pause(); } catch (e) {}
 
   musicBtn.addEventListener("click", () => {
@@ -64,7 +65,21 @@ if (particlesContainer) {
 }
 
 
-// ====== ABRIR / FECHAR COMENTÁRIOS (DISQUS REAL) ======
+// ====== DISQUS COMMENT COUNT ======
+(function(){
+
+  const d = document;
+  const s = d.createElement("script");
+
+  s.src = "https://codinaproject.disqus.com/count.js";
+  s.async = true;
+
+  (d.head || d.body).appendChild(s);
+
+})();
+
+
+// ====== ABRIR / FECHAR COMENTÁRIOS ======
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
   btn.addEventListener("click", () => {
@@ -74,12 +89,14 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
     if (!comments) return;
 
-    const isOpen = comments.style.display === "block";
+    const aberto = comments.classList.contains("active");
 
     // ===== FECHAR =====
-    if (isOpen) {
+    if (aberto) {
 
-      comments.style.display = "none";
+      comments.classList.remove("active");
+      comments.style.maxHeight = "0px";
+
       btn.textContent = "Abrir comentários";
       btn.classList.remove("open");
 
@@ -87,15 +104,18 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     }
 
     // ===== ABRIR =====
-    comments.style.display = "block";
+    comments.classList.add("active");
+
     btn.textContent = "Fechar comentários";
     btn.classList.add("open");
 
-    // mensagem temporária
-    comments.innerHTML =
-      `<div class="loading-msg" id="loading-${postId}">Carregando comentários...</div>`;
+    comments.style.display = "block";
 
-    // configuração do disqus
+    comments.innerHTML =
+    `<div class="loading-msg" id="loading-${postId}">
+    Carregando comentários...
+    </div>`;
+
     window.disqus_config = function () {
 
       this.page.url = window.location.href + "#" + postId;
@@ -103,7 +123,6 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
     };
 
-    // se disqus ainda não carregou
     if (!window.DISQUS) {
 
       const d = document;
@@ -126,19 +145,23 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     } else {
 
       DISQUS.reset({
+
         reload: true,
+
         config: function () {
 
           this.page.identifier = postId;
           this.page.url = window.location.href + "#" + postId;
 
         }
+
       });
 
       const loading = document.getElementById(`loading-${postId}`);
       if (loading) loading.remove();
 
       comments.classList.add("disqus-loaded");
+
     }
 
   });
@@ -146,7 +169,7 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 });
 
 
-// ====== READ MORE (fallback JS) ======
+// ====== READ MORE ======
 function togglePostButton(btn){
 
   const post = btn.closest('.blog-post');
@@ -178,7 +201,6 @@ function togglePostButton(btn){
     return;
   }
 
-  // fallback
   if (extra.style.display === "block") {
 
     extra.style.display = "none";
