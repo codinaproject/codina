@@ -15,16 +15,23 @@ const bgMusic = document.getElementById("bg-music");
 
 if (musicBtn && bgMusic) {
   try { bgMusic.pause(); } catch (e) {}
+
   musicBtn.addEventListener("click", () => {
+
     if (bgMusic.paused) {
+
       bgMusic.play();
       musicBtn.textContent = "Pausar Música de Fundo";
       musicBtn.classList.add("playing");
+
     } else {
+
       bgMusic.pause();
       musicBtn.textContent = "Tocar Música de Fundo";
       musicBtn.classList.remove("playing");
+
     }
+
   });
 }
 
@@ -34,6 +41,7 @@ const particlesContainer = document.getElementById("particles-new");
 const numSquares = 60;
 
 if (particlesContainer) {
+
   for (let i = 0; i < numSquares; i++) {
 
     const square = document.createElement("div");
@@ -50,11 +58,13 @@ if (particlesContainer) {
     square.style.animationDelay = `${Math.random() * 5}s`;
 
     particlesContainer.appendChild(square);
+
   }
+
 }
 
 
-// ====== ABRIR COMENTÁRIOS (DISQUS REAL) ======
+// ====== ABRIR / FECHAR COMENTÁRIOS (DISQUS REAL) ======
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
   btn.addEventListener("click", () => {
@@ -64,18 +74,39 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
     if (!comments) return;
 
+
+    // ===== FECHAR COMENTÁRIOS =====
+    if (btn.classList.contains("open")) {
+
+      comments.style.display = "none";
+
+      btn.classList.remove("open");
+      btn.textContent = "Abrir comentários";
+
+      return;
+    }
+
+
+    // ===== ABRIR COMENTÁRIOS =====
     comments.style.display = "block";
 
-    // mensagem temporária
+    btn.classList.add("open");
+    btn.textContent = "Fechar comentários";
+
+
+    // se já carregou antes, não recarrega
+    if (comments.dataset.loaded === "true") return;
+
+
     comments.innerHTML = `<em id="loading-${postId}">Carregando comentários...</em>`;
 
-    // configuração do disqus
+
     window.disqus_config = function () {
       this.page.url = window.location.href + "#" + postId;
       this.page.identifier = postId;
     };
 
-    // se disqus ainda não carregou
+
     if (!window.DISQUS) {
 
       const d = document;
@@ -89,6 +120,8 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
         const loading = document.getElementById(`loading-${postId}`);
         if (loading) loading.remove();
 
+        comments.dataset.loaded = "true";
+
       };
 
       (d.head || d.body).appendChild(s);
@@ -96,15 +129,23 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     } else {
 
       DISQUS.reset({
+
         reload: true,
+
         config: function () {
+
           this.page.identifier = postId;
           this.page.url = window.location.href + "#" + postId;
+
         }
+
       });
 
       const loading = document.getElementById(`loading-${postId}`);
       if (loading) loading.remove();
+
+      comments.dataset.loaded = "true";
+
     }
 
   });
@@ -144,7 +185,6 @@ function togglePostButton(btn){
     return;
   }
 
-  // fallback
   if (extra.style.display === "block") {
 
     extra.style.display = "none";
