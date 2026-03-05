@@ -59,23 +59,27 @@ let disqusLoaded = false;
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const postId = btn.dataset.identifier;
-    const comments = document.getElementById(`comments-${postId}`);
-    if (!comments) return;
+    const placeholder = document.getElementById(`comments-${postId}`);
+    if (!placeholder) return;
 
     const aberto = btn.classList.contains("open");
 
-    // ===== FECHAR =====
+    // FECHAR
     if (aberto) {
-      comments.style.display = "none";
+      placeholder.style.display = "none";
       btn.textContent = "Abrir comentários";
       btn.classList.remove("open");
       return;
     }
 
-    // ===== ABRIR =====
+    // ABRIR
     btn.textContent = "Fechar comentários";
     btn.classList.add("open");
-    comments.style.display = "block";
+    placeholder.style.display = "block";
+
+    const disqusDiv = document.getElementById("disqus_thread");
+    disqusDiv.style.display = "block";
+    placeholder.innerHTML = ""; // limpa placeholder
 
     window.disqus_config = function () {
       this.page.url = window.location.href + "#" + postId;
@@ -83,10 +87,6 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     };
 
     if (!disqusLoaded) {
-      comments.innerHTML = `
-        <div class="loading-msg">Carregando comentários...</div>
-        <div id="disqus_thread"></div>
-      `;
       const d = document;
       const s = d.createElement("script");
       s.src = "https://codinaproject.disqus.com/embed.js";
