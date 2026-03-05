@@ -7,280 +7,349 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- INTRO LOGO -->
-  <div id="intro">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
-  </div>
 
-  <!-- PARTICLES NOVAS -->
-  <div id="particles-new" class="particles-new"></div>
+<!-- INTRO LOGO -->
+<div id="intro">
+<img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+</div>
 
-  <!-- SITE CONTENT -->
-  <div id="site-content">
-    <!-- HEADER -->
-    <header>
-      <div class="logo-container">
-        <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
-      </div>
-      <nav>
-        <a href="index.html" class="active">Início</a>
-        <a href="historia.html">História</a>
-        <a href="personagens.html">Personagens</a>
-        <a href="equipe.html">Equipe</a>
-        <a href="loja.html">Loja</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
+<!-- PARTICLES -->
+<div id="particles-new" class="particles-new"></div>
 
-    <!-- MUSIC -->
-    <audio id="bg-music" loop>
-      <source src="audio/musica.mp3" type="audio/mpeg">
-      <source src="musica.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
-    </audio>
-    <button id="music-toggle">Pausar Música de Fundo</button>
+<div id="site-content">
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>UNIVERSO CODINA</h1>
-        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-      </div>
-    </section>
+<header>
+<div class="logo-container">
+<img src="images/codina-logosite.png" alt="Codina" class="logo-main">
+</div>
 
-    <!-- BLOG -->
-    <main>
-      <section class="blog-section" id="blog">
-        <h2>Últimas Notícias</h2>
+<nav>
+<a href="index.html" class="active">Início</a>
+<a href="historia.html">História</a>
+<a href="personagens.html">Personagens</a>
+<a href="equipe.html">Equipe</a>
+<a href="loja.html">Loja</a>
+<a href="sobre.html">Sobre</a>
+<a href="perfil.html">Perfil</a>
+<a href="login.html">Login</a>
+</nav>
+</header>
 
-        <!-- Post 1 -->
-        <article class="blog-post" id="post-1">
-          <h3>Lançamento do Novo Episódio</h3>
-          <p class="date">26 de Fevereiro, 2026</p>
 
-          <!-- input.toggle antes do label.read-more — estrutura requerida -->
-          <input type="checkbox" id="post1-toggle" class="toggle">
-          <label for="post1-toggle" class="read-more"></label>
+<audio id="bg-music" loop>
+<source src="audio/musica.mp3" type="audio/mpeg">
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-          <div class="extra-content">
-            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+<button id="music-toggle">Pausar Música de Fundo</button>
 
-            <!-- botão que dispara o carregamento dinâmico do Disqus -->
-            <button class="open-comments-btn" data-identifier="post-1" data-url="https://yourdomain.com/#post-1">
-              Abrir comentários
-            </button>
 
-            <!-- local onde o Disqus será inserido quando o usuário clicar -->
-            <div class="comments-placeholder" id="comments-post-1" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
+<section class="hero">
+<div class="hero-content">
+<h1>UNIVERSO CODINA</h1>
+<p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+</div>
+</section>
 
-        <!-- Post 2 -->
-        <article class="blog-post" id="post-2">
-          <h3>Arte da Codina Atualizada</h3>
-          <p class="date">14 de Fevereiro, 2026</p>
 
-          <input type="checkbox" id="post2-toggle" class="toggle">
-          <label for="post2-toggle" class="read-more"></label>
+<main>
 
-          <div class="extra-content">
-            <p>Descrição da arte, técnica e curiosidades.</p>
+<section class="blog-section" id="blog">
 
-            <button class="open-comments-btn" data-identifier="post-2" data-url="https://yourdomain.com/#post-2">
-              Abrir comentários
-            </button>
+<h2>Últimas Notícias</h2>
 
-            <div class="comments-placeholder" id="comments-post-2" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
 
-        <!-- Post 3 -->
-        <article class="blog-post" id="post-3">
-          <h3>Anúncio de Evento Online</h3>
-          <p class="date">01 de Fevereiro, 2026</p>
+<!-- POST 1 -->
 
-          <input type="checkbox" id="post3-toggle" class="toggle">
-          <label for="post3-toggle" class="read-more"></label>
+<article class="blog-post" id="post-1">
 
-          <div class="extra-content">
-            <p>Detalhes do evento, horários e prêmios.</p>
+<h3>Lançamento do Novo Episódio</h3>
+<p class="date">26 de Fevereiro, 2026</p>
 
-            <button class="open-comments-btn" data-identifier="post-3" data-url="https://yourdomain.com/#post-3">
-              Abrir comentários
-            </button>
+<input type="checkbox" id="post1-toggle" class="toggle">
+<label for="post1-toggle" class="read-more"></label>
 
-            <div class="comments-placeholder" id="comments-post-3" aria-live="polite">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
+<div class="extra-content">
 
-      </section>
-    </main>
+<p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <p>© 2026 Codina Universe</p>
-      <p style="margin-top:12px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
-        <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
-        <a href="https://codinai.carrd.co/">Codin aí</a> is licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width:1em">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width:1em">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" style="max-width:1em">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" style="max-width:1em">
-      </p>
-    </footer>
+<button class="open-comments-btn"
+data-identifier="post-1"
+data-url="https://yourdomain.com/#post-1">
+Abrir comentários
+</button>
 
-    <!-- NOTE: no static disqus_thread here; we will inject it per post dynamically -->
-  </div> <!-- /site-content -->
+<div class="comments-placeholder"
+id="comments-post-1"
+aria-live="polite">
 
-  <!-- EXTERNAL JS (seu script atualizado) -->
-  <script src="script.js/js"></script>
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
 
-  <!-- DISQUS DYNAMIC LOADER (usa seu shortname codinaproject) -->
-  <script>
-    (function(){
-      const shortname = 'codinaproject'; // seu shortname do Disqus
+</div>
 
-      // Carrega embed script apenas uma vez
-      function loadEmbedScript(callback){
-        if (window.DISQUS) {
-          callback && callback();
-          return;
-        }
-        if (document.getElementById('dsq-embed-script')) {
-          const check = setInterval(() => {
-            if (window.DISQUS) {
-              clearInterval(check);
-              callback && callback();
-            }
-          }, 200);
-          return;
-        }
-        const d = document;
-        const s = d.createElement('script');
-        s.id = 'dsq-embed-script';
-        s.src = 'https://' + shortname + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        s.async = true;
-        (d.head || d.body).appendChild(s);
-        s.onload = () => { callback && callback(); };
-        s.onerror = () => { callback && callback(); };
-      }
+</div>
+</article>
 
-      // Observa o placeholder até o Disqus renderizar conteúdo (iframe ou filhos)
-      function waitForDisqusReady(container, timeout = 9000) {
-        return new Promise((resolve) => {
-          if (!container) return resolve();
-          // se já tem iframe ou thread com filhos, resolve rápido
-          if (container.querySelector('iframe') || (container.querySelector('#disqus_thread') && container.querySelector('#disqus_thread').childElementCount > 0)) {
-            return resolve();
-          }
-          const observer = new MutationObserver((mutations, obs) => {
-            if (container.querySelector('iframe') || (container.querySelector('#disqus_thread') && container.querySelector('#disqus_thread').childElementCount > 0)) {
-              obs.disconnect();
-              return resolve();
-            }
-          });
-          observer.observe(container, { childList: true, subtree: true });
 
-          // fallback timeout
-          setTimeout(() => {
-            try { observer.disconnect(); } catch (e) {}
-            resolve();
-          }, timeout);
-        });
-      }
 
-      // Insere o disqus_thread no placeholder e configura para o post
-      function loadDisqusFor(postIdentifier, postUrl, container){
-        if (!container) return;
+<!-- POST 2 -->
 
-        // remove qualquer classe anterior e loading antigo
-        container.classList.remove('disqus-loaded');
-        const prevLoader = container.querySelector('.loading-msg');
-        if (prevLoader) prevLoader.remove();
+<article class="blog-post" id="post-2">
 
-        // adiciona mensagem de loading (será removida automaticamente quando carregar)
-        const loader = document.createElement('div');
-        loader.className = 'loading-msg';
-        loader.innerHTML = '<em>Carregando comentários...</em>';
-        container.appendChild(loader);
-        container.style.display = 'block';
+<h3>Arte da Codina Atualizada</h3>
+<p class="date">14 de Fevereiro, 2026</p>
 
-        // garante #disqus_thread dentro do container
-        let disq = container.querySelector('#disqus_thread');
-        if (disq && disq.parentNode !== container) {
-          disq.parentNode.removeChild(disq);
-          container.appendChild(disq);
-        } else if (!disq) {
-          disq = document.createElement('div');
-          disq.id = 'disqus_thread';
-          container.appendChild(disq);
-        }
+<input type="checkbox" id="post2-toggle" class="toggle">
+<label for="post2-toggle" class="read-more"></label>
 
-        // define config específica para este post
-        window.disqus_config = function () {
-          this.page.url = postUrl;
-          this.page.identifier = postIdentifier;
-        };
+<div class="extra-content">
 
-        // se já tem DISQUS carregado, tenta resetar
-        if (window.DISQUS && typeof DISQUS.reset === 'function') {
-          try {
-            DISQUS.reset({
-              reload: true,
-              config: window.disqus_config
-            });
-          } catch (e) {
-            // em caso de erro, tenta recarregar o script
-            loadEmbedScript();
-          }
-          // espera até ver conteúdo e então remove loader
-          waitForDisqusReady(container).then(() => {
-            const lm = container.querySelector('.loading-msg'); if (lm) lm.remove();
-            container.classList.add('disqus-loaded');
-          });
-        } else {
-          // primeiro carregamento do embed
-          loadEmbedScript(() => {
-            // após injetar, espera Disqus renderizar
-            waitForDisqusReady(container).then(() => {
-              const lm = container.querySelector('.loading-msg'); if (lm) lm.remove();
-              container.classList.add('disqus-loaded');
-            });
-          });
-        }
-      }
+<p>Descrição da arte, técnica e curiosidades.</p>
 
-      // evento delegação: ao clicar em "Abrir comentários" para qualquer post
-      document.addEventListener('click', function(e){
-        const btn = e.target.closest('.open-comments-btn');
-        if (!btn) return;
-        const id = btn.dataset.identifier;
-        const url = btn.dataset.url || window.location.href;
-        const placeholder = document.getElementById('comments-' + id);
-        if (!placeholder) return;
+<button class="open-comments-btn"
+data-identifier="post-2"
+data-url="https://yourdomain.com/#post-2">
+Abrir comentários
+</button>
 
-        // limpa e mostra feedback imediato
-        placeholder.innerHTML = ''; // limpamos para inserir loader + thread
-        loadDisqusFor(id, url, placeholder);
+<div class="comments-placeholder"
+id="comments-post-2"
+aria-live="polite">
 
-        // rolar o placeholder pra centro da tela para visibilidade (suave)
-        try { placeholder.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) {}
-      });
-    })();
-  </script>
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
 
-  <noscript>
-    Please enable JavaScript to view the comments powered by Disqus.
-  </noscript>
+</div>
+
+</div>
+</article>
+
+
+
+<!-- POST 3 -->
+
+<article class="blog-post" id="post-3">
+
+<h3>Anúncio de Evento Online</h3>
+<p class="date">01 de Fevereiro, 2026</p>
+
+<input type="checkbox" id="post3-toggle" class="toggle">
+<label for="post3-toggle" class="read-more"></label>
+
+<div class="extra-content">
+
+<p>Detalhes do evento, horários e prêmios.</p>
+
+<button class="open-comments-btn"
+data-identifier="post-3"
+data-url="https://yourdomain.com/#post-3">
+Abrir comentários
+</button>
+
+<div class="comments-placeholder"
+id="comments-post-3"
+aria-live="polite">
+
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+
+</div>
+
+</div>
+</article>
+
+
+</section>
+</main>
+
+
+
+<footer class="site-footer">
+
+<p>© 2026 Codina Universe</p>
+
+<p style="margin-top:12px;font-size:0.95rem;color:rgba(255,255,255,0.85);">
+
+<a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
+
+<a href="https://codinai.carrd.co/">Codin aí</a>
+
+is licensed under
+
+<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+
+CC BY-NC-ND 4.0</a>
+
+<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width:1em">
+<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width:1em">
+<img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" style="max-width:1em">
+<img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" style="max-width:1em">
+
+</p>
+
+</footer>
+
+</div>
+
+
+
+<script src="script.js/js"></script>
+
+
+
+<script>
+
+(function(){
+
+const shortname='codinaproject';
+
+
+
+function loadEmbedScript(callback){
+
+if(window.DISQUS){
+callback&&callback();
+return;
+}
+
+if(document.getElementById('dsq-embed-script')){
+callback&&callback();
+return;
+}
+
+const d=document;
+
+const s=d.createElement('script');
+
+s.id='dsq-embed-script';
+
+s.src='https://'+shortname+'.disqus.com/embed.js';
+
+s.async=true;
+
+(d.head||d.body).appendChild(s);
+
+s.onload=()=>callback&&callback();
+
+}
+
+
+
+function loadDisqusFor(id,url,container){
+
+window.disqus_config=function(){
+
+this.page.url=url;
+
+this.page.identifier=id;
+
+};
+
+
+
+let thread=container.querySelector('#disqus_thread');
+
+if(!thread){
+
+thread=document.createElement('div');
+
+thread.id='disqus_thread';
+
+container.appendChild(thread);
+
+}
+
+
+
+if(window.DISQUS){
+
+DISQUS.reset({
+
+reload:true,
+
+config:window.disqus_config
+
+});
+
+}
+
+else{
+
+loadEmbedScript();
+
+}
+
+}
+
+
+
+document.addEventListener('click',function(e){
+
+const btn=e.target.closest('.open-comments-btn');
+
+if(!btn)return;
+
+
+
+const id=btn.dataset.identifier;
+
+const url=btn.dataset.url||window.location.href;
+
+const placeholder=document.getElementById('comments-'+id);
+
+
+
+/* --------- FECHAR --------- */
+
+if(btn.classList.contains('open')){
+
+placeholder.style.display='none';
+
+btn.classList.remove('open');
+
+btn.textContent='Abrir comentários';
+
+return;
+
+}
+
+
+
+/* --------- ABRIR --------- */
+
+btn.classList.add('open');
+
+btn.textContent='Fechar comentários';
+
+
+
+placeholder.style.display='block';
+
+
+
+if(!placeholder.dataset.loaded){
+
+placeholder.innerHTML='<em>Carregando comentários...</em>';
+
+loadDisqusFor(id,url,placeholder);
+
+placeholder.dataset.loaded=true;
+
+}
+
+
+
+});
+
+})();
+
+</script>
+
+
+
+<noscript>
+
+Please enable JavaScript to view the comments powered by Disqus.
+
+</noscript>
+
 </body>
 </html>
