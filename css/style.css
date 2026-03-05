@@ -28,12 +28,12 @@ body {
   position: relative;
   overflow-x: hidden;
 
-  /* ========================= FUNDO ROXO COM BRILHO ========================= */
+  /* FUNDO ROXO COM BRILHO */
   background: radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%),
               radial-gradient(circle at 75% 80%, #7c2fff33, transparent 50%);
 }
 
-/* ========================= INTRO (logo) ========================= */
+/* INTRO (logo) */
 #intro {
   position: fixed;
   inset: 0;
@@ -71,20 +71,21 @@ body {
   100% { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* ========================= SITE CONTENT ========================= */
+/* SITE CONTENT */
 #site-content { position: relative; z-index: 3; }
 
-/* ========================= PARTICULAS ANTIGAS (grid) ========================= */
+/* PARTICULAS ANTIGAS (grid) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: linear-gradient(90deg, var(--particle-white) 1px, transparent 1px),
-                    linear-gradient(var(--particle-white) 1px, transparent 1px),
-                    linear-gradient(90deg, var(--particle-purple) 1px, transparent 1px),
-                    linear-gradient(var(--particle-purple) 1px, transparent 1px);
+  background-image:
+    linear-gradient(90deg, var(--particle-white) 1px, transparent 1px),
+    linear-gradient(var(--particle-white) 1px, transparent 1px),
+    linear-gradient(90deg, var(--particle-purple) 1px, transparent 1px),
+    linear-gradient(var(--particle-purple) 1px, transparent 1px);
   background-size: 10px 10px, 10px 10px, 18px 18px, 18px 18px;
   background-position: 0 0, 5px -40px, 0 -120px, 9px -60px;
   mix-blend-mode: screen;
@@ -100,7 +101,7 @@ body::before {
   to { background-position: 0 1500px, 5px 1460px, 0 1380px, 9px 1420px; }
 }
 
-/* ========================= PARTICULAS NOVAS (squares) ========================= */
+/* PARTICULAS NOVAS (squares) */
 #particles-new {
   position: fixed;
   inset: 0;
@@ -129,7 +130,7 @@ body::before {
   100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
 }
 
-/* ========================= HEADER / NAV ========================= */
+/* HEADER / NAV */
 header {
   display: flex;
   justify-content: space-between;
@@ -210,7 +211,7 @@ header nav a.active::before { opacity: 1; }
 header nav a.active::after { transform: scaleX(1); }
 header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12); transform: translateY(-3px); }
 
-/* ========================= HERO ========================= */
+/* HERO */
 .hero {
   height: 60vh;
   display:flex;
@@ -233,7 +234,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   color:rgba(255,255,255,0.92);
 }
 
-/* ========================= BLOG ========================= */
+/* BLOG */
 .blog-section{
   padding:56px 20px;
   max-width:880px;
@@ -278,7 +279,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================= READ MORE / CLOSE (melhorado) ========================= */
+/* READ MORE / CLOSE (melhorado) */
 /* esconde visualmente os checkboxes (a estrutura do HTML usa input.toggle + label.read-more + .extra-content) */
 .toggle {
   position: absolute;
@@ -332,7 +333,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   /* these rules ensure open state shows content — max-height handled above */
 }
 
-/* ========================= COMENTÁRIOS ========================= */
+/* COMENTÁRIOS */
 /* botão abrir comentários (mantive o seu estilo) */
 .open-comments-btn {
   display:inline-block;
@@ -343,11 +344,37 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   border-radius:999px;
   font-weight:700;
   cursor:pointer;
-  transition: transform .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
+  border: none;
 }
 .open-comments-btn:hover { transform: translateY(-3px); }
 
-/* placeholder base do seu CSS (mantive as regras que você tinha e substituí/estendi logo abaixo) */
+/* estado "aberto" do botão (aplica cor de fechar) */
+.open-comments-btn.open {
+  background: #ff3b3b;
+  box-shadow: 0 10px 20px rgba(255,59,59,0.18);
+}
+
+/* se você preferir usar um botão separado de fechar, este estilo cobre .close-comments-btn */
+.close-comments-btn {
+  display: none;
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #ff3b3b;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  margin-left: 8px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.close-comments-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255,60,60,0.3);
+}
+
+/* placeholder base do seu CSS (mantive as regras que você tinha e estendi logo abaixo) */
 .comments-placeholder {
   margin-top: 14px;
   border-radius: 10px;
@@ -408,7 +435,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================= FOOTER ========================= */
+/* FOOTER */
 .site-footer {
   background-color:#140c24;
   padding:40px;
@@ -418,7 +445,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   position:relative;
 }
 
-/* ========================= MUSIC TOGGLE ========================= */
+/* MUSIC TOGGLE */
 #music-toggle {
   position: fixed;
   bottom: 22px;
@@ -443,7 +470,7 @@ header nav a:focus { outline: none; box-shadow: 0 0 0 3px rgba(181,122,255,0.12)
   100% { box-shadow: 0 0 0 0 rgba(181,122,255,0); }
 }
 
-/* ========================= RESPONSIVIDADE ========================= */
+/* RESPONSIVIDADE */
 @media (max-width: 1024px) {
   header { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
   header nav { justify-content: center; }
