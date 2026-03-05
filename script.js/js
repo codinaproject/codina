@@ -13,11 +13,7 @@ const musicBtn = document.getElementById("music-toggle");
 const bgMusic = document.getElementById("bg-music");
 
 if (musicBtn && bgMusic) {
-  // garante que o áudio não estoure erro se estiver ausente
-  try {
-    bgMusic.pause(); // começa pausado
-  } catch (e) {}
-
+  try { bgMusic.pause(); } catch (e) {}
   musicBtn.addEventListener("click", () => {
     if (bgMusic.paused) {
       bgMusic.play();
@@ -60,38 +56,26 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
   });
 });
 
-// ====== READ MORE (fallback JS para casos em que você queira controle por script) ======
-// Se você preferir controlar o "Leia mais" por JS (em vez do checkbox CSS), use a função abaixo.
-// O HTML atual usa input.toggle + label.read-more + .extra-content (CSS checkbox) — portanto
-// JS não é necessário para o comportamento básico. Mas deixo a função caso queira alternativa:
-
+// ====== READ MORE (fallback JS) ======
 function togglePostButton(btn){
-  // btn expected to be a label or button inside the post (if you use buttons)
   const post = btn.closest('.blog-post');
   if (!post) return;
   const extra = post.querySelector('.extra-content');
   if (!extra) return;
 
-  // If checkbox method is used (input.toggle present), toggle that instead for consistency:
   const checkbox = post.querySelector('.toggle');
   if (checkbox) {
     checkbox.checked = !checkbox.checked;
-    // visual feedback handled by CSS (.toggle:checked + .read-more ... and .toggle:checked ~ .extra-content)
     return;
   }
 
-  // fallback: toggle display by JS
   if (extra.style.display === "block") {
     extra.style.display = "none";
     const readBtn = post.querySelector('.read-more');
-    if (readBtn) {
-      readBtn.classList.remove('open');
-    }
+    if (readBtn) readBtn.classList.remove('open');
   } else {
     extra.style.display = "block";
     const readBtn = post.querySelector('.read-more');
-    if (readBtn) {
-      readBtn.classList.add('open');
-    }
+    if (readBtn) readBtn.classList.add('open');
   }
 }
