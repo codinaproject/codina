@@ -74,39 +74,36 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
 
     if (!comments) return;
 
+    const isOpen = comments.style.display === "block";
 
-    // ===== FECHAR COMENTÁRIOS =====
-    if (btn.classList.contains("open")) {
+    // ===== FECHAR =====
+    if (isOpen) {
 
       comments.style.display = "none";
-
-      btn.classList.remove("open");
       btn.textContent = "Abrir comentários";
+      btn.classList.remove("open");
 
       return;
     }
 
-
-    // ===== ABRIR COMENTÁRIOS =====
+    // ===== ABRIR =====
     comments.style.display = "block";
-
-    btn.classList.add("open");
     btn.textContent = "Fechar comentários";
+    btn.classList.add("open");
 
+    // mensagem temporária
+    comments.innerHTML =
+      `<div class="loading-msg" id="loading-${postId}">Carregando comentários...</div>`;
 
-    // se já carregou antes, não recarrega
-    if (comments.dataset.loaded === "true") return;
-
-
-    comments.innerHTML = `<em id="loading-${postId}">Carregando comentários...</em>`;
-
-
+    // configuração do disqus
     window.disqus_config = function () {
+
       this.page.url = window.location.href + "#" + postId;
       this.page.identifier = postId;
+
     };
 
-
+    // se disqus ainda não carregou
     if (!window.DISQUS) {
 
       const d = document;
@@ -120,7 +117,7 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
         const loading = document.getElementById(`loading-${postId}`);
         if (loading) loading.remove();
 
-        comments.dataset.loaded = "true";
+        comments.classList.add("disqus-loaded");
 
       };
 
@@ -129,23 +126,19 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     } else {
 
       DISQUS.reset({
-
         reload: true,
-
         config: function () {
 
           this.page.identifier = postId;
           this.page.url = window.location.href + "#" + postId;
 
         }
-
       });
 
       const loading = document.getElementById(`loading-${postId}`);
       if (loading) loading.remove();
 
-      comments.dataset.loaded = "true";
-
+      comments.classList.add("disqus-loaded");
     }
 
   });
@@ -185,6 +178,7 @@ function togglePostButton(btn){
     return;
   }
 
+  // fallback
   if (extra.style.display === "block") {
 
     extra.style.display = "none";
