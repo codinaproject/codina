@@ -1,201 +1,224 @@
-// ====== script.js (Final LIMPO e Corrigido) ======
+// ====== script.js (Atualizado: Disqus por post + correções) ======
 
 document.addEventListener("DOMContentLoaded", () => {
 
-const DISQUS_SHORTNAME = "codinaproject";
+  const DISQUS_SHORTNAME = 'codinaproject';
 
-
-// ===== INTRO =====
-window.addEventListener("load", () => {
-  const intro = document.getElementById("intro");
-  if (intro) {
-    setTimeout(() => {
-      intro.style.display = "none";
-    }, 2800);
-  }
-});
-
-
-// ===== MUSIC TOGGLE =====
-const musicBtn = document.getElementById("music-toggle");
-const bgMusic = document.getElementById("bg-music");
-
-if (musicBtn && bgMusic) {
-
-  musicBtn.addEventListener("click", () => {
-
-    if (bgMusic.paused) {
-
-      bgMusic.play().catch(()=>{});
-      musicBtn.textContent = "Pausar Música de Fundo";
-      musicBtn.classList.add("playing");
-
-    } else {
-
-      bgMusic.pause();
-      musicBtn.textContent = "Tocar Música de Fundo";
-      musicBtn.classList.remove("playing");
-
-    }
-
+  // INTRO (esconde depois)
+  window.addEventListener("load", () => {
+    const intro = document.getElementById("intro");
+    if (intro) setTimeout(() => { intro.style.display = "none"; }, 2800);
   });
 
-}
+  // MUSIC TOGGLE
+  const musicBtn = document.getElementById("music-toggle");
+  const bgMusic = document.getElementById("bg-music");
 
+  if (musicBtn && bgMusic) {
+    // configurar texto inicial baseado no estado
+    musicBtn.textContent = bgMusic.paused ? "Tocar Música de Fundo" : "Pausar Música de Fundo";
+    musicBtn.setAttribute("aria-pressed", String(!bgMusic.paused));
 
-// ===== PARTICLES =====
-const particlesContainer = document.getElementById("particles-new");
-
-if (particlesContainer) {
-
-  for (let i = 0; i < 60; i++) {
-
-    const sq = document.createElement("div");
-
-    sq.classList.add("square");
-
-    if (Math.random() > 0.7) {
-      sq.classList.add("white");
-    }
-
-    sq.style.left = Math.random() * 100 + "vw";
-    sq.style.top = Math.random() * -20 + "vh";
-    sq.style.animationDuration = (Math.random() * 5 + 6) + "s";
-    sq.style.animationDelay = Math.random() * 5 + "s";
-
-    particlesContainer.appendChild(sq);
-
+    musicBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {
+          // autoplay bloqueado: só atualiza botão
+        });
+        musicBtn.textContent = "Pausar Música de Fundo";
+        musicBtn.classList.add("playing");
+        musicBtn.setAttribute("aria-pressed", "true");
+      } else {
+        bgMusic.pause();
+        musicBtn.textContent = "Tocar Música de Fundo";
+        musicBtn.classList.remove("playing");
+        musicBtn.setAttribute("aria-pressed", "false");
+      }
+    });
   }
 
-}
-
-
-// ===== DISQUS COUNT =====
-(function () {
-
-  const d = document;
-  const s = d.createElement("script");
-
-  s.src = "https://" + DISQUS_SHORTNAME + ".disqus.com/count.js";
-  s.async = true;
-
-  (d.head || d.body).appendChild(s);
-
-})();
-
-
-// ===== DISQUS POR POST =====
-let disqusLoaded = false;
-
-function loadDisqus() {
-
-  if (disqusLoaded) return;
-
-  const s = document.createElement("script");
-
-  s.src = "https://" + DISQUS_SHORTNAME + ".disqus.com/embed.js";
-  s.async = true;
-  s.setAttribute("data-timestamp", +new Date());
-
-  document.body.appendChild(s);
-
-  disqusLoaded = true;
-
-}
-
-
-document.querySelectorAll(".open-comments-btn").forEach(btn => {
-
-  btn.addEventListener("click", () => {
-
-    const postId = btn.dataset.identifier;
-
-    const placeholder = document.getElementById("comments-" + postId);
-
-    if (!placeholder) return;
-
-
-    if (btn.classList.contains("open")) {
-
-      placeholder.style.display = "none";
-      btn.textContent = "Abrir comentários";
-      btn.classList.remove("open");
-
-      return;
-
+  // PARTICLES (cria os quadradinhos)
+  const particlesContainer = document.getElementById("particles-new");
+  if (particlesContainer) {
+    const num = 60;
+    for (let i = 0; i < num; i++) {
+      const sq = document.createElement("div");
+      sq.className = "square";
+      if (Math.random() > 0.72) sq.classList.add("white");
+      sq.style.left = (Math.random() * 100) + "vw";
+      sq.style.top = (Math.random() * -20) + "vh";
+      sq.style.animationDuration = (Math.random() * 5 + 6) + "s";
+      sq.style.animationDelay = (Math.random() * 5) + "s";
+      particlesContainer.appendChild(sq);
     }
+  }
 
+  // DISQUS count (opcional)
+  (function(){
+    const d = document;
+    const s = d.createElement("script");
+    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
+    s.async = true;
+    (d.head || d.body).appendChild(s);
+  })();
 
-    btn.textContent = "Fechar comentários";
-    btn.classList.add("open");
+  // Disqus per post lazy load
+  let disqusScriptAdded = false;
 
-    placeholder.style.display = "block";
+  function addDisqusScriptOnce(){
+    return new Promise(resolve => {
+      if (disqusScriptAdded) return resolve();
+      const s = document.createElement("script");
+      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+      s.async = true;
+      s.setAttribute("data-timestamp", +new Date());
+      s.onload = () => { disqusScriptAdded = true; resolve(); };
+      s.onerror = () => { console.warn("Falha ao carregar Disqus"); resolve(); };
+      document.head.appendChild(s);
+    });
+  }
 
+  function waitForIframe(placeholder, timeout = 7000){
+    return new Promise(resolve => {
+      const start = Date.now();
+      const interval = setInterval(() => {
+        if (placeholder.querySelector('iframe')) {
+          clearInterval(interval);
+          resolve(true);
+        } else if (Date.now() - start > timeout) {
+          clearInterval(interval);
+          resolve(false);
+        }
+      }, 250);
+    });
+  }
 
-    placeholder.innerHTML = '<div id="disqus_thread"></div>';
+  function closeAllCommentsExcept(exceptId){
+    document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
+      const id = btn.dataset.identifier;
+      if (id === exceptId) return;
+      const ph = document.getElementById("comments-" + id);
+      if (ph) {
+        ph.style.display = "none";
+        ph.classList.remove("active");
+        ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+      }
+      btn.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+      btn.textContent = "Abrir comentários";
+    });
+  }
 
-    window.disqus_config = function () {
+  function createThreadContainer(placeholder){
+    const old = placeholder.querySelector("#disqus_thread");
+    if (old) old.remove();
+    const div = document.createElement("div");
+    div.id = "disqus_thread";
+    placeholder.appendChild(div);
+    return div;
+  }
 
-      this.page.url = window.location.href + "#" + postId;
-      this.page.identifier = postId;
+  document.querySelectorAll(".open-comments-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const postId = btn.dataset.identifier;
+      const placeholder = document.getElementById("comments-" + postId);
+      if (!placeholder) return;
 
-    };
-
-
-    if (!disqusLoaded) {
-
-      loadDisqus();
-
-    } else {
-
-      if (window.DISQUS) {
-
-        DISQUS.reset({
-          reload: true,
-          config: function () {
-            this.page.identifier = postId;
-            this.page.url = window.location.href + "#" + postId;
-          }
-        });
-
+      // fechar se já aberto
+      if (btn.classList.contains("open")) {
+        placeholder.style.display = "none";
+        placeholder.classList.remove("active", "disqus-loaded");
+        btn.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "Abrir comentários";
+        const old = placeholder.querySelector("#disqus_thread");
+        if (old) old.remove();
+        placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+        return;
       }
 
-    }
+      // fechar outros
+      closeAllCommentsExcept(postId);
 
-  });
-
-});
-
-
-// ===== READ MORE =====
-document.querySelectorAll(".read-more").forEach(btn => {
-
-  btn.addEventListener("click", () => {
-
-    const post = btn.closest(".blog-post");
-
-    if (!post) return;
-
-    const checkbox = post.querySelector(".toggle");
-
-    if (!checkbox) return;
-
-    checkbox.checked = !checkbox.checked;
-
-    if (checkbox.checked) {
-
-      btn.textContent = "Clique aqui para fechar";
+      // abrir
       btn.classList.add("open");
+      btn.setAttribute("aria-expanded", "true");
+      btn.textContent = "Fechar comentários";
+      placeholder.style.display = "block";
+      placeholder.classList.add("active");
+      placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
 
-    } else {
+      // cria container com id exato necessário
+      createThreadContainer(placeholder);
 
-      btn.textContent = "Leia mais";
-      btn.classList.remove("open");
+      // configura disqus para este post
+      window.disqus_config = function () {
+        this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+        this.page.identifier = postId;
+      };
 
-    }
+      if (!disqusScriptAdded) {
+        await addDisqusScriptOnce();
+        // espera o iframe aparecer (ou timeout)
+        const ok = await waitForIframe(placeholder, 7000);
+        const lm = placeholder.querySelector(".loading-msg");
+        if (lm) lm.remove();
+        if (ok) {
+          placeholder.classList.add("disqus-loaded");
+        } else {
+          // fallback visual: mantém mensagem mas remove loader
+          placeholder.classList.add("disqus-loaded");
+        }
+      } else {
+        // já carregado, manda reset
+        try {
+          DISQUS.reset({
+            reload: true,
+            config: function () {
+              this.page.identifier = postId;
+              this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+            }
+          });
+          const ok = await waitForIframe(placeholder, 7000);
+          const lm = placeholder.querySelector(".loading-msg");
+          if (lm) lm.remove();
+          if (ok) placeholder.classList.add("disqus-loaded");
+        } catch (e) {
+          // se reset falhar, tenta recarregar script por segurança
+          await addDisqusScriptOnce();
+          const lm = placeholder.querySelector(".loading-msg");
+          if (lm) lm.remove();
+          placeholder.classList.add("disqus-loaded");
+        }
+      }
 
+      placeholder.dataset.loaded = "true";
+    });
   });
 
-});
+  // READ MORE (labels já ligam ao checkbox; aqui sincronizamos texto)
+  document.querySelectorAll(".read-more").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const post = btn.closest(".blog-post");
+      if (!post) return;
+      const checkbox = post.querySelector(".toggle");
+      if (!checkbox) return;
+      checkbox.checked = !checkbox.checked;
+      if (checkbox.checked) {
+        btn.classList.add("open");
+        btn.textContent = "Clique aqui para Fechar";
+      } else {
+        btn.classList.remove("open");
+        btn.textContent = "Leia mais";
+      }
+    });
+
+    // also allow keyboard activation (label already focusable in our markup)
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  });
 
 });
