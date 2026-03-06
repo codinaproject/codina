@@ -1,3 +1,8 @@
+// ====== script.js (Atualizado: Disqus por post + funcionalidades) ======
+
+/* shortname do Disqus */
+const DISQUS_SHORTNAME = 'codinaproject';
+
 // ====== INTRO / LOGO ======
 window.addEventListener("load", () => {
   const intro = document.getElementById("intro");
@@ -44,20 +49,69 @@ if (particlesContainer) {
   }
 }
 
-// ====== DISQUS COUNT ======
+// ====== DISQUS COUNT (opcional) ======
 (function(){
   const d = document;
   const s = d.createElement("script");
-  s.src = "https://codinaproject.disqus.com/count.js";
+  s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
   s.async = true;
   (d.head || d.body).appendChild(s);
 })();
 
-// ====== DISQUS LAZY LOAD ======
-let disqusLoaded = false;
+// ====== Disqus lazy load por post ======
+let disqusScriptAdded = false;
+
+function addDisqusScriptOnce() {
+  return new Promise((resolve, reject) => {
+    if (disqusScriptAdded) return resolve();
+    const d = document;
+    const s = d.createElement('script');
+    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+    s.async = true;
+    s.setAttribute('data-timestamp', +new Date());
+    s.onload = () => {
+      disqusScriptAdded = true;
+      resolve();
+    };
+    s.onerror = () => {
+      console.warn('Falha ao carregar Disqus embed.js');
+      // resolve anyway so UI não trava; reset pode falhar depois se DISQUS não estiver definido
+      resolve();
+    };
+    (d.head || d.body).appendChild(s);
+  });
+}
+
+function closeAllCommentsExcept(exceptId) {
+  document.querySelectorAll('.open-comments-btn.open').forEach(obtn => {
+    const pid = obtn.dataset.identifier;
+    if (pid === exceptId) return;
+    const placeholder = document.getElementById('comments-' + pid);
+    if (placeholder) {
+      placeholder.style.display = 'none';
+      placeholder.classList.remove('active');
+      // remove qualquer #disqus_thread dentro do placeholder para evitar iframes espalhados
+      const existing = placeholder.querySelector('#disqus_thread');
+      if (existing) existing.remove();
+      placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+    }
+    obtn.classList.remove('open');
+    obtn.textContent = 'Abrir comentários';
+  });
+}
+
+function createThreadContainerIn(placeholder) {
+  // Remove antigo, cria novo #disqus_thread diretamente dentro do placeholder
+  const old = placeholder.querySelector('#disqus_thread');
+  if (old) old.remove();
+  const div = document.createElement('div');
+  div.id = 'disqus_thread';
+  placeholder.appendChild(div);
+  return div;
+}
 
 document.querySelectorAll(".open-comments-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
     const postId = btn.dataset.identifier;
     const placeholder = document.getElementById(`comments-${postId}`);
     if (!placeholder) return;
@@ -67,60 +121,85 @@ document.querySelectorAll(".open-comments-btn").forEach(btn => {
     // FECHAR
     if (aberto) {
       placeholder.style.display = "none";
+      placeholder.classList.remove('active');
       btn.textContent = "Abrir comentários";
       btn.classList.remove("open");
+      // opcional: remove thread pra liberar iframe/recursos
+      const old = placeholder.querySelector('#disqus_thread');
+      if (old) old.remove();
+      placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
       return;
     }
+
+    // Antes de abrir, fechar outros
+    closeAllCommentsExcept(postId);
 
     // ABRIR
     btn.textContent = "Fechar comentários";
     btn.classList.add("open");
     placeholder.style.display = "block";
+    placeholder.classList.add('active');
+    placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
 
-    const disqusDiv = document.getElementById("disqus_thread");
-    disqusDiv.style.display = "block";
-    placeholder.innerHTML = ""; // limpa placeholder
+    // cria #disqus_thread dentro do placeholder (id precisa ser exatamente 'disqus_thread' para o embed inicial)
+    createThreadContainerIn(placeholder);
 
+    // define a config para este post
     window.disqus_config = function () {
-      this.page.url = window.location.href + "#" + postId;
+      this.page.url = btn.dataset.url || (window.location.href + '#' + postId);
       this.page.identifier = postId;
     };
 
-    if (!disqusLoaded) {
-      const d = document;
-      const s = d.createElement("script");
-      s.src = "https://codinaproject.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-      disqusLoaded = true;
+    // se o embed nunca foi carregado, adiciona o script e espera
+    if (!disqusScriptAdded) {
+      await addDisqusScriptOnce();
+      // pequeno delay para o Disqus renderizar dentro do novo #disqus_thread
+      setTimeout(() => {
+        // remove loader se existir
+        const lm = placeholder.querySelector('.loading-msg');
+        if (lm) lm.remove();
+      }, 900);
     } else {
-      DISQUS.reset({
-        reload: true,
-        config: function () {
-          this.page.identifier = postId;
-          this.page.url = window.location.href + "#" + postId;
-        }
-      });
+      // já carregado: manda reset com nova thread
+      try {
+        DISQUS.reset({
+          reload: true,
+          config: function () {
+            this.page.identifier = postId;
+            this.page.url = btn.dataset.url || (window.location.href + '#' + postId);
+          }
+        });
+        // remove loader
+        const lm = placeholder.querySelector('.loading-msg');
+        if (lm) lm.remove();
+      } catch (err) {
+        // fallback: se reset falhar por qualquer motivo, tenta recarregar o script (menos provável)
+        console.warn('DISQUS.reset falhou, tentando recarregar embed.js', err);
+        await addDisqusScriptOnce();
+        const lm = placeholder.querySelector('.loading-msg');
+        if (lm) lm.remove();
+      }
     }
+
+    // marca como carregado (se quiser evitar reloads pesados)
+    placeholder.dataset.loaded = "true";
   });
 });
 
-// ====== READ MORE ======
-function togglePostButton(btn){
-  const post = btn.closest('.blog-post');
-  if (!post) return;
-  const extra = post.querySelector('.extra-content');
-  if (!extra) return;
-  const checkbox = post.querySelector('.toggle');
-  if (checkbox) {
+// ====== READ MORE (fallback se usar botão) ======
+document.querySelectorAll('.read-more').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const post = btn.closest('.blog-post');
+    if (!post) return;
+    const checkbox = post.querySelector('.toggle');
+    if (!checkbox) return;
     checkbox.checked = !checkbox.checked;
-    const readBtn = post.querySelector('.read-more');
     if (checkbox.checked) {
-      readBtn.textContent = "Clique aqui para Fechar";
-      readBtn.classList.add("open");
+      btn.textContent = "Clique aqui para Fechar";
+      btn.classList.add("open");
     } else {
-      readBtn.textContent = "Leia mais";
-      readBtn.classList.remove("open");
+      btn.textContent = "Leia mais";
+      btn.classList.remove("open");
     }
-  }
-}
+  });
+});
