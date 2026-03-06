@@ -1,10 +1,10 @@
-// ====== script.js (Atualizado: Disqus por post + correções) ======
-
+// ====== script.js (Atualizado final) ======
+// caminho do arquivo: script.js/js
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = 'codinaproject';
 
-  // INTRO (esconde depois)
+  // INTRO (esconde após animação)
   window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
     if (intro) setTimeout(() => { intro.style.display = "none"; }, 2800);
@@ -15,20 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
 
   if (musicBtn && bgMusic) {
-    // configurar texto inicial baseado no estado
+    // set initial label
     musicBtn.textContent = bgMusic.paused ? "Tocar Música de Fundo" : "Pausar Música de Fundo";
-    musicBtn.setAttribute("aria-pressed", String(!bgMusic.paused));
-
     musicBtn.addEventListener("click", () => {
       if (bgMusic.paused) {
-        bgMusic.play().catch(() => {
-          // autoplay bloqueado: só atualiza botão
-        });
-        musicBtn.textContent = "Pausar Música de Fundo";
-        musicBtn.classList.add("playing");
-        musicBtn.setAttribute("aria-pressed", "true");
+        const p = bgMusic.play();
+        if (p && p.then) {
+          p.then(() => {
+            musicBtn.textContent = "Pausar Música de Fundo";
+            musicBtn.classList.add("playing");
+            musicBtn.setAttribute("aria-pressed", "true");
+          }).catch(err => {
+            // autoplay may be blocked: keep button state consistent
+            console.warn("play() falhou:", err);
+            musicBtn.textContent = "Tocar Música de Fundo";
+            musicBtn.setAttribute("aria-pressed", "false");
+          });
+        } else {
+          musicBtn.textContent = "Pausar Música de Fundo";
+          musicBtn.classList.add("playing");
+          musicBtn.setAttribute("aria-pressed", "true");
+        }
       } else {
-        bgMusic.pause();
+        try { bgMusic.pause(); } catch(e){}
         musicBtn.textContent = "Tocar Música de Fundo";
         musicBtn.classList.remove("playing");
         musicBtn.setAttribute("aria-pressed", "false");
@@ -36,23 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // PARTICLES (cria os quadradinhos)
+  // PARTICLES (recria quadradinhos)
   const particlesContainer = document.getElementById("particles-new");
   if (particlesContainer) {
-    const num = 60;
-    for (let i = 0; i < num; i++) {
+    const NUM = 60;
+    // limpa pra evitar duplicação se o script recarregar
+    particlesContainer.innerHTML = "";
+    for (let i = 0; i < NUM; i++) {
       const sq = document.createElement("div");
-      sq.className = "square";
-      if (Math.random() > 0.72) sq.classList.add("white");
-      sq.style.left = (Math.random() * 100) + "vw";
-      sq.style.top = (Math.random() * -20) + "vh";
-      sq.style.animationDuration = (Math.random() * 5 + 6) + "s";
-      sq.style.animationDelay = (Math.random() * 5) + "s";
+      sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
+      sq.style.left = `${Math.random() * 100}vw`;
+      sq.style.top = `${Math.random() * -20}vh`;
+      sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
+      sq.style.animationDelay = `${Math.random() * 5}s`;
       particlesContainer.appendChild(sq);
     }
   }
 
-  // DISQUS count (opcional)
+  // DISQUS COUNT (opcional)
   (function(){
     const d = document;
     const s = d.createElement("script");
@@ -61,9 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
     (d.head || d.body).appendChild(s);
   })();
 
-  // Disqus per post lazy load
+  // Disqus per post (lazy)
   let disqusScriptAdded = false;
-
   function addDisqusScriptOnce(){
     return new Promise(resolve => {
       if (disqusScriptAdded) return resolve();
@@ -77,38 +86,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function waitForIframe(placeholder, timeout = 7000){
-    return new Promise(resolve => {
-      const start = Date.now();
-      const interval = setInterval(() => {
-        if (placeholder.querySelector('iframe')) {
-          clearInterval(interval);
-          resolve(true);
-        } else if (Date.now() - start > timeout) {
-          clearInterval(interval);
-          resolve(false);
-        }
-      }, 250);
-    });
-  }
-
   function closeAllCommentsExcept(exceptId){
     document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
-      const id = btn.dataset.identifier;
-      if (id === exceptId) return;
-      const ph = document.getElementById("comments-" + id);
-      if (ph) {
-        ph.style.display = "none";
-        ph.classList.remove("active");
-        ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+      if (btn.dataset.identifier !== exceptId) {
+        const ph = document.getElementById("comments-" + btn.dataset.identifier);
+        if (ph) {
+          ph.style.display = "none";
+          ph.classList.remove("active");
+          const old = ph.querySelector("#disqus_thread");
+          if (old) old.remove();
+          ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+        }
+        btn.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "Abrir comentários";
       }
-      btn.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
-      btn.textContent = "Abrir comentários";
     });
   }
 
-  function createThreadContainer(placeholder){
+  function createThreadContainerIn(placeholder){
     const old = placeholder.querySelector("#disqus_thread");
     if (old) old.remove();
     const div = document.createElement("div");
@@ -126,50 +122,48 @@ document.addEventListener("DOMContentLoaded", () => {
       // fechar se já aberto
       if (btn.classList.contains("open")) {
         placeholder.style.display = "none";
-        placeholder.classList.remove("active", "disqus-loaded");
+        placeholder.classList.remove("active");
         btn.classList.remove("open");
         btn.setAttribute("aria-expanded", "false");
         btn.textContent = "Abrir comentários";
         const old = placeholder.querySelector("#disqus_thread");
         if (old) old.remove();
         placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+        placeholder.classList.remove('disqus-loaded');
         return;
       }
 
-      // fechar outros
+      // fecha os outros
       closeAllCommentsExcept(postId);
 
       // abrir
+      btn.textContent = "Fechar comentários";
       btn.classList.add("open");
       btn.setAttribute("aria-expanded", "true");
-      btn.textContent = "Fechar comentários";
       placeholder.style.display = "block";
       placeholder.classList.add("active");
       placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
 
-      // cria container com id exato necessário
-      createThreadContainer(placeholder);
+      // cria container interno
+      createThreadContainerIn(placeholder);
 
-      // configura disqus para este post
+      // configura disqus pra esta thread
       window.disqus_config = function () {
         this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
         this.page.identifier = postId;
       };
 
+      // carrega ou faz reset
       if (!disqusScriptAdded) {
         await addDisqusScriptOnce();
-        // espera o iframe aparecer (ou timeout)
-        const ok = await waitForIframe(placeholder, 7000);
-        const lm = placeholder.querySelector(".loading-msg");
-        if (lm) lm.remove();
-        if (ok) {
-          placeholder.classList.add("disqus-loaded");
-        } else {
-          // fallback visual: mantém mensagem mas remove loader
-          placeholder.classList.add("disqus-loaded");
-        }
+        // espera curto para renderizar
+        setTimeout(() => {
+          const lm = placeholder.querySelector(".loading-msg");
+          if (lm) lm.remove();
+          // dá o efeito de glow
+          placeholder.classList.add('disqus-loaded');
+        }, 900);
       } else {
-        // já carregado, manda reset
         try {
           DISQUS.reset({
             reload: true,
@@ -178,45 +172,30 @@ document.addEventListener("DOMContentLoaded", () => {
               this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
             }
           });
-          const ok = await waitForIframe(placeholder, 7000);
           const lm = placeholder.querySelector(".loading-msg");
           if (lm) lm.remove();
-          if (ok) placeholder.classList.add("disqus-loaded");
-        } catch (e) {
-          // se reset falhar, tenta recarregar script por segurança
+          placeholder.classList.add('disqus-loaded');
+        } catch (err) {
+          // fallback: recarrega script se reset falhar
           await addDisqusScriptOnce();
           const lm = placeholder.querySelector(".loading-msg");
           if (lm) lm.remove();
-          placeholder.classList.add("disqus-loaded");
+          placeholder.classList.add('disqus-loaded');
         }
       }
-
-      placeholder.dataset.loaded = "true";
     });
   });
 
-  // READ MORE (labels já ligam ao checkbox; aqui sincronizamos texto)
-  document.querySelectorAll(".read-more").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const post = btn.closest(".blog-post");
-      if (!post) return;
-      const checkbox = post.querySelector(".toggle");
-      if (!checkbox) return;
-      checkbox.checked = !checkbox.checked;
-      if (checkbox.checked) {
-        btn.classList.add("open");
-        btn.textContent = "Clique aqui para Fechar";
+  // READ MORE: label already toggles checkbox (native). To keep visuals consistent we also listen to change
+  document.querySelectorAll('.toggle').forEach(chk => {
+    chk.addEventListener('change', (e) => {
+      const post = chk.closest('.blog-post');
+      const label = post ? post.querySelector('.read-more') : null;
+      if (!label) return;
+      if (chk.checked) {
+        label.classList.add('open');
       } else {
-        btn.classList.remove("open");
-        btn.textContent = "Leia mais";
-      }
-    });
-
-    // also allow keyboard activation (label already focusable in our markup)
-    btn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        btn.click();
+        label.classList.remove('open');
       }
     });
   });
