@@ -104,6 +104,86 @@ nav a.active::after{transform:scaleX(1);}
 
 /* MUSIC BUTTON */
 #music-toggle{position:fixed;bottom:18px;right:18px;padding:10px 16px;background:var(--accent);border-radius:999px;border:none;cursor:pointer;font-weight:800;z-index:60;}
+/* ===== BARRA LATERAL ===== */
+#sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  height:100vh;
+  width:200px;
+  background:linear-gradient(180deg, rgba(27,15,46,0.95), rgba(21,11,36,0.9));
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  padding:24px 0;
+  box-shadow:2px 0 12px rgba(157,92,255,0.3);
+  z-index:50;
+  font-family:'Nunito',sans-serif;
+}
+
+#sidebar .sidebar-top{
+  color:#b8f7ff; /* roxo claro */
+  font-weight:700;
+  font-size:1rem;
+  text-align:center;
+  text-shadow:
+    0 0 6px #b8f7ff,
+    0 0 12px #0fff85,
+    0 0 18px #0fff85;
+}
+
+#sidebar .sidebar-bottom{
+  color:#ff3b3b; /* vermelho */
+  font-weight:700;
+  font-size:0.95rem;
+  cursor:pointer;
+  padding:8px 12px;
+  border-radius:8px;
+  transition:all .2s ease;
+}
+
+#sidebar .sidebar-bottom:hover{
+  background:rgba(255,59,59,0.1);
+  box-shadow:0 0 12px rgba(255,59,59,0.3);
+}
+
+/* ===== PERFIL ===== */
+.profile-main{
+  margin-left:220px; /* espaço pra barra lateral */
+  padding:32px 20px;
+}
+
+.profile-info h1{
+  font-size:2rem;
+  color:#b57aff;
+  margin-bottom:12px;
+}
+.profile-info p{
+  font-size:1rem;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+.profile-actions{
+  margin-top:32px;
+}
+.profile-actions button{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:10px 16px;
+  margin-right:12px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:700;
+  transition:all .2s ease;
+}
+.profile-actions button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(181,122,255,0.12);
+}
+
 #music-toggle:hover{transform:translateY(-2px);}
 
 /* RESPONSIVIDADE */
