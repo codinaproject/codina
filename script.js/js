@@ -101,9 +101,54 @@ document.querySelectorAll(".open-comments-btn").forEach(btn=>{
 document.querySelectorAll(".read-more").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const post = btn.closest(".blog-post"); if(!post) return;
+
+
     const checkbox = post.querySelector(".toggle"); if(!checkbox) return;
     checkbox.checked=!checkbox.checked;
     if(checkbox.checked){ btn.textContent="Clique aqui para Fechar"; btn.classList.add("open"); }
     else { btn.textContent="Leia mais"; btn.classList.remove("open"); }
   });
 });
+
+// ===== SIMULAÇÃO DE LOGIN =====
+// Exemplo de como simular um usuário logado
+// Substitua depois por integração real com backend/API
+
+// Estrutura de usuário
+// { username: 'Codin', email: 'codin@dominio.com' }
+const userKey = 'codinaUser';
+
+// Função para verificar se está logado
+function checkLogin() {
+  const userData = localStorage.getItem(userKey);
+  if (userData) {
+    const user = JSON.parse(userData);
+    document.getElementById('sidebar').style.display = 'flex';
+    document.getElementById('username-display').textContent = user.username;
+    document.getElementById('user-email').textContent = user.email;
+    return true;
+  } else {
+    document.getElementById('sidebar').style.display = 'none';
+    // opcional: redirecionar pro login
+    // window.location.href = 'login.html';
+    return false;
+  }
+}
+
+// Logout
+const logoutBtn = document.getElementById('logout-btn');
+if(logoutBtn){
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem(userKey);
+    alert('Você foi desconectado!');
+    window.location.href = 'login.html';
+  });
+}
+
+// Simula usuário logado (apenas para teste; remova em produção)
+if (!localStorage.getItem(userKey)) {
+  localStorage.setItem(userKey, JSON.stringify({username:'Codin', email:'codin@dominio.com'}));
+}
+
+// Inicializa
+checkLogin();
