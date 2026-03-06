@@ -1,7 +1,10 @@
-// ====== script.js (Separado e Final) ======
+// ====== script.js (Separado e Final CORRIGIDO) ======
+
+document.addEventListener("DOMContentLoaded", () => {
 
 // --- CONFIG ---
 const DISQUS_SHORTNAME = 'codinaproject';
+
 
 // ====== INTRO / LOGO ======
 window.addEventListener("load", () => {
@@ -9,146 +12,331 @@ window.addEventListener("load", () => {
   if (intro) setTimeout(() => { intro.style.display = "none"; }, 2800);
 });
 
+
 // ====== MUSIC TOGGLE ======
 const musicBtn = document.getElementById("music-toggle");
 const bgMusic = document.getElementById("bg-music");
+
 if (musicBtn && bgMusic) {
-  bgMusic.pause();
+  try { bgMusic.pause(); } catch(e){}
+
   musicBtn.addEventListener("click", () => {
-    if (bgMusic.paused) { bgMusic.play(); musicBtn.textContent = "Pausar Música de Fundo"; musicBtn.classList.add("playing"); }
-    else { bgMusic.pause(); musicBtn.textContent = "Tocar Música de Fundo"; musicBtn.classList.remove("playing"); }
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicBtn.textContent = "Pausar Música de Fundo";
+      musicBtn.classList.add("playing");
+    } else {
+      bgMusic.pause();
+      musicBtn.textContent = "Tocar Música de Fundo";
+      musicBtn.classList.remove("playing");
+    }
   });
 }
 
+
 // ====== PARTICLES ======
 const particlesContainer = document.getElementById("particles-new");
+
 if (particlesContainer) {
-  for (let i=0; i<60; i++){
+  for (let i = 0; i < 60; i++) {
     const sq = document.createElement("div");
+
     sq.classList.add("square");
-    if(Math.random()>0.7) sq.classList.add("white");
-    sq.style.left = `${Math.random()*100}vw`;
-    sq.style.top = `${Math.random()*-20}vh`;
-    sq.style.animationDuration = `${Math.random()*5+6}s`;
-    sq.style.animationDelay = `${Math.random()*5}s`;
+    if (Math.random() > 0.7) sq.classList.add("white");
+
+    sq.style.left = `${Math.random() * 100}vw`;
+    sq.style.top = `${Math.random() * -20}vh`;
+    sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
+    sq.style.animationDelay = `${Math.random() * 5}s`;
+
     particlesContainer.appendChild(sq);
   }
 }
 
+
 // ====== DISQUS COUNT ======
-(function(){ const d=document, s=d.createElement("script"); s.src=`https://${DISQUS_SHORTNAME}.disqus.com/count.js`; s.async=true; (d.head||d.body).appendChild(s); })();
+(function(){
+  const d = document;
+  const s = d.createElement("script");
+  s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
+  s.async = true;
+  (d.head || d.body).appendChild(s);
+})();
+
 
 // ====== DISQUS POR POST ======
+
 let disqusScriptAdded = false;
-function addDisqusScriptOnce(){ return new Promise(resolve => {
-  if(disqusScriptAdded) return resolve();
-  const s=document.createElement("script");
-  s.src=`https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
-  s.async=true; s.setAttribute('data-timestamp', +new Date());
-  s.onload=()=>{ disqusScriptAdded=true; resolve(); };
-  s.onerror=()=>{ console.warn("Falha ao carregar Disqus"); resolve(); };
-  document.head.appendChild(s);
-}); }
+
+function addDisqusScriptOnce(){
+  return new Promise(resolve => {
+
+    if(disqusScriptAdded) return resolve();
+
+    const s = document.createElement("script");
+
+    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+    s.async = true;
+    s.setAttribute("data-timestamp", +new Date());
+
+    s.onload = () => {
+      disqusScriptAdded = true;
+      resolve();
+    };
+
+    s.onerror = () => {
+      console.warn("Falha ao carregar Disqus");
+      resolve();
+    };
+
+    document.head.appendChild(s);
+  });
+}
+
 
 function closeAllCommentsExcept(exceptId){
-  document.querySelectorAll(".open-comments-btn.open").forEach(btn=>{
-    if(btn.dataset.identifier!==exceptId){
-      const ph = document.getElementById("comments-"+btn.dataset.identifier);
-      if(ph){ ph.style.display="none"; ph.classList.remove('active'); ph.innerHTML=`<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`; }
-      btn.classList.remove("open"); btn.textContent="Abrir comentários";
+
+  document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
+
+    if(btn.dataset.identifier !== exceptId){
+
+      const ph = document.getElementById("comments-" + btn.dataset.identifier);
+
+      if(ph){
+        ph.style.display = "none";
+        ph.classList.remove("active");
+        ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+      }
+
+      btn.classList.remove("open");
+      btn.textContent = "Abrir comentários";
     }
   });
 }
 
+
 function createThreadContainerIn(placeholder){
-  const old = placeholder.querySelector("#disqus_thread"); if(old) old.remove();
-  const div = document.createElement("div"); div.id="disqus_thread"; placeholder.appendChild(div); return div;
+
+  const old = placeholder.querySelector("#disqus_thread");
+
+  if(old) old.remove();
+
+  const div = document.createElement("div");
+
+  div.id = "disqus_thread";
+
+  placeholder.appendChild(div);
+
+  return div;
 }
 
-document.querySelectorAll(".open-comments-btn").forEach(btn=>{
-  btn.addEventListener("click", async ()=>{
-    const postId=btn.dataset.identifier, placeholder=document.getElementById("comments-"+postId);
+
+document.querySelectorAll(".open-comments-btn").forEach(btn => {
+
+  btn.addEventListener("click", async () => {
+
+    const postId = btn.dataset.identifier;
+
+    const placeholder = document.getElementById("comments-" + postId);
+
     if(!placeholder) return;
+
+    // FECHAR
     if(btn.classList.contains("open")){
-      placeholder.style.display="none"; placeholder.classList.remove('active'); btn.textContent="Abrir comentários"; btn.classList.remove("open");
-      const old = placeholder.querySelector('#disqus_thread'); if(old) old.remove();
-      placeholder.innerHTML=`<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+
+      placeholder.style.display = "none";
+
+      placeholder.classList.remove("active");
+
+      btn.textContent = "Abrir comentários";
+
+      btn.classList.remove("open");
+
+      const old = placeholder.querySelector("#disqus_thread");
+
+      if(old) old.remove();
+
+      placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+
       return;
     }
 
+    // fecha outros
     closeAllCommentsExcept(postId);
 
-    btn.textContent="Fechar comentários"; btn.classList.add("open");
-    placeholder.style.display="block"; placeholder.classList.add('active');
-    placeholder.innerHTML=`<div class="loading-msg">Carregando comentários...</div>`;
+    // ABRIR
+
+    btn.textContent = "Fechar comentários";
+
+    btn.classList.add("open");
+
+    placeholder.style.display = "block";
+
+    placeholder.classList.add("active");
+
+    placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
+
     createThreadContainerIn(placeholder);
 
     window.disqus_config = function(){
-      this.page.url=btn.dataset.url || (window.location.href+'#'+postId);
-      this.page.identifier=postId;
+
+      this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+
+      this.page.identifier = postId;
+
     };
 
-    if(!disqusScriptAdded){ await addDisqusScriptOnce(); setTimeout(()=>{ const lm=placeholder.querySelector(".loading-msg"); if(lm) lm.remove(); },900); }
-    else { try { DISQUS.reset({ reload:true, config:function(){ this.page.identifier=postId; this.page.url=btn.dataset.url || (window.location.href+'#'+postId); } });
-           const lm=placeholder.querySelector(".loading-msg"); if(lm) lm.remove(); } 
-           catch(e){ await addDisqusScriptOnce(); const lm=placeholder.querySelector(".loading-msg"); if(lm) lm.remove(); } }
 
-    placeholder.dataset.loaded="true";
+    if(!disqusScriptAdded){
+
+      await addDisqusScriptOnce();
+
+      setTimeout(() => {
+
+        const lm = placeholder.querySelector(".loading-msg");
+
+        if(lm) lm.remove();
+
+      }, 900);
+
+    } else {
+
+      try {
+
+        DISQUS.reset({
+
+          reload: true,
+
+          config: function(){
+
+            this.page.identifier = postId;
+
+            this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+
+          }
+
+        });
+
+      } catch(e){
+
+        await addDisqusScriptOnce();
+
+      }
+
+      const lm = placeholder.querySelector(".loading-msg");
+
+      if(lm) lm.remove();
+    }
+
+    placeholder.dataset.loaded = "true";
+
   });
+
 });
+
 
 // ====== READ MORE ======
-document.querySelectorAll(".read-more").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const post = btn.closest(".blog-post"); if(!post) return;
 
+document.querySelectorAll(".read-more").forEach(btn => {
 
-    const checkbox = post.querySelector(".toggle"); if(!checkbox) return;
-    checkbox.checked=!checkbox.checked;
-    if(checkbox.checked){ btn.textContent="Clique aqui para Fechar"; btn.classList.add("open"); }
-    else { btn.textContent="Leia mais"; btn.classList.remove("open"); }
+  btn.addEventListener("click", () => {
+
+    const post = btn.closest(".blog-post");
+
+    if(!post) return;
+
+    const checkbox = post.querySelector(".toggle");
+
+    if(!checkbox) return;
+
+    checkbox.checked = !checkbox.checked;
+
+    if(checkbox.checked){
+
+      btn.textContent = "Clique aqui para Fechar";
+
+      btn.classList.add("open");
+
+    } else {
+
+      btn.textContent = "Leia mais";
+
+      btn.classList.remove("open");
+
+    }
+
   });
+
 });
 
+
 // ===== SIMULAÇÃO DE LOGIN =====
-// Exemplo de como simular um usuário logado
-// Substitua depois por integração real com backend/API
 
-// Estrutura de usuário
-// { username: 'Codin', email: 'codin@dominio.com' }
-const userKey = 'codinaUser';
+const userKey = "codinaUser";
 
-// Função para verificar se está logado
-function checkLogin() {
+function checkLogin(){
+
+  const sidebar = document.getElementById("sidebar");
+
+  const username = document.getElementById("username-display");
+
+  const email = document.getElementById("user-email");
+
   const userData = localStorage.getItem(userKey);
-  if (userData) {
+
+  if(userData){
+
     const user = JSON.parse(userData);
-    document.getElementById('sidebar').style.display = 'flex';
-    document.getElementById('username-display').textContent = user.username;
-    document.getElementById('user-email').textContent = user.email;
+
+    if(sidebar) sidebar.style.display = "flex";
+
+    if(username) username.textContent = user.username;
+
+    if(email) email.textContent = user.email;
+
     return true;
+
   } else {
-    document.getElementById('sidebar').style.display = 'none';
-    // opcional: redirecionar pro login
-    // window.location.href = 'login.html';
+
+    if(sidebar) sidebar.style.display = "none";
+
     return false;
+
   }
+
 }
 
-// Logout
-const logoutBtn = document.getElementById('logout-btn');
+
+const logoutBtn = document.getElementById("logout-btn");
+
 if(logoutBtn){
-  logoutBtn.addEventListener('click', () => {
+
+  logoutBtn.addEventListener("click", () => {
+
     localStorage.removeItem(userKey);
-    alert('Você foi desconectado!');
-    window.location.href = 'login.html';
+
+    alert("Você foi desconectado!");
+
+    window.location.href = "login.html";
+
   });
+
 }
 
-// Simula usuário logado (apenas para teste; remova em produção)
-if (!localStorage.getItem(userKey)) {
-  localStorage.setItem(userKey, JSON.stringify({username:'Codin', email:'codin@dominio.com'}));
+
+// simulação para teste
+if(!localStorage.getItem(userKey)){
+
+  localStorage.setItem(userKey, JSON.stringify({
+
+    username: "Codin",
+
+    email: "codin@dominio.com"
+
+  }));
+
 }
 
-// Inicializa
 checkLogin();
+
+});
