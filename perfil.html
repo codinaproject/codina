@@ -3,97 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perfil - Codina Universe</title>
+<title>Perfil do Usuário - Codina Universe</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<!-- INTRO LOGO -->
-<div id="intro">
-  <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
+<!-- BARRA LATERAL (aparece só se logado) -->
+<div id="sidebar" style="display:none;">
+  <div class="sidebar-top" id="user-status">Você está Logado!</div>
+  <div class="sidebar-bottom" id="logout-btn">Desconectar</div>
 </div>
-
-<!-- PARTICLES -->
-<div id="particles-new" class="particles-new"></div>
 
 <div id="site-content">
-
-<header>
-  <div class="logo-container">
-    <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
-  </div>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="historia.html">História</a>
-    <a href="personagens.html">Personagens</a>
-    <a href="equipe.html">Equipe</a>
-    <a href="loja.html">Loja</a>
-    <a href="sobre.html">Sobre</a>
-    <a href="perfil.html" class="active">Perfil</a>
-    <a href="login.html">Login</a>
-  </nav>
-</header>
-
-<main>
-<section class="profile-section">
-  <div class="profile-container">
-
-    <!-- AVATAR E INFO -->
-    <div class="profile-header">
-      <img src="images/avatar.png" alt="Avatar" class="profile-avatar">
-      <div class="profile-info">
-        <h2>CodinaPlayer</h2>
-        <p class="bio">Apaixonado por universo Codina, webcomics e música virtual.</p>
-        <div class="profile-actions">
-          <button class="btn-edit">Editar Perfil</button>
-          <button class="btn-logout">Sair</button>
-        </div>
-      </div>
+  <header>
+    <div class="logo-container">
+      <img src="images/codina-logosite.png" alt="Codina" class="logo-main">
     </div>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="perfil.html" class="active">Perfil</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
-    <!-- ESTATÍSTICAS -->
-    <div class="profile-stats">
-      <div><strong>12</strong><span>Posts</span></div>
-      <div><strong>240</strong><span>Curtidas</span></div>
-      <div><strong>180</strong><span>Seguidores</span></div>
-    </div>
+  <main class="profile-main">
+    <section class="profile-info">
+      <h1>Bem-vindo, <span id="username-display">Usuário</span>!</h1>
+      <p>Email: <span id="user-email">email@dominio.com</span></p>
+      <p>Status: Logado</p>
+    </section>
 
-    <!-- POSTS/ATIVIDADES -->
-    <div class="profile-posts">
-      <h3>Atividades Recentes</h3>
-
-      <article class="profile-post">
-        <p>🎨 Postou nova arte da Codina!</p>
-        <span class="date">05 de Março, 2026</span>
-      </article>
-
-      <article class="profile-post">
-        <p>📝 Comentou no episódio mais recente.</p>
-        <span class="date">04 de Março, 2026</span>
-      </article>
-
-      <article class="profile-post">
-        <p>🎶 Compartilhou a playlist Codina Universe.</p>
-        <span class="date">03 de Março, 2026</span>
-      </article>
-
-    </div>
-  </div>
-</section>
-</main>
-
-<footer class="site-footer">
-<p>© 2026 Codina Universe</p>
-<p style="margin-top:12px;font-size:0.95rem;color:rgba(255,255,255,0.85);">
-  <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
-  <a href="https://codinai.carrd.co/">Codin aí</a>
-  is licensed under
-  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-</p>
-</footer>
-
-<script src="script.js"></script>
+    <section class="profile-actions">
+      <h2>Ações</h2>
+      <button id="edit-profile-btn">Editar Perfil</button>
+      <button id="change-password-btn">Alterar Senha</button>
+    </section>
+  </main>
 </div>
+
+<script src="js/profile.js"></script>
 </body>
 </html>
