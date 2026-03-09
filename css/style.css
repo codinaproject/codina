@@ -1,4 +1,4 @@
-/* ========================= css/style.css — Corrigido final (fundo bug fix + logo topo + sidebar conta) ========================= */
+/* ========================= css/style.css — Corrigido final (fundo bug fix + logo topo + sidebar conta + energia) ========================= */
 
 :root{
   --intro-total: 2.8s;
@@ -45,7 +45,6 @@ html,body{
   color:#fff;
   position:relative;
   overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
 }
 
 /* conteúdo principal */
@@ -56,11 +55,11 @@ html,body{
   margin-left:180px; /* espaço reservado para a sidebar à esquerda */
 }
 
-/* ================= SIDEBAR LOGIN (ATUALIZADA - estilo game/anime) ================= */
+/* ================= SIDEBAR LOGIN (ATUALIZADA - estilo game/anime + energia) ================= */
 
 /*
-  - Suporta #codina-sidebar e .sidebar (usa a que estiver no seu HTML).
-  - Glow, hover animado, ícone e variante secundária.
+  Suporta #codina-sidebar e .sidebar.
+  Barra vertical fixa no lado esquerdo com glow/energia.
 */
 
 #codina-sidebar,
@@ -81,6 +80,8 @@ html,body{
   z-index: 60;
   box-shadow: 0 10px 40px rgba(125,47,255,0.14), inset 0 1px 0 rgba(255,255,255,0.02);
   transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .3s ease;
+  overflow: hidden;       /* importante para animação de energia */
+  isolation: isolate;     /* garante blending da camada */
 }
 
 /* Glow mais forte por trás (efeito anime/UI) */
@@ -89,12 +90,54 @@ html,body{
   content: "";
   position: absolute;
   inset: -6px -10px -6px 0;
-  z-index: -1;
+  z-index: -2;
   filter: blur(18px);
   background: linear-gradient(90deg, rgba(157,92,255,0.06), rgba(181,122,255,0.12));
   border-radius: 0 14px 14px 0;
   opacity: 0.95;
   pointer-events: none;
+}
+
+/* ENERGIA ROXA ANIMADA */
+#codina-sidebar::after,
+.sidebar::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /* faixa de energia com transição suave */
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0) 0%,
+      rgba(181,122,255,0.08) 18%,
+      rgba(181,122,255,0.35) 40%,
+      rgba(181,122,255,0.08) 62%,
+      rgba(255,255,255,0) 100%
+    );
+  background-size: 220% 220%;
+  mix-blend-mode: screen;
+  opacity: .65;
+  animation: sidebar-energy 5.2s linear infinite;
+  transform: translateZ(0);
+}
+
+/* animação que desloca a faixa (energia) */
+@keyframes sidebar-energy{
+  0%{
+    background-position:0% 50%;
+    filter:blur(2px) saturate(1);
+  }
+  50%{
+    background-position:100% 50%;
+    filter:blur(6px) saturate(1.2);
+  }
+  100%{
+    background-position:0% 50%;
+    filter:blur(2px) saturate(1);
+  }
 }
 
 /* topo (pequeno rótulo/ícone) */
@@ -108,6 +151,7 @@ html,body{
   font-weight:800;
   font-size:0.95rem;
   text-shadow: 0 0 8px rgba(125,47,255,0.12);
+  z-index:1;
 }
 
 /* links / botões estilo UI */
@@ -128,6 +172,8 @@ html,body{
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
   box-shadow: 0 6px 18px rgba(125,47,255,0.06);
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 /* variante secundária (criar conta) */
@@ -176,6 +222,7 @@ html,body{
   color: #ffdddd;
   border: 1px solid rgba(255,59,59,0.06);
   box-shadow: 0 6px 16px rgba(255,59,59,0.05);
+  z-index:1;
 }
 
 /* botão toggle mobile (opcional, controlado por JS) */
