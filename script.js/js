@@ -1,4 +1,4 @@
-// ====== script.js (versão estável para colar em: script.js/js) ======
+// ====== script.js (versão estável atualizada — intro + música + particles + disqus + sidebar) ======
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = 'codinaproject';
@@ -14,155 +14,203 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
 
   if (musicBtn && bgMusic) {
-    // label inicial coerente com estado atual
+
     musicBtn.textContent = bgMusic.paused ? "Tocar Música de Fundo" : "Pausar Música de Fundo";
     musicBtn.setAttribute("aria-pressed", bgMusic.paused ? "false" : "true");
 
     musicBtn.addEventListener("click", () => {
+
       if (bgMusic.paused) {
+
         const p = bgMusic.play();
+
         if (p && p.then) {
           p.then(() => {
             musicBtn.textContent = "Pausar Música de Fundo";
             musicBtn.classList.add("playing");
             musicBtn.setAttribute("aria-pressed", "true");
           }).catch(err => {
-            console.warn("play() falhou (autoplay bloqueado?):", err);
-            musicBtn.textContent = "Tocar Música de Fundo";
-            musicBtn.setAttribute("aria-pressed", "false");
+            console.warn("play() falhou:", err);
           });
-        } else {
-          musicBtn.textContent = "Pausar Música de Fundo";
-          musicBtn.classList.add("playing");
-          musicBtn.setAttribute("aria-pressed", "true");
         }
+
       } else {
-        try { bgMusic.pause(); } catch(e) {}
+
+        try { bgMusic.pause(); } catch(e){}
+
         musicBtn.textContent = "Tocar Música de Fundo";
         musicBtn.classList.remove("playing");
         musicBtn.setAttribute("aria-pressed", "false");
+
       }
+
     });
+
   }
 
-  // PARTICLES (recria quadradinhos)
+  // PARTICLES
   const particlesContainer = document.getElementById("particles-new");
+
   if (particlesContainer) {
+
     const NUM = 60;
-    particlesContainer.innerHTML = ""; // evita duplicação em reload
+
+    particlesContainer.innerHTML = "";
+
     for (let i = 0; i < NUM; i++) {
+
       const sq = document.createElement("div");
+
       sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
+
       sq.style.left = `${Math.random() * 100}vw`;
       sq.style.top = `${Math.random() * -20}vh`;
       sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
       sq.style.animationDelay = `${Math.random() * 5}s`;
+
       particlesContainer.appendChild(sq);
+
     }
+
   }
 
-  // DISQUS COUNT (opcional)
+  // DISQUS COUNT
   (function(){
+
     const d = document;
     const s = d.createElement("script");
+
     s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
     s.async = true;
+
     (d.head || d.body).appendChild(s);
+
   })();
 
-  // Disqus por post (lazy)
+  // DISQUS lazy loader
   let disqusScriptAdded = false;
+
   function addDisqusScriptOnce(){
+
     return new Promise(resolve => {
+
       if (disqusScriptAdded) return resolve();
+
       const s = document.createElement("script");
+
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
       s.async = true;
       s.setAttribute("data-timestamp", +new Date());
-      s.onload = () => { disqusScriptAdded = true; resolve(); };
-      s.onerror = () => { console.warn("Falha ao carregar Disqus"); resolve(); };
+
+      s.onload = () => {
+        disqusScriptAdded = true;
+        resolve();
+      };
+
+      s.onerror = () => {
+        console.warn("Falha ao carregar Disqus");
+        resolve();
+      };
+
       document.head.appendChild(s);
+
     });
+
   }
 
   function closeAllCommentsExcept(exceptId){
+
     document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
+
       if (btn.dataset.identifier !== exceptId) {
+
         const ph = document.getElementById("comments-" + btn.dataset.identifier);
+
         if (ph) {
+
           ph.style.display = "none";
-          ph.classList.remove("active");
+
           const old = ph.querySelector("#disqus_thread");
+
           if (old) old.remove();
+
           ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-          ph.classList.remove('disqus-loaded');
+
         }
+
         btn.classList.remove("open");
-        btn.setAttribute("aria-expanded", "false");
         btn.textContent = "Abrir comentários";
+
       }
+
     });
+
   }
 
   function createThreadContainerIn(placeholder){
+
     const old = placeholder.querySelector("#disqus_thread");
+
     if (old) old.remove();
+
     const div = document.createElement("div");
+
     div.id = "disqus_thread";
+
     placeholder.appendChild(div);
+
     return div;
+
   }
 
   document.querySelectorAll(".open-comments-btn").forEach(btn => {
+
     btn.addEventListener("click", async () => {
+
       const postId = btn.dataset.identifier;
       const placeholder = document.getElementById("comments-" + postId);
+
       if (!placeholder) return;
 
-      // fechar se já aberto
       if (btn.classList.contains("open")) {
+
         placeholder.style.display = "none";
-        placeholder.classList.remove("active");
         btn.classList.remove("open");
-        btn.setAttribute("aria-expanded", "false");
         btn.textContent = "Abrir comentários";
+
         const old = placeholder.querySelector("#disqus_thread");
         if (old) old.remove();
+
         placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-        placeholder.classList.remove('disqus-loaded');
+
         return;
+
       }
 
-      // fecha outros
       closeAllCommentsExcept(postId);
 
-      // abrir
       btn.textContent = "Fechar comentários";
       btn.classList.add("open");
-      btn.setAttribute("aria-expanded", "true");
+
       placeholder.style.display = "block";
-      placeholder.classList.add("active");
+
       placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
 
-      // cria container interno
       createThreadContainerIn(placeholder);
 
-      // configura disqus pra esta thread
       window.disqus_config = function () {
         this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
         this.page.identifier = postId;
       };
 
-      // carrega ou faz reset
       if (!disqusScriptAdded) {
+
         await addDisqusScriptOnce();
-        setTimeout(() => {
-          const lm = placeholder.querySelector(".loading-msg");
-          if (lm) lm.remove();
-          placeholder.classList.add('disqus-loaded');
-        }, 900);
+
       } else {
+
         try {
+
           DISQUS.reset({
             reload: true,
             config: function () {
@@ -170,28 +218,56 @@ document.addEventListener("DOMContentLoaded", () => {
               this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
             }
           });
-          const lm = placeholder.querySelector(".loading-msg");
-          if (lm) lm.remove();
-          placeholder.classList.add('disqus-loaded');
-        } catch (err) {
-          // fallback
+
+        } catch {
+
           await addDisqusScriptOnce();
-          const lm = placeholder.querySelector(".loading-msg");
-          if (lm) lm.remove();
-          placeholder.classList.add('disqus-loaded');
+
         }
+
       }
+
+      const lm = placeholder.querySelector(".loading-msg");
+      if (lm) lm.remove();
+
     });
+
   });
 
-  // READ MORE: usa label + checkbox (CSS já lida com show/hide). Mantemos sincronização visual.
+  // READ MORE
   document.querySelectorAll('.toggle').forEach(chk => {
+
     chk.addEventListener('change', () => {
+
       const post = chk.closest('.blog-post');
       const label = post ? post.querySelector('.read-more') : null;
+
       if (!label) return;
-      if (chk.checked) label.classList.add('open'); else label.classList.remove('open');
+
+      if (chk.checked) label.classList.add('open');
+      else label.classList.remove('open');
+
     });
+
   });
+
+  // ===== SIDEBAR MOBILE =====
+
+  const sidebar = document.getElementById("codina-sidebar");
+  const sidebarToggle = document.getElementById("codina-sidebar-toggle");
+
+  if (sidebar && sidebarToggle) {
+
+    sidebarToggle.addEventListener("click", () => {
+
+      sidebar.classList.toggle("open");
+
+      const expanded = sidebar.classList.contains("open");
+
+      sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+    });
+
+  }
 
 }); // DOMContentLoaded
