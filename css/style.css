@@ -45,6 +45,7 @@ html,body{
   color:#fff;
   position:relative;
   overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
 
 /* conteúdo principal */
@@ -58,11 +59,8 @@ html,body{
 /* ================= SIDEBAR LOGIN (ATUALIZADA - estilo game/anime) ================= */
 
 /*
-  Observação:
-  - Este bloco substitui o antigo #codina-sidebar.
-  - Mantive suporte tanto para #codina-sidebar quanto para .sidebar.
-  - Se preferir usar classe diferente, mantenha a mesma estrutura HTML
-    mas com id/class compatível.
+  - Suporta #codina-sidebar e .sidebar (usa a que estiver no seu HTML).
+  - Glow, hover animado, ícone e variante secundária.
 */
 
 #codina-sidebar,
@@ -99,7 +97,7 @@ html,body{
   pointer-events: none;
 }
 
-/* Cabeçalho pequeno com ícone (opcional) */
+/* topo (pequeno rótulo/ícone) */
 .codina-sidebar-top{
   display:flex;
   gap:8px;
@@ -112,7 +110,7 @@ html,body{
   text-shadow: 0 0 8px rgba(125,47,255,0.12);
 }
 
-/* Botões / links principais */
+/* links / botões estilo UI */
 .codina-sidebar-link,
 .sidebar a {
   display:flex;
@@ -129,6 +127,7 @@ html,body{
   border: 1px solid rgba(255,255,255,0.02);
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
   box-shadow: 0 6px 18px rgba(125,47,255,0.06);
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* variante secundária (criar conta) */
@@ -144,6 +143,14 @@ html,body{
   transform: translateX(6px);
   background: linear-gradient(135deg, #7a00ff, #b57aff);
   box-shadow: 0 8px 30px rgba(181,122,255,0.16), 0 0 28px rgba(125,47,255,0.08);
+}
+
+/* foco acessível */
+.codina-sidebar-link:focus,
+.sidebar a:focus{
+  outline:2px solid rgba(181,122,255,0.18);
+  outline-offset:2px;
+  transform: translateX(6px);
 }
 
 /* pequeno badge / ícone do botão */
@@ -171,7 +178,7 @@ html,body{
   box-shadow: 0 6px 16px rgba(255,59,59,0.05);
 }
 
-/* botão pequeno para fechar/abrir (mobile) — você pode ativar via JS */
+/* botão toggle mobile (opcional, controlado por JS) */
 #codina-sidebar-toggle,
 .sidebar-toggle {
   display:none;
@@ -192,7 +199,7 @@ html,body{
 
 /* ===== resto do CSS (mantive seus estilos originais abaixo) ===== */
 
-/* GRID PARTICLES */
+/* GRID PARTICLES (overlay leve) */
 body::before{
   content:"";
   position:fixed;
