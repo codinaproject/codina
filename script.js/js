@@ -1,5 +1,4 @@
-// ====== script.js (Atualizado final) ======
-// caminho do arquivo: script.js/js
+// ====== script.js (versão estável para colar em: script.js/js) ======
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = 'codinaproject';
@@ -15,8 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
 
   if (musicBtn && bgMusic) {
-    // set initial label
+    // label inicial coerente com estado atual
     musicBtn.textContent = bgMusic.paused ? "Tocar Música de Fundo" : "Pausar Música de Fundo";
+    musicBtn.setAttribute("aria-pressed", bgMusic.paused ? "false" : "true");
+
     musicBtn.addEventListener("click", () => {
       if (bgMusic.paused) {
         const p = bgMusic.play();
@@ -26,8 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             musicBtn.classList.add("playing");
             musicBtn.setAttribute("aria-pressed", "true");
           }).catch(err => {
-            // autoplay may be blocked: keep button state consistent
-            console.warn("play() falhou:", err);
+            console.warn("play() falhou (autoplay bloqueado?):", err);
             musicBtn.textContent = "Tocar Música de Fundo";
             musicBtn.setAttribute("aria-pressed", "false");
           });
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
           musicBtn.setAttribute("aria-pressed", "true");
         }
       } else {
-        try { bgMusic.pause(); } catch(e){}
+        try { bgMusic.pause(); } catch(e) {}
         musicBtn.textContent = "Tocar Música de Fundo";
         musicBtn.classList.remove("playing");
         musicBtn.setAttribute("aria-pressed", "false");
@@ -49,8 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const particlesContainer = document.getElementById("particles-new");
   if (particlesContainer) {
     const NUM = 60;
-    // limpa pra evitar duplicação se o script recarregar
-    particlesContainer.innerHTML = "";
+    particlesContainer.innerHTML = ""; // evita duplicação em reload
     for (let i = 0; i < NUM; i++) {
       const sq = document.createElement("div");
       sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
@@ -71,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     (d.head || d.body).appendChild(s);
   })();
 
-  // Disqus per post (lazy)
+  // Disqus por post (lazy)
   let disqusScriptAdded = false;
   function addDisqusScriptOnce(){
     return new Promise(resolve => {
@@ -96,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const old = ph.querySelector("#disqus_thread");
           if (old) old.remove();
           ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+          ph.classList.remove('disqus-loaded');
         }
         btn.classList.remove("open");
         btn.setAttribute("aria-expanded", "false");
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // fecha os outros
+      // fecha outros
       closeAllCommentsExcept(postId);
 
       // abrir
@@ -156,11 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // carrega ou faz reset
       if (!disqusScriptAdded) {
         await addDisqusScriptOnce();
-        // espera curto para renderizar
         setTimeout(() => {
           const lm = placeholder.querySelector(".loading-msg");
           if (lm) lm.remove();
-          // dá o efeito de glow
           placeholder.classList.add('disqus-loaded');
         }, 900);
       } else {
@@ -176,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (lm) lm.remove();
           placeholder.classList.add('disqus-loaded');
         } catch (err) {
-          // fallback: recarrega script se reset falhar
+          // fallback
           await addDisqusScriptOnce();
           const lm = placeholder.querySelector(".loading-msg");
           if (lm) lm.remove();
@@ -186,18 +184,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // READ MORE: label already toggles checkbox (native). To keep visuals consistent we also listen to change
+  // READ MORE: usa label + checkbox (CSS já lida com show/hide). Mantemos sincronização visual.
   document.querySelectorAll('.toggle').forEach(chk => {
-    chk.addEventListener('change', (e) => {
+    chk.addEventListener('change', () => {
       const post = chk.closest('.blog-post');
       const label = post ? post.querySelector('.read-more') : null;
       if (!label) return;
-      if (chk.checked) {
-        label.classList.add('open');
-      } else {
-        label.classList.remove('open');
-      }
+      if (chk.checked) label.classList.add('open'); else label.classList.remove('open');
     });
   });
 
-});
+}); // DOMContentLoaded
