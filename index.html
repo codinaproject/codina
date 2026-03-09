@@ -9,6 +9,21 @@
 
 <body>
 
+<!-- SIDEBAR FIXA (Login / Criar conta) -->
+<aside id="codina-sidebar" aria-label="Barra de conta">
+  <nav class="codina-sidebar-inner" role="navigation" aria-label="Ações de conta">
+    <a class="codina-sidebar-link" href="login.html" id="codina-login-link">
+      <span class="codina-link-label">Login</span>
+    </a>
+    <a class="codina-sidebar-link secondary" href="criar-conta.html" id="codina-signup-link">
+      <span class="codina-link-label">Criar conta</span>
+    </a>
+  </nav>
+
+  <!-- toggle para mobile (JS controla abertura/fechamento) -->
+  <button id="codina-sidebar-toggle" aria-label="Abrir menu de conta" aria-expanded="false" type="button"></button>
+</aside>
+
 <!-- INTRO LOGO -->
 <div id="intro">
   <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
