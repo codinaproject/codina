@@ -258,7 +258,6 @@ nav a:hover{
   z-index:60;
 }
 
-
 /* ========================= ADIÇÕES (CORREÇÃO LOGO + POSTS) ========================= */
 
 .logo-main{
@@ -276,20 +275,47 @@ nav a:hover{
   display:inline-block;
   margin-top:10px;
   padding:8px 14px;
-
   background:linear-gradient(90deg,#7a00ff,#b57aff);
-
   color:#ffffff;
   font-weight:700;
-
   border-radius:999px;
-
   text-decoration:none;
-
   transition:all .2s ease;
 }
 
 .blog-post a:hover{
   transform:translateY(-2px);
   box-shadow:0 6px 16px rgba(157,92,255,0.4);
+}
+
+/* ========================= INTRO LOGO (TELA DE CARREGAMENTO) ========================= */
+
+#intro-screen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0f0816;
+  z-index:9999;
+  animation:intro-fade var(--intro-total) ease forwards;
+}
+
+#intro-logo{
+  width:220px;
+  height:auto;
+  filter:drop-shadow(0 0 20px rgba(181,122,255,0.6));
+  opacity:0;
+  animation:intro-logo var(--logo-in-time) ease forwards;
+}
+
+@keyframes intro-logo{
+  0%{transform:scale(.6);opacity:0;}
+  60%{transform:scale(1.05);opacity:1;}
+  100%{transform:scale(1);opacity:1;}
+}
+
+@keyframes intro-fade{
+  0%,85%{opacity:1;}
+  100%{opacity:0;visibility:hidden;}
 }
