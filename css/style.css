@@ -1,4 +1,4 @@
-/* ========================= css/style.css — Corrigido: logo, tipografia e background ========================= */
+/* ========================= css/style.css — Atualizado COMPLETO (logo central topo) ========================= */
 
 :root{
   --intro-total: 2.8s;
@@ -11,7 +11,7 @@
   --square-purple: rgba(181,122,255,0.9);
   --square-white: rgba(255,255,255,0.85);
   --nav-text: #f3eefe;
-  --page-bg: #0f0816; /* fallback sólido para evitar branco */
+  --page-bg: #0f0816; /* fallback sólido */
 }
 
 /* RESET */
@@ -27,25 +27,14 @@ html,body{
   -moz-osx-font-smoothing:grayscale;
   position:relative;
   overflow-x:hidden;
-
-  /* fallback sólido primeiro (evita faixa branca se imagem/gradiente falhar) */
   background-color: var(--page-bg);
-
-  /* gradientes decorativos — não usamos background-attachment para evitar glitches */
-  background-image:
-    radial-gradient(circle at 25% 25%, #4b1f7f 0%, #1b0f2e 70%),
-    radial-gradient(circle at 75% 80%, rgba(125,47,255,0.12), transparent 50%);
-  background-repeat: no-repeat;
-  background-size: cover;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-
-  /* base de tamanho de fonte (resolve textos muito pequenos) */
-  font-size: 16px;
-  line-height: 1.45;
+  background:
+    radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%),
+    radial-gradient(circle at 75% 80%, rgba(125,47,255,0.18), transparent 50%);
+  background-repeat:no-repeat;
+  background-size:cover;
 }
 
-/* garante que o conteúdo ocupe a tela sem criar faixa branca ao final */
 #site-content{min-height:100vh;position:relative;z-index:2;}
 
 /* INTRO (splash) */
@@ -60,22 +49,21 @@ html,body{
   animation:intro-fade var(--intro-total) ease forwards;
 }
 
-/* Logo do splash (menor e responsivo) */
 .logo-reveal{
-  width:clamp(60px,14vw,140px);
-  max-width:160px;
-  height:auto;
+  width:clamp(80px,16vw,160px);
+  max-width:170px;
   opacity:0;
   transform:scale(.98);
   animation:
     logo-appear var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards,
     logo-pulse var(--logo-in-time) cubic-bezier(.16,.9,.34,1) forwards;
 }
+
 @keyframes logo-appear{0%{opacity:0;transform:scale(.8)}60%{opacity:1;transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
-@keyframes logo-pulse{0%{filter:drop-shadow(0 0 8px rgba(157,92,255,0.12))}50%{filter:drop-shadow(0 0 18px rgba(157,92,255,0.22))}100%{filter:drop-shadow(0 0 12px rgba(157,92,255,0.16))}}
+@keyframes logo-pulse{0%{filter:drop-shadow(0 0 8px rgba(157,92,255,0.12))}50%{filter:drop-shadow(0 0 20px rgba(157,92,255,0.22))}100%{filter:drop-shadow(0 0 12px rgba(157,92,255,0.16))}}
 @keyframes intro-fade{0%{opacity:1}80%{opacity:1}100%{opacity:0;visibility:hidden}}
 
-/* GRID PARTICLES (backdrop leve) */
+/* GRID PARTICLES */
 body::before{
   content:"";
   position:fixed;
@@ -114,12 +102,12 @@ body::before{
 #particles-new .square.white{ background:var(--square-white); }
 @keyframes fall-square{0%{transform:translateY(-10vh) rotate(0)}100%{transform:translateY(110vh) rotate(360deg)}}
 
-/* HEADER — logo no topo, centralizada */
+/* HEADER — logo central no topo */
 header{
   display:flex;
-  flex-direction:column;      /* empilha logo acima da nav */
+  flex-direction:column;      /* logo acima da nav */
   align-items:center;         /* centraliza horizontalmente */
-  gap:8px;                    /* espaço entre logo e nav */
+  gap:8px;
   padding:10px 20px;
   background:var(--header-bg);
   position:sticky;
@@ -129,34 +117,28 @@ header{
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
-/* logo principal do topo (tamanho moderado) */
-.logo-container{ display:flex; align-items:center; justify-content:center; width:100%; }
+.logo-container{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 .logo-main{
-  height:52px;               /* reduzido para não ficar gigante */
+  height:44px;   /* mesmo tamanho antigo */
   width:auto;
+  object-fit:contain;
   filter:drop-shadow(0 0 8px rgba(157,92,255,0.14));
 }
 
-/* NAV centralizada e legível */
 nav{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:center;
   width:100%;
   max-width:1100px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
-nav a{
-  padding:8px 14px;
-  font-weight:800;
-  font-size:15px;            /* aumentado levemente */
-  color:var(--nav-text);
-  background:linear-gradient(90deg, rgba(157,92,255,0.06), rgba(255,255,255,0.02));
-  border-radius:999px;
-  text-decoration:none;
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,0.12); }
 
 /* HERO */
 .hero{
@@ -172,13 +154,8 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
   z-index:3;
 }
 .hero-content{ max-width:1000px; padding:6px 12px; }
-.hero-content h1{
-  font-size: clamp(1.8rem, 5.2vw, 3rem); /* maior e responsivo */
-  margin:0 0 12px;
-  font-weight:800;
-  text-shadow: 0 6px 26px rgba(11,6,20,0.45);
-}
-.hero-content p{ font-size: clamp(1rem, 2.6vw, 1.15rem); color: rgba(255,255,255,0.95); }
+.hero-content h1{ font-size:clamp(1.6rem,4.8vw,2.6rem); margin-bottom:8px; font-weight:800; }
+.hero-content p{ font-size:clamp(.95rem,2.2vw,1.05rem); }
 
 /* BLOG / POSTS */
 .blog-section{
@@ -188,11 +165,11 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
   z-index:4;
   position:relative;
 }
-.blog-section h2{ text-align:center; color:var(--accent); margin-bottom:22px; font-size:1.9rem; }
+.blog-section h2{ text-align:center; color:var(--accent); margin-bottom:22px; }
 
 /* post box */
 .blog-post{
-  background:linear-gradient(180deg, rgba(27,15,46,0.95), rgba(21,11,36,0.88));
+  background:linear-gradient(180deg, rgba(27,15,46,0.85), rgba(21,11,36,0.78));
   border-radius:12px;
   padding:20px;
   margin-bottom:18px;
@@ -200,11 +177,9 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
   border:1px solid rgba(255,255,255,0.03);
   box-shadow:0 6px 20px rgba(0,0,0,0.45);
 }
-.blog-post h3{ font-size:1.3rem; margin:0 0 8px; }
-.blog-post .date{ font-size:0.92rem; color: rgba(255,255,255,0.85); margin-bottom:10px; }
 .blog-post:hover{ transform:translateY(-6px); box-shadow:0 20px 50px rgba(181,122,255,0.14); }
 
-/* EXTRA CONTENT (Leia mais) */
+/* EXTRA CONTENT */
 .extra-content{
   max-height:0;
   overflow:hidden;
@@ -212,7 +187,6 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
   transform:translateY(-6px);
   transition:max-height .45s ease, opacity .35s ease, transform .35s ease;
 }
-/* escondemos a checkbox acessível, mas não removemos (bom pra acessibilidade) */
 .toggle{ position:absolute; left:-9999px; }
 .toggle:checked ~ .extra-content{ max-height:1000px; opacity:1; transform:translateY(0); }
 
@@ -232,7 +206,7 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
 .toggle:checked + .read-more::after{ content:"Mostrar menos"; }
 .toggle:checked + .read-more{ background:#6a33ff; }
 
-/* COMMENTS / DISQUS placeholder */
+/* COMMENTS */
 .open-comments-btn{
   margin-top:12px;
   padding:8px 14px;
@@ -256,22 +230,33 @@ nav a:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(157,92,255,
 
 /* FOOTER / MUSIC BUTTON */
 .site-footer{ background:#140c24; padding:32px 18px; text-align:center; }
-#music-toggle{ position:fixed; bottom:18px; right:18px; padding:10px 16px; background:var(--accent); border-radius:999px; border:none; cursor:pointer; font-weight:800; z-index:60; }
+#music-toggle{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  padding:10px 16px;
+  background:var(--accent);
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:800;
+  z-index:60;
+}
 
-/* RESPONSIVE tweaks */
+/* RESPONSIVE */
 @media (max-width:900px){
-  .logo-main{ height:48px; }
-  .hero-content h1{ font-size:2.2rem; }
+  .logo-main{ height:44px; }
+  .hero{ padding:20px; min-height:34vh; }
   .blog-section{ padding:36px 14px; }
+  .blog-post{ padding:16px; }
 }
 @media (max-width:520px){
   header{ gap:6px; padding:10px; }
-  .logo-main{ height:42px; }
+  .logo-main{ height:36px; }
   nav{ gap:8px; }
   .hero-content h1{ font-size:1.45rem; }
   .blog-section{ padding:28px 12px; }
-  .blog-post h3{ font-size:1.05rem; }
 }
 @media (max-width:360px){
-  .logo-main{ height:36px; }
+  .logo-main{ height:32px; }
 }
