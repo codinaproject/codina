@@ -12,19 +12,27 @@
 <!-- SIDEBAR FIXA (Login / Criar conta) -->
 <aside id="codina-sidebar" aria-label="Barra de conta">
   <nav class="codina-sidebar-inner" role="navigation" aria-label="Ações de conta">
-    <a class="codina-sidebar-link" href="login.html" id="codina-login-link">
+    <a class="codina-sidebar-link" href="login.html" id="codina-login-link" aria-label="Login">
+      <span class="codina-sidebar-icon" aria-hidden="true">👤</span>
       <span class="codina-link-label">Login</span>
     </a>
-    <a class="codina-sidebar-link secondary" href="criar-conta.html" id="codina-signup-link">
+    <a class="codina-sidebar-link secondary" href="criar-conta.html" id="codina-signup-link" aria-label="Criar conta">
+      <span class="codina-sidebar-icon" aria-hidden="true">➕</span>
       <span class="codina-link-label">Criar conta</span>
+    </a>
+
+    <!-- logout (opcional, caso esteja logado) -->
+    <a class="codina-sidebar-link codina-sidebar-logout" href="#" id="codina-logout" aria-label="Desconectar">
+      <span class="codina-sidebar-icon" aria-hidden="true">⏻</span>
+      <span class="codina-link-label">Desconectar</span>
     </a>
   </nav>
 
   <!-- toggle para mobile (JS controla abertura/fechamento) -->
-  <button id="codina-sidebar-toggle" aria-label="Abrir menu de conta" aria-expanded="false" type="button"></button>
+  <button id="codina-sidebar-toggle" aria-label="Abrir menu de conta" aria-expanded="false" type="button">☰</button>
 </aside>
 
-<!-- INTRO LOGO -->
+<!-- INTRO LOGO (splash) -->
 <div id="intro">
   <img src="images/codina-logosite.png" alt="Codina" class="logo-reveal">
 </div>
@@ -65,91 +73,92 @@
 </section>
 
 <main>
-<section class="blog-section" id="blog" aria-live="polite">
-  <h2>Últimas Notícias</h2>
+  <section class="blog-section" id="blog" aria-live="polite">
+    <h2>Últimas Notícias</h2>
 
-  <!-- POST 1 -->
-  <article class="blog-post" id="post-1" aria-labelledby="post1-title">
-    <h3 id="post1-title">Lançamento do Novo Episódio</h3>
-    <p class="date">26 de Fevereiro, 2026</p>
+    <!-- POST 1 -->
+    <article class="blog-post" id="post-1" aria-labelledby="post1-title">
+      <h3 id="post1-title">Lançamento do Novo Episódio</h3>
+      <p class="date">26 de Fevereiro, 2026</p>
 
-    <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
-    <label for="post1-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 1"></label>
+      <!-- input + label + extra-content: CSS usa input.toggle:checked ~ .extra-content -->
+      <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
+      <label for="post1-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 1"></label>
 
-    <div class="extra-content">
-      <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+      <div class="extra-content">
+        <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
 
-      <button
-        class="open-comments-btn"
-        type="button"
-        data-identifier="post-1"
-        data-url="https://codinaproject.github.io/codina/#post-1"
-        aria-expanded="false"
-        aria-controls="comments-post-1">
-        Abrir comentários
-      </button>
+        <button
+          class="open-comments-btn"
+          type="button"
+          data-identifier="post-1"
+          data-url="https://codinaproject.github.io/codina/#post-1"
+          aria-expanded="false"
+          aria-controls="comments-post-1">
+          Abrir comentários
+        </button>
 
-      <div class="comments-placeholder" id="comments-post-1" aria-live="polite" role="region">
-        <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        <div class="comments-placeholder" id="comments-post-1" aria-live="polite" role="region">
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
 
-  <!-- POST 2 -->
-  <article class="blog-post" id="post-2" aria-labelledby="post2-title">
-    <h3 id="post2-title">Arte da Codina Atualizada</h3>
-    <p class="date">14 de Fevereiro, 2026</p>
+    <!-- POST 2 -->
+    <article class="blog-post" id="post-2" aria-labelledby="post2-title">
+      <h3 id="post2-title">Arte da Codina Atualizada</h3>
+      <p class="date">14 de Fevereiro, 2026</p>
 
-    <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
-    <label for="post2-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 2"></label>
+      <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
+      <label for="post2-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 2"></label>
 
-    <div class="extra-content">
-      <p>Descrição da arte, técnica e curiosidades.</p>
+      <div class="extra-content">
+        <p>Descrição da arte, técnica e curiosidades.</p>
 
-      <button
-        class="open-comments-btn"
-        type="button"
-        data-identifier="post-2"
-        data-url="https://codinaproject.github.io/codina/#post-2"
-        aria-expanded="false"
-        aria-controls="comments-post-2">
-        Abrir comentários
-      </button>
+        <button
+          class="open-comments-btn"
+          type="button"
+          data-identifier="post-2"
+          data-url="https://codinaproject.github.io/codina/#post-2"
+          aria-expanded="false"
+          aria-controls="comments-post-2">
+          Abrir comentários
+        </button>
 
-      <div class="comments-placeholder" id="comments-post-2" aria-live="polite" role="region">
-        <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        <div class="comments-placeholder" id="comments-post-2" aria-live="polite" role="region">
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
 
-  <!-- POST 3 -->
-  <article class="blog-post" id="post-3" aria-labelledby="post3-title">
-    <h3 id="post3-title">Anúncio de Evento Online</h3>
-    <p class="date">01 de Fevereiro, 2026</p>
+    <!-- POST 3 -->
+    <article class="blog-post" id="post-3" aria-labelledby="post3-title">
+      <h3 id="post3-title">Anúncio de Evento Online</h3>
+      <p class="date">01 de Fevereiro, 2026</p>
 
-    <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
-    <label for="post3-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 3"></label>
+      <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
+      <label for="post3-toggle" class="read-more" role="button" tabindex="0" aria-label="Leia mais do post 3"></label>
 
-    <div class="extra-content">
-      <p>Detalhes do evento, horários e prêmios.</p>
+      <div class="extra-content">
+        <p>Detalhes do evento, horários e prêmios.</p>
 
-      <button
-        class="open-comments-btn"
-        type="button"
-        data-identifier="post-3"
-        data-url="https://codinaproject.github.io/codina/#post-3"
-        aria-expanded="false"
-        aria-controls="comments-post-3">
-        Abrir comentários
-      </button>
+        <button
+          class="open-comments-btn"
+          type="button"
+          data-identifier="post-3"
+          data-url="https://codinaproject.github.io/codina/#post-3"
+          aria-expanded="false"
+          aria-controls="comments-post-3">
+          Abrir comentários
+        </button>
 
-      <div class="comments-placeholder" id="comments-post-3" aria-live="polite" role="region">
-        <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        <div class="comments-placeholder" id="comments-post-3" aria-live="polite" role="region">
+          <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
 
-</section>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -168,6 +177,7 @@
 
 </div>
 
+<!-- carregue exatamente nesse caminho -->
 <script src="script.js/js" defer></script>
 
 <noscript>
