@@ -8,7 +8,7 @@
 
 /* BASE */ html,body{ height:100%; font-family:'Nunito',system-ui,-apple-system,"Segoe UI",Roboto,Arial,Helvetica,sans-serif; color:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; position:relative; overflow-x:hidden;
 
-/* FUNDO INFINITO / background: radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%), radial-gradient(circle at 75% 80%, rgba(125,47,255,0.18), transparent 50%); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; / evita faixa branca ao rolar */ }
+/* FUNDO INFINITO / background: radial-gradient(circle at 25% 25%, #4b1f7f, #1b0f2e 70%), radial-gradient(circle at 75% 80%, rgba(125,47,255,0.18), transparent 50%); background-size: cover; background-repeat: no-repeat;  / evita faixa branca ao rolar */ }
 
 body{min-height:100vh;}
 
