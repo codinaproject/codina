@@ -3,44 +3,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = 'codinaproject';
 
-  // INTRO (esconde após animação)
+  // INTRO
   window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
-    if (intro) setTimeout(() => { intro.style.display = "none"; }, 2800);
+    if (intro) {
+      setTimeout(() => {
+        intro.style.display = "none";
+      }, 2800);
+    }
   });
 
-  // MUSIC TOGGLE
+  // ===== MUSIC TOGGLE =====
   const musicBtn = document.getElementById("music-toggle");
   const bgMusic = document.getElementById("bg-music");
 
   if (musicBtn && bgMusic) {
 
-    musicBtn.textContent = bgMusic.paused ? "Tocar Música de Fundo" : "Pausar Música de Fundo";
-    musicBtn.setAttribute("aria-pressed", bgMusic.paused ? "false" : "true");
+    function updateMusicButton(){
+      if(bgMusic.paused){
+        musicBtn.textContent = "Tocar Música de Fundo";
+        musicBtn.classList.remove("playing");
+        musicBtn.setAttribute("aria-pressed","false");
+      } else {
+        musicBtn.textContent = "Pausar Música de Fundo";
+        musicBtn.classList.add("playing");
+        musicBtn.setAttribute("aria-pressed","true");
+      }
+    }
+
+    updateMusicButton();
 
     musicBtn.addEventListener("click", () => {
 
-      if (bgMusic.paused) {
+      if(bgMusic.paused){
 
         const p = bgMusic.play();
 
-        if (p && p.then) {
-          p.then(() => {
-            musicBtn.textContent = "Pausar Música de Fundo";
-            musicBtn.classList.add("playing");
-            musicBtn.setAttribute("aria-pressed", "true");
-          }).catch(err => {
-            console.warn("play() falhou:", err);
+        if(p && p.then){
+          p.then(updateMusicButton)
+          .catch(err=>{
+            console.warn("play() bloqueado:",err);
           });
         }
 
       } else {
 
-        try { bgMusic.pause(); } catch(e){}
-
-        musicBtn.textContent = "Tocar Música de Fundo";
-        musicBtn.classList.remove("playing");
-        musicBtn.setAttribute("aria-pressed", "false");
+        try{ bgMusic.pause(); }catch(e){}
+        updateMusicButton();
 
       }
 
@@ -48,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  // PARTICLES
+  // ===== PARTICLES =====
   const particlesContainer = document.getElementById("particles-new");
 
   if (particlesContainer) {
@@ -74,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  // DISQUS COUNT
+  // ===== DISQUS COUNT =====
   (function(){
 
     const d = document;
@@ -87,14 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   })();
 
-  // DISQUS lazy loader
+  // ===== DISQUS LAZY =====
   let disqusScriptAdded = false;
 
   function addDisqusScriptOnce(){
 
     return new Promise(resolve => {
 
-      if (disqusScriptAdded) return resolve();
+      if(disqusScriptAdded) return resolve();
 
       const s = document.createElement("script");
 
@@ -122,17 +131,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
 
-      if (btn.dataset.identifier !== exceptId) {
+      if(btn.dataset.identifier !== exceptId){
 
         const ph = document.getElementById("comments-" + btn.dataset.identifier);
 
-        if (ph) {
+        if(ph){
 
           ph.style.display = "none";
 
           const old = ph.querySelector("#disqus_thread");
-
-          if (old) old.remove();
+          if(old) old.remove();
 
           ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
 
@@ -150,11 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function createThreadContainerIn(placeholder){
 
     const old = placeholder.querySelector("#disqus_thread");
-
-    if (old) old.remove();
+    if(old) old.remove();
 
     const div = document.createElement("div");
-
     div.id = "disqus_thread";
 
     placeholder.appendChild(div);
@@ -170,16 +176,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const postId = btn.dataset.identifier;
       const placeholder = document.getElementById("comments-" + postId);
 
-      if (!placeholder) return;
+      if(!placeholder) return;
 
-      if (btn.classList.contains("open")) {
+      if(btn.classList.contains("open")){
 
         placeholder.style.display = "none";
         btn.classList.remove("open");
         btn.textContent = "Abrir comentários";
 
         const old = placeholder.querySelector("#disqus_thread");
-        if (old) old.remove();
+        if(old) old.remove();
 
         placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
 
@@ -193,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.classList.add("open");
 
       placeholder.style.display = "block";
-
       placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
 
       createThreadContainerIn(placeholder);
@@ -203,38 +208,36 @@ document.addEventListener("DOMContentLoaded", () => {
         this.page.identifier = postId;
       };
 
-      if (!disqusScriptAdded) {
+      if(!disqusScriptAdded){
 
         await addDisqusScriptOnce();
 
       } else {
 
-        try {
+        try{
 
           DISQUS.reset({
-            reload: true,
-            config: function () {
+            reload:true,
+            config:function(){
               this.page.identifier = postId;
               this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
             }
           });
 
-        } catch {
-
+        }catch{
           await addDisqusScriptOnce();
-
         }
 
       }
 
       const lm = placeholder.querySelector(".loading-msg");
-      if (lm) lm.remove();
+      if(lm) lm.remove();
 
     });
 
   });
 
-  // READ MORE
+  // ===== READ MORE =====
   document.querySelectorAll('.toggle').forEach(chk => {
 
     chk.addEventListener('change', () => {
@@ -242,40 +245,71 @@ document.addEventListener("DOMContentLoaded", () => {
       const post = chk.closest('.blog-post');
       const label = post ? post.querySelector('.read-more') : null;
 
-      if (!label) return;
+      if(!label) return;
 
-      if (chk.checked) label.classList.add('open');
+      if(chk.checked) label.classList.add('open');
       else label.classList.remove('open');
 
     });
 
   });
 
-  // ===== SIDEBAR MOBILE =====
+  // ===== SIDEBAR =====
 
   const sidebar = document.getElementById("codina-sidebar");
   const sidebarToggle = document.getElementById("codina-sidebar-toggle");
   const siteContent = document.getElementById("site-content");
 
-  if (sidebar && sidebarToggle) {
+  if(sidebar && sidebarToggle){
 
     sidebarToggle.addEventListener("click", () => {
 
-      // abre no mobile
-      sidebar.classList.toggle("open");
+      const isMobile = window.innerWidth < 700;
+
+      if(isMobile){
+
+        sidebar.classList.toggle("open");
+
+      } else {
+
+        sidebar.classList.toggle("collapsed");
+
+        if(siteContent){
+          siteContent.classList.toggle("sidebar-collapsed");
+        }
+
+      }
 
       const expanded = sidebar.classList.contains("open");
       sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
 
-      // NOVO: modo minimizar desktop
-      sidebar.classList.toggle("collapsed");
-
-      if (siteContent) {
-        siteContent.classList.toggle("sidebar-collapsed");
-      }
-
     });
 
   }
+
+  // FECHAR SIDEBAR MOBILE CLICANDO FORA
+  document.addEventListener("click", (e) => {
+
+    if(window.innerWidth > 700) return;
+
+    if(!sidebar) return;
+
+    if(
+      !sidebar.contains(e.target) &&
+      !e.target.closest("#codina-sidebar-toggle")
+    ){
+      sidebar.classList.remove("open");
+    }
+
+  });
+
+  // ESC FECHA SIDEBAR
+  document.addEventListener("keydown", (e) => {
+
+    if(e.key === "Escape" && sidebar){
+      sidebar.classList.remove("open");
+    }
+
+  });
 
 }); // DOMContentLoaded
