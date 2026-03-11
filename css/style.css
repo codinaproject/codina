@@ -215,51 +215,97 @@ nav a{
 
 /* ================= BOTÕES ================= */
 
+/* força estilos específicos pra garantir que o botão não fique como texto link cru */
 button,
 #music-toggle,
-#comments-toggle{
+#comments-toggle,
+.open-comments-btn{
   display:inline-block;
   margin-top:10px;
-  padding:10px 18px;
+  padding:8px 14px;
   border:none;
   border-radius:999px;
   font-weight:800;
   color:#fff;
   background:linear-gradient(90deg,#7a00ff,#b57aff);
   cursor:pointer;
-  transition:all .2s ease;
+  transition:all .16s ease;
   box-shadow:0 6px 16px rgba(157,92,255,0.25);
+  text-decoration:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
 }
 
-button:hover{
+/* hover */
+button:hover,
+.open-comments-btn:hover,
+#music-toggle:hover{
   transform:translateY(-2px);
   box-shadow:0 8px 20px rgba(157,92,255,0.4);
 }
 
-/* ================= READ MORE ================= */
+/* botão de abrir comentários - estilo próprio, mas mantém a paleta */
+.open-comments-btn{
+  background:linear-gradient(90deg,#6f2cb5,#8f4bff);
+  padding:8px 12px;
+  font-weight:700;
+  border-radius:999px;
+  color:#fff;
+  display:inline-block;
+}
 
+/* placeholder de comentários */
+.comments-placeholder{
+  margin-top:12px;
+  border-radius:10px;
+  padding:12px;
+  background:linear-gradient(180deg, rgba(21,11,36,0.6), rgba(12,7,20,0.5));
+  border:1px solid rgba(181,122,255,0.05);
+  color:rgba(230,220,255,0.9);
+}
+
+/* ================= READ MORE (corrigido pra não quebrar layout) ================= */
+
+/* mantém checkbox escondido mas acessível */
 .toggle{
   position:absolute;
   left:-9999px;
+  width:1px;
+  height:1px;
+  overflow:hidden;
 }
 
+/* rótulo do Leia mais — agora bloco para quebrar linha corretamente */
 label.read-more{
-  display:inline-block;
-  margin-top:12px;
+  display:block;              /* fazia inline-block e quebrava com o botão ao lado */
+  margin:12px 0 8px 0;
   padding:8px 18px;
   background:var(--accent);
   border-radius:999px;
   color:#fff;
   font-weight:800;
   cursor:pointer;
+  transition:background .18s ease, transform .12s ease;
+  box-shadow:0 6px 18px rgba(157,92,255,0.12);
+  width:max-content;
 }
 
-label.read-more::after{
-  content:"Leia mais";
+/* texto do label controlado por ::after */
+label.read-more::after{ content:"Leia mais"; }
+.toggle:checked + label.read-more::after{ content:"Mostrar menos"; }
+.toggle:checked + label.read-more{ background:#6a33ff; transform:translateY(-2px); }
+
+/* garante espaçamento claro entre "Leia mais" e "Abrir comentários" */
+.blog-post .read-more + .extra-content,
+.blog-post .read-more + .extra-content .open-comments-btn{
+  margin-top:6px;
 }
 
-.toggle:checked + label.read-more::after{
-  content:"Mostrar menos";
+/* se o seu HTML usar o botão dentro da extra-content, forçamos que o botão fique sempre em nova linha */
+.blog-post .extra-content .open-comments-btn{
+  display:inline-block;
+  margin-top:10px;
 }
 
 /* ================= INTRO ================= */
@@ -274,49 +320,57 @@ label.read-more::after{
   z-index:9999;
 }
 
+/* ================= MUSIC TOGGLE — forçar estilo e posição (corrige texto cru) ================= */
+
+#music-toggle{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  padding:10px 16px;
+  background:linear-gradient(90deg,#7a00ff,#b57aff);
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:800;
+  color:#fff;
+  z-index:90;
+  box-shadow:0 8px 26px rgba(125,47,255,0.18);
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+/* acessibilidade: focus */
+#music-toggle:focus,
+.open-comments-btn:focus,
+label.read-more:focus{
+  outline:3px solid rgba(181,122,255,0.14);
+  outline-offset:3px;
+}
+
 /* ================= RESPONSIVO ================= */
 
 @media (max-width:1200px){
-
-  #site-content{
-    margin-left:var(--sidebar-laptop);
-  }
-
-  #codina-sidebar{
-    width:var(--sidebar-laptop);
-  }
-
+  #site-content{ margin-left:var(--sidebar-laptop); }
+  #codina-sidebar{ width:var(--sidebar-laptop); }
+  .codina-sidebar-link, .sidebar a{ width:calc(var(--sidebar-laptop) - 40px); max-width:120px; }
 }
 
 @media (max-width:900px){
-
-  #site-content{
-    margin-left:var(--sidebar-tablet);
-  }
-
-  #codina-sidebar{
-    width:var(--sidebar-tablet);
-  }
-
+  #site-content{ margin-left:var(--sidebar-tablet); }
+  #codina-sidebar{ width:var(--sidebar-tablet); padding-top:28px; }
+  .codina-sidebar-link, .sidebar a{ width:calc(var(--sidebar-tablet) - 30px); max-width:96px; font-size:13px; padding:8px; }
+  body::before{ animation-duration:30s; }
 }
 
 @media (max-width:600px){
-
-  #site-content{
-    margin-left:0;
-  }
-
-  #codina-sidebar{
-    transform:translateX(-100%);
-    opacity:0;
-  }
-
+  #site-content{ margin-left:0; padding-left:18px; padding-right:18px; }
+  #codina-sidebar{ transform:translateX(-100%); opacity:0; pointer-events:none; }
+  /* coloca o music-toggle dentro do fluxo visual para telas bem pequenas */
+  #music-toggle{ right:12px; bottom:12px; padding:8px 12px; font-size:14px; }
+  label.read-more{ margin:10px 0; }
+  .blog-post{ padding:16px; }
 }
 
 @media (max-width:360px){
-
-  body{
-    font-size:14px;
-  }
-
+  body{ font-size:14px; }
 }
