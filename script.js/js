@@ -5,15 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // INTRO
   window.addEventListener("load", () => {
-    const intro = document.getElementById("intro");
+    const intro = document.getElementById("intro") || document.getElementById("intro-screen");
     if (intro) {
-      setTimeout(() => {
-        intro.style.display = "none";
-      }, 2800);
+      setTimeout(() => { intro.style.display = "none"; }, 2800);
     }
   });
 
-  // ===== MUSIC TOGGLE =====
+  // MUSIC TOGGLE
   const musicBtn = document.getElementById("music-toggle");
   const bgMusic = document.getElementById("bg-music");
 
@@ -34,173 +32,106 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMusicButton();
 
     musicBtn.addEventListener("click", () => {
-
       if(bgMusic.paused){
-
         const p = bgMusic.play();
-
         if(p && p.then){
-          p.then(updateMusicButton)
-          .catch(err=>{
-            console.warn("play() bloqueado:",err);
-          });
+          p.then(updateMusicButton).catch(err => console.warn("play() falhou:", err));
+        } else {
+          updateMusicButton();
         }
-
       } else {
-
-        try{ bgMusic.pause(); }catch(e){}
+        try { bgMusic.pause(); } catch(e){}
         updateMusicButton();
-
       }
-
     });
 
   }
 
-  // ===== PARTICLES =====
+  // PARTICLES
   const particlesContainer = document.getElementById("particles-new");
-
   if (particlesContainer) {
-
     const NUM = 60;
-
     particlesContainer.innerHTML = "";
-
     for (let i = 0; i < NUM; i++) {
-
       const sq = document.createElement("div");
-
       sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
-
       sq.style.left = `${Math.random() * 100}vw`;
       sq.style.top = `${Math.random() * -20}vh`;
       sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
       sq.style.animationDelay = `${Math.random() * 5}s`;
-
       particlesContainer.appendChild(sq);
-
     }
-
   }
 
-  // ===== DISQUS COUNT =====
+  // DISQUS COUNT
   (function(){
-
     const d = document;
     const s = d.createElement("script");
-
     s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
     s.async = true;
-
     (d.head || d.body).appendChild(s);
-
   })();
 
-  // ===== DISQUS LAZY =====
+  // DISQUS lazy loader
   let disqusScriptAdded = false;
-
   function addDisqusScriptOnce(){
-
     return new Promise(resolve => {
-
-      if(disqusScriptAdded) return resolve();
-
+      if (disqusScriptAdded) return resolve();
       const s = document.createElement("script");
-
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
       s.async = true;
       s.setAttribute("data-timestamp", +new Date());
-
-      s.onload = () => {
-        disqusScriptAdded = true;
-        resolve();
-      };
-
-      s.onerror = () => {
-        console.warn("Falha ao carregar Disqus");
-        resolve();
-      };
-
+      s.onload = () => { disqusScriptAdded = true; resolve(); };
+      s.onerror = () => { console.warn("Falha ao carregar Disqus"); resolve(); };
       document.head.appendChild(s);
-
     });
-
   }
 
   function closeAllCommentsExcept(exceptId){
-
     document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
-
-      if(btn.dataset.identifier !== exceptId){
-
+      if (btn.dataset.identifier !== exceptId) {
         const ph = document.getElementById("comments-" + btn.dataset.identifier);
-
-        if(ph){
-
+        if (ph) {
           ph.style.display = "none";
-
           const old = ph.querySelector("#disqus_thread");
-          if(old) old.remove();
-
+          if (old) old.remove();
           ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-
         }
-
         btn.classList.remove("open");
         btn.textContent = "Abrir comentários";
-
       }
-
     });
-
   }
 
   function createThreadContainerIn(placeholder){
-
     const old = placeholder.querySelector("#disqus_thread");
-    if(old) old.remove();
-
+    if (old) old.remove();
     const div = document.createElement("div");
     div.id = "disqus_thread";
-
     placeholder.appendChild(div);
-
     return div;
-
   }
 
   document.querySelectorAll(".open-comments-btn").forEach(btn => {
-
     btn.addEventListener("click", async () => {
-
       const postId = btn.dataset.identifier;
       const placeholder = document.getElementById("comments-" + postId);
+      if (!placeholder) return;
 
-      if(!placeholder) return;
-
-      if(btn.classList.contains("open")){
-
+      if (btn.classList.contains("open")) {
         placeholder.style.display = "none";
         btn.classList.remove("open");
         btn.textContent = "Abrir comentários";
-
-        const old = placeholder.querySelector("#disqus_thread");
-        if(old) old.remove();
-
+        const old = placeholder.querySelector("#disqus_thread"); if (old) old.remove();
         placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-
         return;
-
       }
 
       closeAllCommentsExcept(postId);
-
       btn.textContent = "Fechar comentários";
       btn.classList.add("open");
-
       placeholder.style.display = "block";
       placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
-
       createThreadContainerIn(placeholder);
 
       window.disqus_config = function () {
@@ -208,108 +139,90 @@ document.addEventListener("DOMContentLoaded", () => {
         this.page.identifier = postId;
       };
 
-      if(!disqusScriptAdded){
-
+      if (!disqusScriptAdded) {
         await addDisqusScriptOnce();
-
       } else {
-
-        try{
-
+        try {
           DISQUS.reset({
-            reload:true,
-            config:function(){
+            reload: true,
+            config: function () {
               this.page.identifier = postId;
               this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
             }
           });
-
-        }catch{
+        } catch {
           await addDisqusScriptOnce();
         }
-
       }
 
       const lm = placeholder.querySelector(".loading-msg");
-      if(lm) lm.remove();
-
+      if (lm) lm.remove();
     });
-
   });
 
-  // ===== READ MORE =====
+  // READ MORE
   document.querySelectorAll('.toggle').forEach(chk => {
-
     chk.addEventListener('change', () => {
-
       const post = chk.closest('.blog-post');
       const label = post ? post.querySelector('.read-more') : null;
-
-      if(!label) return;
-
-      if(chk.checked) label.classList.add('open');
-      else label.classList.remove('open');
-
+      if (!label) return;
+      if (chk.checked) label.classList.add('open'); else label.classList.remove('open');
     });
-
   });
 
-  // ===== SIDEBAR =====
-
-  const sidebar = document.getElementById("codina-sidebar");
+  // ===== SIDEBAR (mobile / desktop behavior) =====
+  const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
   const sidebarToggle = document.getElementById("codina-sidebar-toggle");
   const siteContent = document.getElementById("site-content");
 
-  if(sidebar && sidebarToggle){
+  function syncSidebarOnResize(){
+    if (!sidebar) return;
+    if (window.innerWidth < 900){
+      // mobile: force hidden
+      sidebar.classList.remove("collapsed");
+      sidebar.classList.remove("open");
+      if(siteContent) siteContent.classList.remove("sidebar-collapsed");
+    } else {
+      // desktop: ensure sidebar visible (but not necessarily expanded)
+      sidebar.classList.remove("open");
+      // keep existing collapsed state if user toggled it
+    }
+  }
+  // initial sync
+  syncSidebarOnResize();
+  // keep in sync on resize
+  window.addEventListener("resize", syncSidebarOnResize);
 
+  if (sidebar && sidebarToggle) {
     sidebarToggle.addEventListener("click", () => {
-
-      const isMobile = window.innerWidth < 700;
-
-      if(isMobile){
-
+      const isMobile = window.innerWidth < 900;
+      if (isMobile) {
+        // toggle overlay sidebar on mobile
         sidebar.classList.toggle("open");
-
       } else {
-
+        // desktop: toggle collapsed state
         sidebar.classList.toggle("collapsed");
-
-        if(siteContent){
-          siteContent.classList.toggle("sidebar-collapsed");
-        }
-
+        if (siteContent) siteContent.classList.toggle("sidebar-collapsed");
       }
-
       const expanded = sidebar.classList.contains("open");
       sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-
     });
-
   }
 
-  // FECHAR SIDEBAR MOBILE CLICANDO FORA
+  // Close mobile sidebar by clicking outside
   document.addEventListener("click", (e) => {
-
-    if(window.innerWidth > 700) return;
-
-    if(!sidebar) return;
-
-    if(
-      !sidebar.contains(e.target) &&
-      !e.target.closest("#codina-sidebar-toggle")
-    ){
+    if (!sidebar) return;
+    if (window.innerWidth >= 900) return;
+    if (!sidebar.contains(e.target) && !e.target.closest("#codina-sidebar-toggle")) {
       sidebar.classList.remove("open");
     }
-
   });
 
-  // ESC FECHA SIDEBAR
+  // ESC closes mobile sidebar
   document.addEventListener("keydown", (e) => {
-
-    if(e.key === "Escape" && sidebar){
+    if (e.key === "Escape" && sidebar) {
       sidebar.classList.remove("open");
     }
-
   });
 
 }); // DOMContentLoaded
