@@ -1,4 +1,4 @@
-/* ========================= css/style.css — Corrigido final (responsivo, sidebar fixa, energia, leia mais, collapse) ========================= */
+/* ========================= css/style.css — Corrigido final ========================= */
 
 :root{
   --intro-total: 2.8s;
@@ -13,11 +13,10 @@
   --nav-text: #f3eefe;
   --page-bg: #0f0816;
 
-  /* larguras da sidebar por breakpoint (usadas para manter o conteúdo alinhado) */
   --sidebar-desktop: 180px;
   --sidebar-laptop: 140px;
   --sidebar-tablet: 110px;
-  --sidebar-collapsed: 60px; /* largura quando recolhida */
+  --sidebar-collapsed: 60px;
 }
 
 /* RESET */
@@ -42,8 +41,6 @@ html::before{
     radial-gradient(circle at 75% 80%, rgba(125,47,255,0.18), transparent 50%);
   background-repeat:no-repeat;
   background-size:cover;
-  transform:translateZ(0);
-  will-change:transform;
 }
 
 html,body{
@@ -55,17 +52,21 @@ html,body{
   overflow-x:hidden;
 }
 
-/* Conteúdo principal — deixa espaço igual à largura da sidebar */
+/* ================= CONTEÚDO ================= */
+
 #site-content{
   min-height:100vh;
   position:relative;
   z-index:2;
   margin-left:var(--sidebar-desktop);
-  transform:translateZ(0);
+  padding-left:clamp(18px,4vw,40px);
+  padding-right:clamp(18px,4vw,40px);
   transition:margin-left .18s ease;
+  width:100%;
+  max-width:1400px;
 }
 
-/* ================= SIDEBAR (barra vertical fixa) ================= */
+/* ================= SIDEBAR ================= */
 
 #codina-sidebar,
 .sidebar{
@@ -82,102 +83,25 @@ html,body{
   padding-top:40px;
   gap:12px;
   z-index:60;
-  box-shadow:0 10px 40px rgba(125,47,255,0.18), inset 0 1px 0 rgba(255,255,255,0.04);
-  overflow:hidden;
-  isolation:isolate;
-
-  /* transições suaves para largura e sombras */
-  transition: width .24s cubic-bezier(.2,.9,.2,1), box-shadow .2s ease, transform .24s ease, opacity .18s ease;
-  will-change: width, transform;
+  box-shadow:0 10px 40px rgba(125,47,255,0.18);
+  transition: width .24s ease;
 }
 
-/* --- NOVO: estado recolhido (collapsed) --- 
-   aplique a classe .collapsed via JS em #codina-sidebar ou .sidebar para recolher */
 #codina-sidebar.collapsed,
 .sidebar.collapsed{
   width:var(--sidebar-collapsed);
-  box-shadow:0 6px 24px rgba(125,47,255,0.10), inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
-/* quando sidebar recolhida — ajusta imediatamente o conteúdo ao lado */
 #codina-sidebar.collapsed + #site-content,
 .sidebar.collapsed + #site-content{
   margin-left:var(--sidebar-collapsed);
 }
 
-/* se usar a variante com id antes do #site-content (ex.: #codina-sidebar seguido por #site-content),
-   garantimos também a regra para a classe .sidebar.collapsed funcionar em ambos os casos */
-.sidebar.collapsed + #site-content,
-#codina-sidebar.collapsed + #site-content{
-  margin-left:var(--sidebar-collapsed);
-}
+/* LINKS SIDEBAR */
 
-/* escondendo texto visual enquanto mantém acessível (melhor experiência: trocar por ícone) */
-#codina-sidebar.collapsed a,
-.sidebar.collapsed a{
-  width:44px;
-  padding:10px;
-  font-size:0;           /* esconde texto visualmente */
-  line-height:0;
-  overflow:hidden;
-  text-indent:-9999px;   /* segurança para alguns navegadores */
-}
-
-/* opcional — mostra um pequeno indicador circular quando recolhida */
-#codina-sidebar.collapsed a::before,
-.sidebar.collapsed a::before{
-  content:"";
-  display:inline-block;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:linear-gradient(180deg,#ffd8ff,#b57aff);
-  box-shadow:0 2px 6px rgba(181,122,255,0.18);
-  margin-right:0;
-  vertical-align:middle;
-}
-
-/* glow e energia (visuais por trás da barra) */
-#codina-sidebar::before,
-.sidebar::before{
-  content:"";
-  position:absolute;
-  inset:-10px;
-  z-index:-2;
-  filter:blur(20px);
-  background:linear-gradient(180deg,#7a00ff,#b57aff);
-  opacity:.25;
-}
-
-#codina-sidebar::after,
-.sidebar::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  background:
-    linear-gradient(120deg,
-      transparent 0%,
-      rgba(181,122,255,0.08) 20%,
-      rgba(181,122,255,0.35) 50%,
-      rgba(181,122,255,0.08) 80%,
-      transparent 100%
-    );
-  background-size:300% 300%;
-  mix-blend-mode:screen;
-  animation:sidebar-energy 6s linear infinite;
-}
-@keyframes sidebar-energy{
-  0%{background-position:0% 0%}
-  50%{background-position:100% 100%}
-  100%{background-position:0% 0%}
-}
-
-/* botões da sidebar */
 .codina-sidebar-link,
 .sidebar a{
   width:calc(var(--sidebar-desktop) - 40px);
-  max-width:160px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -187,20 +111,16 @@ html,body{
   color:#fff;
   font-weight:800;
   background:linear-gradient(135deg, rgba(125,47,255,0.12), rgba(157,92,255,0.06));
-  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-  box-shadow:0 6px 18px rgba(125,47,255,0.06);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  transition:transform .18s ease, background .18s ease;
 }
+
 .codina-sidebar-link:hover,
 .sidebar a:hover{
   transform:translateX(6px);
   background:linear-gradient(135deg,#7a00ff,#b57aff);
-  box-shadow:0 8px 30px rgba(181,122,255,0.16);
 }
 
-/* ================= GRID PARTICLES (otimizações p/ performance) ================= */
+/* ================= GRID PARTICLES ================= */
 
 body::before{
   content:"";
@@ -214,12 +134,9 @@ body::before{
     linear-gradient(90deg,var(--particle-purple) 1px,transparent 1px),
     linear-gradient(var(--particle-purple) 1px,transparent 1px);
   background-size:10px 10px,10px 10px,18px 18px,18px 18px;
-  background-position:0 0,5px -40px,0 -120px,9px -60px;
   mix-blend-mode:screen;
   opacity:0.85;
   animation:particles-fall 20s linear infinite;
-  will-change:background-position;
-  transform:translateZ(0);
 }
 
 @keyframes particles-fall{
@@ -227,7 +144,7 @@ body::before{
   to{background-position:0 1000px,5px 960px,0 880px,9px 920px}
 }
 
-/* ================= HEADER / NAV / HERO / POSTS ================= */
+/* ================= HEADER ================= */
 
 header{
   display:flex;
@@ -239,89 +156,93 @@ header{
   position:sticky;
   top:0;
   z-index:20;
-  backdrop-filter:blur(6px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
 .logo-main{
   height:44px;
-  width:auto;
-  max-width:200px;
-  filter:drop-shadow(0 0 8px rgba(157,92,255,0.14));
+  max-width:90%;
 }
 
-/* nav */
+/* ================= NAV ================= */
+
 nav{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
-  width:100%;
-  max-width:1100px;
 }
 
 nav a{
   padding:8px 14px;
   font-weight:800;
-  font-size:14px;
+  font-size:clamp(12px,1.2vw,14px);
   color:var(--nav-text);
   background:linear-gradient(90deg, rgba(157,92,255,0.06), rgba(255,255,255,0.02));
   border-radius:999px;
   text-decoration:none;
 }
 
-/* hero */
+/* ================= HERO ================= */
+
 .hero{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:28px 20px;
-  min-height:38vh;
+  padding:clamp(20px,4vw,28px);
 }
 
-/* posts */
+/* ================= POSTS ================= */
+
 .blog-section{
-  padding:48px 18px;
+  padding:clamp(24px,5vw,48px);
   max-width:920px;
   margin:0 auto;
-  z-index:4;
+  width:100%;
 }
+
 .blog-post{
   background:linear-gradient(180deg, rgba(27,15,46,0.85), rgba(21,11,36,0.78));
   border-radius:12px;
-  padding:20px;
+  padding:clamp(16px,3vw,24px);
   margin-bottom:18px;
-  border:1px solid rgba(255,255,255,0.03);
-  box-shadow:0 6px 20px rgba(0,0,0,0.45);
 }
-.blog-post p{ color:#e8e1ff; line-height:1.6; }
 
-/* botão estilizado caso use <a> dentro do post */
-.blog-post a{
+.blog-post p{
+  color:#e8e1ff;
+  line-height:1.6;
+  font-size:clamp(14px,1.1vw,17px);
+}
+
+/* ================= BOTÕES ================= */
+
+button,
+#music-toggle,
+#comments-toggle{
   display:inline-block;
   margin-top:10px;
-  padding:8px 14px;
-  background:linear-gradient(90deg,#7a00ff,#b57aff);
-  color:#fff;
-  font-weight:700;
+  padding:10px 18px;
+  border:none;
   border-radius:999px;
-  text-decoration:none;
+  font-weight:800;
+  color:#fff;
+  background:linear-gradient(90deg,#7a00ff,#b57aff);
+  cursor:pointer;
   transition:all .2s ease;
+  box-shadow:0 6px 16px rgba(157,92,255,0.25);
 }
-.blog-post a:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(157,92,255,0.4); }
 
-/* ================= READ MORE (label + checkbox) ================= */
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(157,92,255,0.4);
+}
 
-/* esconde o checkbox visualmente (mantendo acessibilidade) */
+/* ================= READ MORE ================= */
+
 .toggle{
   position:absolute;
   left:-9999px;
-  width:1px;
-  height:1px;
-  overflow:hidden;
 }
 
-/* label visual do Leia mais */
 label.read-more{
   display:inline-block;
   margin-top:12px;
@@ -331,18 +252,19 @@ label.read-more{
   color:#fff;
   font-weight:800;
   cursor:pointer;
-  transition:background .18s ease, transform .12s ease;
-  box-shadow:0 6px 18px rgba(157,92,255,0.12);
 }
 
-/* texto do label controlado por ::after */
-label.read-more::after{ content:"Leia mais"; }
-.toggle:checked + label.read-more::after{ content:"Mostrar menos"; }
-.toggle:checked + label.read-more{ background:#6a33ff; transform:translateY(-2px); }
+label.read-more::after{
+  content:"Leia mais";
+}
 
-/* ================= INTRO (splash) ================= */
+.toggle:checked + label.read-more::after{
+  content:"Mostrar menos";
+}
 
-#intro-screen, #intro{
+/* ================= INTRO ================= */
+
+#intro{
   position:fixed;
   inset:0;
   display:flex;
@@ -350,58 +272,51 @@ label.read-more::after{ content:"Leia mais"; }
   justify-content:center;
   background:#0f0816;
   z-index:9999;
-  animation:intro-fade var(--intro-total) ease forwards;
 }
 
-#intro-logo, .logo-reveal{
-  width:220px;
-  height:auto;
-  filter:drop-shadow(0 0 20px rgba(181,122,255,0.6));
-  opacity:0;
-  animation:intro-logo var(--logo-in-time) ease forwards;
-}
-@keyframes intro-logo{ 0%{transform:scale(.6);opacity:0} 60%{transform:scale(1.05);opacity:1} 100%{transform:scale(1);opacity:1} }
-@keyframes intro-fade{ 0%,85%{opacity:1} 100%{opacity:0;visibility:hidden} }
+/* ================= RESPONSIVO ================= */
 
-/* ================= RESPONSIVE — ajustes por breakpoint ================= */
-
-/* laptops */
 @media (max-width:1200px){
-  :root{ --sidebar-desktop: var(--sidebar-laptop); } /* reduz largura base */
-  #site-content{ margin-left:var(--sidebar-laptop); }
-  #codina-sidebar,
-  .sidebar{ width:var(--sidebar-laptop); }
-  .codina-sidebar-link,
-  .sidebar a{ width:calc(var(--sidebar-laptop) - 40px); max-width:120px; }
+
+  #site-content{
+    margin-left:var(--sidebar-laptop);
+  }
+
+  #codina-sidebar{
+    width:var(--sidebar-laptop);
+  }
+
 }
 
-/* tablets */
 @media (max-width:900px){
-  :root{ --sidebar-desktop: var(--sidebar-tablet); }
-  #site-content{ margin-left:var(--sidebar-tablet); }
-  #codina-sidebar,
-  .sidebar{ width:var(--sidebar-tablet); padding-top:28px; }
-  .codina-sidebar-link,
-  .sidebar a{ width:calc(var(--sidebar-tablet) - 30px); max-width:96px; font-size:13px; padding:8px; }
-  /* para performance mobile: desacelera animação de partículas */
-  body::before{ animation-duration:30s; }
+
+  #site-content{
+    margin-left:var(--sidebar-tablet);
+  }
+
+  #codina-sidebar{
+    width:var(--sidebar-tablet);
+  }
+
 }
 
-/* small phones: escondemos a sidebar (overlay) para não ocupar o conteúdo
-   — mantém botão de toggle caso queira ativar com JS mais tarde */
-@media (max-width:480px){
-  #site-content{ margin-left:0; padding-left:16px; padding-right:16px; }
-  #codina-sidebar,
-  .sidebar{ transform:translateX(-100%); pointer-events:none; opacity:0; transition:transform .28s ease, opacity .18s ease; }
-  /* se preferir, se o HTML tiver uma classe .open no sidebar via JS, ela volta:
-     .sidebar.open{ transform:translateX(0); opacity:1; pointer-events:auto; } */
-  /* garante que o grid de fundo não cause tremor/performance em mobile */
-  body::before{ background-attachment:scroll; animation-duration:40s; will-change:auto; }
+@media (max-width:600px){
+
+  #site-content{
+    margin-left:0;
+  }
+
+  #codina-sidebar{
+    transform:translateX(-100%);
+    opacity:0;
+  }
+
 }
 
-/* garante que em telas muito largas a sidebar não pareça pequena */
-@media (min-width:1800px){
-  #site-content{ margin-left:calc(var(--sidebar-desktop) + 20px); }
-}
+@media (max-width:360px){
 
-/* fim do arquivo */
+  body{
+    font-size:14px;
+  }
+
+}
