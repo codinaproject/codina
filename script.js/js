@@ -255,16 +255,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const sidebar = document.getElementById("codina-sidebar");
   const sidebarToggle = document.getElementById("codina-sidebar-toggle");
+  const siteContent = document.getElementById("site-content");
 
   if (sidebar && sidebarToggle) {
 
     sidebarToggle.addEventListener("click", () => {
 
+      // abre no mobile
       sidebar.classList.toggle("open");
 
       const expanded = sidebar.classList.contains("open");
-
       sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+      // NOVO: modo minimizar desktop
+      sidebar.classList.toggle("collapsed");
+
+      if (siteContent) {
+        siteContent.classList.toggle("sidebar-collapsed");
+      }
 
     });
 
