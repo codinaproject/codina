@@ -1,41 +1,106 @@
-// ====== script.js (versão estável atualizada — intro + música + particles + disqus + sidebar) ======
+// ====== script.js (versão estável atualizada — intro fix + música + particles + disqus + sidebar) ======
 document.addEventListener("DOMContentLoaded", () => {
-
   const DISQUS_SHORTNAME = 'codinaproject';
 
-  // INTRO
+  /* ---------- helpers ---------- */
+  function parseCssTimeToMs(timeStr) {
+    if (!timeStr) return null;
+    timeStr = timeStr.trim();
+    if (timeStr.endsWith("ms")) return parseFloat(timeStr);
+    if (timeStr.endsWith("s")) return parseFloat(timeStr) * 1000;
+    const n = parseFloat(timeStr);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  /* ---------- INTRO (splash) com fallback robusto para logo ---------- */
   window.addEventListener("load", () => {
-    const intro = document.getElementById("intro") || document.getElementById("intro-screen");
-    if (intro) {
-      setTimeout(() => { intro.style.display = "none"; }, 2800);
+    try {
+      const intro = document.getElementById("intro") || document.getElementById("intro-screen");
+      const logo = (intro && (intro.querySelector(".logo-reveal") || intro.querySelector("#intro-logo"))) ||
+                   document.querySelector(".logo-reveal") || document.getElementById("intro-logo") || document.querySelector(".logo-main");
+
+      // pega duração do :root ou fallback
+      const rootStyles = getComputedStyle(document.documentElement);
+      const introCss = rootStyles.getPropertyValue("--intro-total") || rootStyles.getPropertyValue("--intro_total") || "2.8s";
+      const logoCss = rootStyles.getPropertyValue("--logo-in-time") || "1.6s";
+      const introMs = parseCssTimeToMs(introCss) || 2800;
+      const logoMs = parseCssTimeToMs(logoCss) || 1600;
+
+      // Se existir logo no splash, aplica fallback de animação (inline) para garantir visibilidade
+      if (logo) {
+        // garante tamanho razoável e reset de transform/opacidade
+        logo.style.maxWidth = logo.style.maxWidth || "220px";
+        logo.style.width = logo.style.width || "220px";
+        logo.style.opacity = "0";
+        logo.style.transform = "scale(.6)";
+        logo.style.transition = `transform ${logoMs}ms cubic-bezier(.16,.9,.34,1), opacity ${logoMs}ms ease`;
+        // forçar reflow e então ativar a animação
+        void logo.offsetWidth;
+        requestAnimationFrame(() => {
+          logo.style.opacity = "1";
+          logo.style.transform = "scale(1)";
+        });
+      }
+
+      // garante que o container intro seja removido após o tempo (com fade)
+      if (intro) {
+        // fallback: usa timeout baseado na var CSS (introMs)
+        setTimeout(() => {
+          try {
+            // animação de fade out via inline se não houver CSS
+            intro.style.transition = `opacity 320ms ease`;
+            intro.style.opacity = "0";
+            setTimeout(() => {
+              // remove visualmente
+              intro.style.display = "none";
+            }, 360);
+          } catch (e) { intro.style.display = "none"; }
+        }, introMs);
+      } else {
+        // sem intro container: se houver logo principal escondido, garantir que seja visível
+        const mainLogo = document.querySelector(".logo-main");
+        if (mainLogo && getComputedStyle(mainLogo).display === "none") {
+          mainLogo.style.display = "";
+        }
+      }
+    } catch (e) {
+      // não bloqueia o restante do script
+      console.warn("Intro fallback falhou:", e);
     }
   });
 
-  // MUSIC TOGGLE
+  /* ===== MUSIC TOGGLE ===== */
   const musicBtn = document.getElementById("music-toggle");
   const bgMusic = document.getElementById("bg-music");
 
   if (musicBtn && bgMusic) {
-
     function updateMusicButton(){
-      if(bgMusic.paused){
-        musicBtn.textContent = "Tocar Música de Fundo";
-        musicBtn.classList.remove("playing");
-        musicBtn.setAttribute("aria-pressed","false");
-      } else {
-        musicBtn.textContent = "Pausar Música de Fundo";
-        musicBtn.classList.add("playing");
-        musicBtn.setAttribute("aria-pressed","true");
-      }
+      try {
+        if (bgMusic.paused) {
+          musicBtn.textContent = "Tocar Música de Fundo";
+          musicBtn.classList.remove("playing");
+          musicBtn.setAttribute("aria-pressed","false");
+        } else {
+          musicBtn.textContent = "Pausar Música de Fundo";
+          musicBtn.classList.add("playing");
+          musicBtn.setAttribute("aria-pressed","true");
+        }
+      } catch(e){}
     }
 
+    // mantém sincronizado com eventos nativos
+    bgMusic.addEventListener("play", updateMusicButton);
+    bgMusic.addEventListener("pause", updateMusicButton);
     updateMusicButton();
 
     musicBtn.addEventListener("click", () => {
-      if(bgMusic.paused){
+      if (bgMusic.paused) {
         const p = bgMusic.play();
-        if(p && p.then){
-          p.then(updateMusicButton).catch(err => console.warn("play() falhou:", err));
+        if (p && typeof p.then === "function") {
+          p.then(updateMusicButton).catch(err => {
+            console.warn("play() falhou:", err);
+            updateMusicButton();
+          });
         } else {
           updateMusicButton();
         }
@@ -44,14 +109,14 @@ document.addEventListener("DOMContentLoaded", () => {
         updateMusicButton();
       }
     });
-
   }
 
-  // PARTICLES
-  const particlesContainer = document.getElementById("particles-new");
-  if (particlesContainer) {
+  /* ===== PARTICLES ===== */
+  (function createParticles(){
+    const container = document.getElementById("particles-new");
+    if (!container) return;
     const NUM = 60;
-    particlesContainer.innerHTML = "";
+    container.innerHTML = "";
     for (let i = 0; i < NUM; i++) {
       const sq = document.createElement("div");
       sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
@@ -59,20 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
       sq.style.top = `${Math.random() * -20}vh`;
       sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
       sq.style.animationDelay = `${Math.random() * 5}s`;
-      particlesContainer.appendChild(sq);
+      container.appendChild(sq);
     }
-  }
-
-  // DISQUS COUNT
-  (function(){
-    const d = document;
-    const s = d.createElement("script");
-    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
-    s.async = true;
-    (d.head || d.body).appendChild(s);
   })();
 
-  // DISQUS lazy loader
+  /* ===== DISQUS COUNT (load) ===== */
+  (function loadDisqusCount(){
+    try {
+      const d = document, s = d.createElement("script");
+      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
+      s.async = true;
+      (d.head || d.body).appendChild(s);
+    } catch(e){}
+  })();
+
+  /* ===== DISQUS lazy loader + comments toggles ===== */
   let disqusScriptAdded = false;
   function addDisqusScriptOnce(){
     return new Promise(resolve => {
@@ -115,14 +181,21 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".open-comments-btn").forEach(btn => {
     btn.addEventListener("click", async () => {
       const postId = btn.dataset.identifier;
-      const placeholder = document.getElementById("comments-" + postId);
-      if (!placeholder) return;
+      if (!postId) return;
+      let placeholder = document.getElementById("comments-" + postId);
+      if (!placeholder) {
+        placeholder = document.createElement("div");
+        placeholder.id = "comments-" + postId;
+        placeholder.className = "comments-placeholder";
+        btn.insertAdjacentElement("afterend", placeholder);
+      }
 
       if (btn.classList.contains("open")) {
         placeholder.style.display = "none";
         btn.classList.remove("open");
         btn.textContent = "Abrir comentários";
-        const old = placeholder.querySelector("#disqus_thread"); if (old) old.remove();
+        const old = placeholder.querySelector("#disqus_thread");
+        if (old) old.remove();
         placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
         return;
       }
@@ -141,87 +214,154 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!disqusScriptAdded) {
         await addDisqusScriptOnce();
+        setTimeout(()=> {
+          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
+        }, 900);
       } else {
         try {
-          DISQUS.reset({
-            reload: true,
-            config: function () {
-              this.page.identifier = postId;
-              this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
-            }
-          });
-        } catch {
+          if (typeof DISQUS !== "undefined" && DISQUS.reset) {
+            DISQUS.reset({
+              reload: true,
+              config: function () {
+                this.page.identifier = postId;
+                this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+              }
+            });
+          } else {
+            await addDisqusScriptOnce();
+          }
+          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
+        } catch (e) {
           await addDisqusScriptOnce();
+          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
         }
       }
-
-      const lm = placeholder.querySelector(".loading-msg");
-      if (lm) lm.remove();
     });
   });
 
-  // READ MORE
+  /* ===== READ MORE (JS expand/collapse) ===== */
   document.querySelectorAll('.toggle').forEach(chk => {
+    const post = chk.closest('.blog-post');
+    if (!post) return;
+    const extra = post.querySelector('.extra-content');
+    const label = post.querySelector('.read-more');
+
+    if (extra) {
+      extra.style.maxHeight = chk.checked ? `${extra.scrollHeight}px` : '0px';
+      extra.style.overflow = 'hidden';
+      extra.style.transition = 'max-height .35s ease, opacity .25s ease, transform .25s ease';
+      extra.style.opacity = chk.checked ? '1' : '0';
+      extra.style.transform = chk.checked ? 'translateY(0)' : 'translateY(-6px)';
+    }
+
     chk.addEventListener('change', () => {
-      const post = chk.closest('.blog-post');
-      const label = post ? post.querySelector('.read-more') : null;
-      if (!label) return;
-      if (chk.checked) label.classList.add('open'); else label.classList.remove('open');
+      if (!extra || !label) return;
+      if (chk.checked) {
+        extra.style.maxHeight = `${extra.scrollHeight}px`;
+        extra.style.opacity = '1';
+        extra.style.transform = 'translateY(0)';
+        label.classList.add('open');
+      } else {
+        extra.style.maxHeight = '0px';
+        extra.style.opacity = '0';
+        extra.style.transform = 'translateY(-6px)';
+        label.classList.remove('open');
+      }
     });
   });
 
-  // ===== SIDEBAR (mobile / desktop behavior) =====
+  /* ===== SIDEBAR behavior (desktop vs mobile) ===== */
   const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
   const sidebarToggle = document.getElementById("codina-sidebar-toggle");
   const siteContent = document.getElementById("site-content");
+  const nav = document.querySelector("header nav") || document.querySelector("nav");
+
+  function ensureMobileLinks(visible){
+    if (!sidebar || !nav) return;
+    const existing = nav.querySelectorAll("[data-mobile-from-sidebar]");
+    if (visible) {
+      if (existing.length) return;
+      const anchors = Array.from(sidebar.querySelectorAll("a"));
+      let toClone = anchors.filter(a => /login|entrar|criar|signup/i.test(a.getAttribute('href') || '') );
+      if (toClone.length === 0) toClone = anchors.slice(0, 2);
+      toClone.forEach(a => {
+        const clone = a.cloneNode(true);
+        clone.setAttribute("data-mobile-from-sidebar","1");
+        clone.style.marginLeft = "6px";
+        clone.style.marginRight = "6px";
+        clone.classList.add("mobile-sidebar-link");
+        nav.appendChild(clone);
+      });
+    } else {
+      existing.forEach(el => el.remove());
+    }
+  }
 
   function syncSidebarOnResize(){
     if (!sidebar) return;
-    if (window.innerWidth < 900){
-      // mobile: force hidden
+    const isMobile = window.innerWidth < 900;
+    if (isMobile) {
       sidebar.classList.remove("collapsed");
       sidebar.classList.remove("open");
       if(siteContent) siteContent.classList.remove("sidebar-collapsed");
+      sidebar.style.transform = "translateX(-100%)";
+      sidebar.style.opacity = "0";
+      sidebar.style.pointerEvents = "none";
+      ensureMobileLinks(true);
     } else {
-      // desktop: ensure sidebar visible (but not necessarily expanded)
-      sidebar.classList.remove("open");
-      // keep existing collapsed state if user toggled it
+      sidebar.style.transform = "";
+      sidebar.style.opacity = "";
+      sidebar.style.pointerEvents = "";
+      ensureMobileLinks(false);
     }
   }
-  // initial sync
   syncSidebarOnResize();
-  // keep in sync on resize
   window.addEventListener("resize", syncSidebarOnResize);
 
   if (sidebar && sidebarToggle) {
     sidebarToggle.addEventListener("click", () => {
       const isMobile = window.innerWidth < 900;
       if (isMobile) {
-        // toggle overlay sidebar on mobile
         sidebar.classList.toggle("open");
+        if (sidebar.classList.contains("open")) {
+          sidebar.style.transform = "";
+          sidebar.style.opacity = "";
+          sidebar.style.pointerEvents = "";
+        } else {
+          sidebar.style.transform = "translateX(-100%)";
+          sidebar.style.opacity = "0";
+          sidebar.style.pointerEvents = "none";
+        }
       } else {
-        // desktop: toggle collapsed state
         sidebar.classList.toggle("collapsed");
         if (siteContent) siteContent.classList.toggle("sidebar-collapsed");
       }
       const expanded = sidebar.classList.contains("open");
-      sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
     });
   }
 
-  // Close mobile sidebar by clicking outside
+  // fecha sidebar mobile clicando fora
   document.addEventListener("click", (e) => {
     if (!sidebar) return;
     if (window.innerWidth >= 900) return;
     if (!sidebar.contains(e.target) && !e.target.closest("#codina-sidebar-toggle")) {
       sidebar.classList.remove("open");
+      sidebar.style.transform = "translateX(-100%)";
+      sidebar.style.opacity = "0";
+      sidebar.style.pointerEvents = "none";
     }
   });
 
-  // ESC closes mobile sidebar
+  // ESC fecha
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && sidebar) {
       sidebar.classList.remove("open");
+      if (window.innerWidth < 900) {
+        sidebar.style.transform = "translateX(-100%)";
+        sidebar.style.opacity = "0";
+        sidebar.style.pointerEvents = "none";
+      }
     }
   });
 
