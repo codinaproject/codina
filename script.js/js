@@ -1,40 +1,41 @@
-// ====== script.js (versão estável atualizada — intro fix + música + particles + disqus + sidebar) ======
+// ====== script.js (versão estável — fallback extra e delegação) ======
 document.addEventListener("DOMContentLoaded", () => {
-  const DISQUS_SHORTNAME = 'codinaproject';
+  const DISQUS_SHORTNAME = "codinaproject";
+  const MOBILE_BREAKPOINT = 900; // largura em px para considerar mobile
 
-  /* ---------- helpers ---------- */
+  /* -------------------- UTIL -------------------- */
   function parseCssTimeToMs(timeStr) {
     if (!timeStr) return null;
-    timeStr = timeStr.trim();
+    timeStr = String(timeStr).trim();
     if (timeStr.endsWith("ms")) return parseFloat(timeStr);
     if (timeStr.endsWith("s")) return parseFloat(timeStr) * 1000;
     const n = parseFloat(timeStr);
     return Number.isFinite(n) ? n : null;
   }
+  function safeQuery(sel, ctx=document) { try { return ctx.querySelector(sel); } catch(e){return null;} }
+  function safeQueryAll(sel, ctx=document) { try { return Array.from(ctx.querySelectorAll(sel)); } catch(e){return [];} }
 
-  /* ---------- INTRO (splash) com fallback robusto para logo ---------- */
+  /* -------------------- INTRO / LOGO (fallback robusto) -------------------- */
   window.addEventListener("load", () => {
     try {
       const intro = document.getElementById("intro") || document.getElementById("intro-screen");
-      const logo = (intro && (intro.querySelector(".logo-reveal") || intro.querySelector("#intro-logo"))) ||
-                   document.querySelector(".logo-reveal") || document.getElementById("intro-logo") || document.querySelector(".logo-main");
+      const logo = (intro && (intro.querySelector(".logo-reveal") || intro.querySelector("#intro-logo")))
+                 || document.querySelector(".logo-reveal") || document.getElementById("intro-logo") || document.querySelector(".logo-main");
 
-      // pega duração do :root ou fallback
       const rootStyles = getComputedStyle(document.documentElement);
-      const introCss = rootStyles.getPropertyValue("--intro-total") || rootStyles.getPropertyValue("--intro_total") || "2.8s";
+      const introCss = rootStyles.getPropertyValue("--intro-total") || "2.8s";
       const logoCss = rootStyles.getPropertyValue("--logo-in-time") || "1.6s";
       const introMs = parseCssTimeToMs(introCss) || 2800;
       const logoMs = parseCssTimeToMs(logoCss) || 1600;
 
-      // Se existir logo no splash, aplica fallback de animação (inline) para garantir visibilidade
       if (logo) {
-        // garante tamanho razoável e reset de transform/opacidade
+        // força tamanho/visibilidade e animação inline para garantir aparecimento
         logo.style.maxWidth = logo.style.maxWidth || "220px";
         logo.style.width = logo.style.width || "220px";
         logo.style.opacity = "0";
         logo.style.transform = "scale(.6)";
         logo.style.transition = `transform ${logoMs}ms cubic-bezier(.16,.9,.34,1), opacity ${logoMs}ms ease`;
-        // forçar reflow e então ativar a animação
+        // trigger
         void logo.offsetWidth;
         requestAnimationFrame(() => {
           logo.style.opacity = "1";
@@ -42,39 +43,29 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // garante que o container intro seja removido após o tempo (com fade)
       if (intro) {
-        // fallback: usa timeout baseado na var CSS (introMs)
+        // remove intro com fade após tempo calculado
         setTimeout(() => {
           try {
-            // animação de fade out via inline se não houver CSS
-            intro.style.transition = `opacity 320ms ease`;
+            intro.style.transition = intro.style.transition || "opacity 300ms ease";
             intro.style.opacity = "0";
-            setTimeout(() => {
-              // remove visualmente
-              intro.style.display = "none";
-            }, 360);
-          } catch (e) { intro.style.display = "none"; }
+            setTimeout(()=> { intro.style.display = "none"; }, 360);
+          } catch(e){ intro.style.display = "none"; }
         }, introMs);
-      } else {
-        // sem intro container: se houver logo principal escondido, garantir que seja visível
-        const mainLogo = document.querySelector(".logo-main");
-        if (mainLogo && getComputedStyle(mainLogo).display === "none") {
-          mainLogo.style.display = "";
-        }
       }
-    } catch (e) {
-      // não bloqueia o restante do script
-      console.warn("Intro fallback falhou:", e);
+    } catch(e){
+      // swallow
+      console.warn("Intro fallback erro:", e);
     }
   });
 
-  /* ===== MUSIC TOGGLE ===== */
-  const musicBtn = document.getElementById("music-toggle");
-  const bgMusic = document.getElementById("bg-music");
+  /* -------------------- MUSIC TOGGLE -------------------- */
+  (function initMusic() {
+    const musicBtn = document.getElementById("music-toggle");
+    const bgMusic = document.getElementById("bg-music");
+    if (!musicBtn || !bgMusic) return;
 
-  if (musicBtn && bgMusic) {
-    function updateMusicButton(){
+    function updateBtn(){
       try {
         if (bgMusic.paused) {
           musicBtn.textContent = "Tocar Música de Fundo";
@@ -88,57 +79,60 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch(e){}
     }
 
-    // mantém sincronizado com eventos nativos
-    bgMusic.addEventListener("play", updateMusicButton);
-    bgMusic.addEventListener("pause", updateMusicButton);
-    updateMusicButton();
+    // sync with native events
+    bgMusic.addEventListener("play", updateBtn);
+    bgMusic.addEventListener("pause", updateBtn);
+    updateBtn();
 
     musicBtn.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        const p = bgMusic.play();
-        if (p && typeof p.then === "function") {
-          p.then(updateMusicButton).catch(err => {
-            console.warn("play() falhou:", err);
-            updateMusicButton();
-          });
+      try {
+        if (bgMusic.paused) {
+          const p = bgMusic.play();
+          if (p && typeof p.then === "function") {
+            p.then(updateBtn).catch(err => {
+              console.warn("bgMusic.play() falhou:", err);
+              updateBtn();
+            });
+          } else {
+            updateBtn();
+          }
         } else {
-          updateMusicButton();
+          bgMusic.pause();
+          updateBtn();
         }
-      } else {
-        try { bgMusic.pause(); } catch(e){}
-        updateMusicButton();
+      } catch(e){
+        console.warn("music toggle erro:", e);
       }
     });
-  }
+  })();
 
-  /* ===== PARTICLES ===== */
-  (function createParticles(){
+  /* -------------------- PARTICLES (cria squares) -------------------- */
+  (function initParticles(){
     const container = document.getElementById("particles-new");
     if (!container) return;
     const NUM = 60;
     container.innerHTML = "";
-    for (let i = 0; i < NUM; i++) {
+    for (let i=0;i<NUM;i++){
       const sq = document.createElement("div");
       sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
-      sq.style.left = `${Math.random() * 100}vw`;
-      sq.style.top = `${Math.random() * -20}vh`;
-      sq.style.animationDuration = `${Math.random() * 5 + 6}s`;
-      sq.style.animationDelay = `${Math.random() * 5}s`;
+      sq.style.left = `${Math.random()*100}vw`;
+      sq.style.top = `${Math.random()*-20}vh`;
+      sq.style.animationDuration = `${Math.random()*5 + 6}s`;
+      sq.style.animationDelay = `${Math.random()*5}s`;
       container.appendChild(sq);
     }
   })();
 
-  /* ===== DISQUS COUNT (load) ===== */
+  /* -------------------- DISQUS helpers -------------------- */
   (function loadDisqusCount(){
     try {
-      const d = document, s = d.createElement("script");
+      const d=document, s=d.createElement("script");
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
       s.async = true;
       (d.head || d.body).appendChild(s);
     } catch(e){}
   })();
 
-  /* ===== DISQUS lazy loader + comments toggles ===== */
   let disqusScriptAdded = false;
   function addDisqusScriptOnce(){
     return new Promise(resolve => {
@@ -147,14 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
       s.async = true;
       s.setAttribute("data-timestamp", +new Date());
-      s.onload = () => { disqusScriptAdded = true; resolve(); };
-      s.onerror = () => { console.warn("Falha ao carregar Disqus"); resolve(); };
+      s.onload = ()=> { disqusScriptAdded = true; resolve(); };
+      s.onerror = ()=> { console.warn("Erro load Disqus"); resolve(); };
       document.head.appendChild(s);
     });
   }
 
   function closeAllCommentsExcept(exceptId){
-    document.querySelectorAll(".open-comments-btn.open").forEach(btn => {
+    safeQueryAll(".open-comments-btn.open").forEach(btn=>{
       if (btn.dataset.identifier !== exceptId) {
         const ph = document.getElementById("comments-" + btn.dataset.identifier);
         if (ph) {
@@ -178,48 +172,54 @@ document.addEventListener("DOMContentLoaded", () => {
     return div;
   }
 
-  document.querySelectorAll(".open-comments-btn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const postId = btn.dataset.identifier;
-      if (!postId) return;
-      let placeholder = document.getElementById("comments-" + postId);
-      if (!placeholder) {
-        placeholder = document.createElement("div");
-        placeholder.id = "comments-" + postId;
-        placeholder.className = "comments-placeholder";
-        btn.insertAdjacentElement("afterend", placeholder);
-      }
+  /* -------------------- COMMENTS (delegated) -------------------- */
+  document.addEventListener("click", async (ev) => {
+    const btn = ev.target.closest ? ev.target.closest(".open-comments-btn") : null;
+    if (!btn) return;
+    ev.preventDefault();
+    const postId = btn.dataset.identifier;
+    if (!postId) return;
+    let placeholder = document.getElementById("comments-" + postId);
+    if (!placeholder) {
+      placeholder = document.createElement("div");
+      placeholder.id = "comments-" + postId;
+      placeholder.className = "comments-placeholder";
+      btn.insertAdjacentElement("afterend", placeholder);
+    }
 
-      if (btn.classList.contains("open")) {
-        placeholder.style.display = "none";
-        btn.classList.remove("open");
-        btn.textContent = "Abrir comentários";
-        const old = placeholder.querySelector("#disqus_thread");
-        if (old) old.remove();
-        placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-        return;
-      }
+    // toggle close
+    if (btn.classList.contains("open")) {
+      placeholder.style.display = "none";
+      btn.classList.remove("open");
+      btn.textContent = "Abrir comentários";
+      const old = placeholder.querySelector("#disqus_thread"); if (old) old.remove();
+      placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
+      return;
+    }
 
-      closeAllCommentsExcept(postId);
-      btn.textContent = "Fechar comentários";
-      btn.classList.add("open");
-      placeholder.style.display = "block";
-      placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
-      createThreadContainerIn(placeholder);
+    // open new
+    closeAllCommentsExcept(postId);
+    btn.textContent = "Fechar comentários";
+    btn.classList.add("open");
+    placeholder.style.display = "block";
+    placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
+    createThreadContainerIn(placeholder);
 
-      window.disqus_config = function () {
-        this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
-        this.page.identifier = postId;
-      };
+    window.disqus_config = function () {
+      this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
+      this.page.identifier = postId;
+    };
 
+    try {
       if (!disqusScriptAdded) {
         await addDisqusScriptOnce();
+        // small delay for embed to initialise
         setTimeout(()=> {
           const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
         }, 900);
       } else {
-        try {
-          if (typeof DISQUS !== "undefined" && DISQUS.reset) {
+        if (typeof DISQUS !== "undefined" && DISQUS.reset) {
+          try {
             DISQUS.reset({
               reload: true,
               config: function () {
@@ -227,142 +227,165 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
               }
             });
-          } else {
+          } catch(err) {
+            // fallback: reload script
             await addDisqusScriptOnce();
           }
-          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
-        } catch (e) {
-          await addDisqusScriptOnce();
-          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
-        }
-      }
-    });
-  });
-
-  /* ===== READ MORE (JS expand/collapse) ===== */
-  document.querySelectorAll('.toggle').forEach(chk => {
-    const post = chk.closest('.blog-post');
-    if (!post) return;
-    const extra = post.querySelector('.extra-content');
-    const label = post.querySelector('.read-more');
-
-    if (extra) {
-      extra.style.maxHeight = chk.checked ? `${extra.scrollHeight}px` : '0px';
-      extra.style.overflow = 'hidden';
-      extra.style.transition = 'max-height .35s ease, opacity .25s ease, transform .25s ease';
-      extra.style.opacity = chk.checked ? '1' : '0';
-      extra.style.transform = chk.checked ? 'translateY(0)' : 'translateY(-6px)';
-    }
-
-    chk.addEventListener('change', () => {
-      if (!extra || !label) return;
-      if (chk.checked) {
-        extra.style.maxHeight = `${extra.scrollHeight}px`;
-        extra.style.opacity = '1';
-        extra.style.transform = 'translateY(0)';
-        label.classList.add('open');
-      } else {
-        extra.style.maxHeight = '0px';
-        extra.style.opacity = '0';
-        extra.style.transform = 'translateY(-6px)';
-        label.classList.remove('open');
-      }
-    });
-  });
-
-  /* ===== SIDEBAR behavior (desktop vs mobile) ===== */
-  const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
-  const sidebarToggle = document.getElementById("codina-sidebar-toggle");
-  const siteContent = document.getElementById("site-content");
-  const nav = document.querySelector("header nav") || document.querySelector("nav");
-
-  function ensureMobileLinks(visible){
-    if (!sidebar || !nav) return;
-    const existing = nav.querySelectorAll("[data-mobile-from-sidebar]");
-    if (visible) {
-      if (existing.length) return;
-      const anchors = Array.from(sidebar.querySelectorAll("a"));
-      let toClone = anchors.filter(a => /login|entrar|criar|signup/i.test(a.getAttribute('href') || '') );
-      if (toClone.length === 0) toClone = anchors.slice(0, 2);
-      toClone.forEach(a => {
-        const clone = a.cloneNode(true);
-        clone.setAttribute("data-mobile-from-sidebar","1");
-        clone.style.marginLeft = "6px";
-        clone.style.marginRight = "6px";
-        clone.classList.add("mobile-sidebar-link");
-        nav.appendChild(clone);
-      });
-    } else {
-      existing.forEach(el => el.remove());
-    }
-  }
-
-  function syncSidebarOnResize(){
-    if (!sidebar) return;
-    const isMobile = window.innerWidth < 900;
-    if (isMobile) {
-      sidebar.classList.remove("collapsed");
-      sidebar.classList.remove("open");
-      if(siteContent) siteContent.classList.remove("sidebar-collapsed");
-      sidebar.style.transform = "translateX(-100%)";
-      sidebar.style.opacity = "0";
-      sidebar.style.pointerEvents = "none";
-      ensureMobileLinks(true);
-    } else {
-      sidebar.style.transform = "";
-      sidebar.style.opacity = "";
-      sidebar.style.pointerEvents = "";
-      ensureMobileLinks(false);
-    }
-  }
-  syncSidebarOnResize();
-  window.addEventListener("resize", syncSidebarOnResize);
-
-  if (sidebar && sidebarToggle) {
-    sidebarToggle.addEventListener("click", () => {
-      const isMobile = window.innerWidth < 900;
-      if (isMobile) {
-        sidebar.classList.toggle("open");
-        if (sidebar.classList.contains("open")) {
-          sidebar.style.transform = "";
-          sidebar.style.opacity = "";
-          sidebar.style.pointerEvents = "";
         } else {
-          sidebar.style.transform = "translateX(-100%)";
-          sidebar.style.opacity = "0";
-          sidebar.style.pointerEvents = "none";
+          await addDisqusScriptOnce();
         }
-      } else {
-        sidebar.classList.toggle("collapsed");
-        if (siteContent) siteContent.classList.toggle("sidebar-collapsed");
+        const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
       }
-      const expanded = sidebar.classList.contains("open");
-      if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-    });
-  }
-
-  // fecha sidebar mobile clicando fora
-  document.addEventListener("click", (e) => {
-    if (!sidebar) return;
-    if (window.innerWidth >= 900) return;
-    if (!sidebar.contains(e.target) && !e.target.closest("#codina-sidebar-toggle")) {
-      sidebar.classList.remove("open");
-      sidebar.style.transform = "translateX(-100%)";
-      sidebar.style.opacity = "0";
-      sidebar.style.pointerEvents = "none";
+    } catch(e){
+      console.warn("Erro carregar/disparar Disqus:", e);
+      const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
     }
-  });
+  }); // delegated comments
 
-  // ESC fecha
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sidebar) {
-      sidebar.classList.remove("open");
-      if (window.innerWidth < 900) {
+  /* -------------------- READ MORE (labels + inputs) -------------------- */
+  (function initReadMore(){
+    // para cada label.read-more encontrado, ligar ao input referenciado pelo for
+    safeQueryAll("label.read-more").forEach(label => {
+      try {
+        const fid = label.getAttribute("for");
+        const input = fid ? document.getElementById(fid) : null;
+        // fallback: se não achou input, tenta achar checkbox dentro o mesmo article
+        let chk = input;
+        if (!chk) {
+          const post = label.closest(".blog-post");
+          if (post) chk = post.querySelector('input[type="checkbox"].toggle');
+        }
+        const post = label.closest(".blog-post");
+        const extra = post ? post.querySelector(".extra-content") : null;
+
+        // init extra collapsed state
+        if (extra) {
+          extra.style.overflow = "hidden";
+          extra.style.maxHeight = (chk && chk.checked) ? `${extra.scrollHeight}px` : "0px";
+          extra.style.opacity = (chk && chk.checked) ? "1" : "0";
+          extra.style.transform = (chk && chk.checked) ? "translateY(0)" : "translateY(-6px)";
+          extra.style.transition = "max-height .35s ease, opacity .25s ease, transform .25s ease";
+        }
+
+        if (!chk) return;
+        chk.addEventListener("change", () => {
+          if (!extra) return;
+          if (chk.checked) {
+            extra.style.maxHeight = `${extra.scrollHeight}px`;
+            extra.style.opacity = "1";
+            extra.style.transform = "translateY(0)";
+            label.classList.add("open");
+          } else {
+            extra.style.maxHeight = "0px";
+            extra.style.opacity = "0";
+            extra.style.transform = "translateY(-6px)";
+            label.classList.remove("open");
+          }
+        });
+      } catch(e){ /* swallow per-item errors */ }
+    });
+  })();
+
+  /* -------------------- SIDEBAR (desktop vs mobile + mobile links cloning) -------------------- */
+  (function initSidebarBehavior(){
+    const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
+    const sidebarToggle = document.getElementById("codina-sidebar-toggle");
+    const siteContent = document.getElementById("site-content");
+    const nav = document.querySelector("header nav") || document.querySelector("nav");
+
+    function ensureMobileLinks(visible){
+      if (!sidebar || !nav) return;
+      const existing = nav.querySelectorAll("[data-mobile-from-sidebar]");
+      if (visible) {
+        if (existing.length) return;
+        const anchors = Array.from(sidebar.querySelectorAll("a"));
+        // preferir login/criar conta por href
+        let toClone = anchors.filter(a => /(login|entrar|criar|signup)/i.test(a.getAttribute("href")||""));
+        if (!toClone.length) toClone = anchors.slice(0,2);
+        toClone.forEach(a => {
+          const clone = a.cloneNode(true);
+          clone.setAttribute("data-mobile-from-sidebar","1");
+          clone.classList.add("mobile-sidebar-link");
+          clone.style.marginLeft = "6px";
+          clone.style.marginRight = "6px";
+          nav.appendChild(clone);
+        });
+      } else {
+        existing.forEach(el => el.remove());
+      }
+    }
+
+    function sync(){
+      if (!sidebar) return;
+      const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+      if (isMobile) {
+        sidebar.classList.remove("collapsed");
+        sidebar.classList.remove("open");
+        if (siteContent) siteContent.classList.remove("sidebar-collapsed");
+        sidebar.style.transform = "translateX(-100%)";
+        sidebar.style.opacity = "0";
+        sidebar.style.pointerEvents = "none";
+        ensureMobileLinks(true);
+      } else {
+        sidebar.style.transform = "";
+        sidebar.style.opacity = "";
+        sidebar.style.pointerEvents = "";
+        ensureMobileLinks(false);
+      }
+    }
+    // initial
+    sync();
+    window.addEventListener("resize", sync);
+
+    if (sidebar && sidebarToggle) {
+      sidebarToggle.addEventListener("click", () => {
+        const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+        if (isMobile) {
+          // mobile overlay
+          sidebar.classList.toggle("open");
+          if (sidebar.classList.contains("open")) {
+            sidebar.style.transform = "";
+            sidebar.style.opacity = "";
+            sidebar.style.pointerEvents = "";
+          } else {
+            sidebar.style.transform = "translateX(-100%)";
+            sidebar.style.opacity = "0";
+            sidebar.style.pointerEvents = "none";
+          }
+        } else {
+          // desktop collapse
+          sidebar.classList.toggle("collapsed");
+          if (siteContent) siteContent.classList.toggle("sidebar-collapsed");
+        }
+        const expanded = sidebar.classList.contains("open");
+        if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      });
+    }
+
+    // close by clicking outside on mobile
+    document.addEventListener("click", (e) => {
+      if (!sidebar) return;
+      if (window.innerWidth >= MOBILE_BREAKPOINT) return;
+      if (!sidebar.contains(e.target) && !e.target.closest("#codina-sidebar-toggle")) {
+        sidebar.classList.remove("open");
         sidebar.style.transform = "translateX(-100%)";
         sidebar.style.opacity = "0";
         sidebar.style.pointerEvents = "none";
       }
-    }
-  });
+    });
 
+    // ESC to close mobile sidebar
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && sidebar) {
+        sidebar.classList.remove("open");
+        if (window.innerWidth < MOBILE_BREAKPOINT) {
+          sidebar.style.transform = "translateX(-100%)";
+          sidebar.style.opacity = "0";
+          sidebar.style.pointerEvents = "none";
+        }
+      }
+    });
+  })();
+
+  /* -------------------- END -------------------- */
 }); // DOMContentLoaded
