@@ -2,171 +2,182 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Codina Universe</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
 
 <body>
 
-  <!-- INTRO LOGO -->
-  <div id="intro-screen" aria-hidden="false">
-    <img src="images/codina-logosite.png" alt="Codina" id="intro-logo">
-  </div>
+<!-- INTRO -->
+<div id="intro-screen" aria-hidden="false">
+  <img src="images/codina-logosite.png" alt="Codina" id="intro-logo">
+</div>
 
-  <!-- BARRA LATERAL -->
-  <div class="sidebar" id="codina-sidebar" aria-label="Barra de conta">
-    <a class="codina-sidebar-link" href="login.html">Login</a>
-    <a class="codina-sidebar-link secondary" href="criar-conta.html">Criar conta</a>
-    <!-- se for usar toggle mobile, coloque um botão com id="codina-sidebar-toggle" -->
-    <button id="codina-sidebar-toggle" aria-expanded="false" aria-label="Abrir/fechar barra de conta" style="display:none"></button>
-  </div>
+<!-- SIDEBAR -->
+<div class="sidebar" id="codina-sidebar" aria-label="Barra de conta">
+  <a class="codina-sidebar-link" href="login.html">Login</a>
+  <a class="codina-sidebar-link secondary" href="criar-conta.html">Criar conta</a>
+  <button id="codina-sidebar-toggle" aria-expanded="false" style="display:none"></button>
+</div>
 
-  <!-- PARTICLES -->
-  <div id="particles-new" class="particles-new" aria-hidden="true"></div>
+<!-- PARTICLES -->
+<div id="particles-new" class="particles-new"></div>
 
-  <div id="site-content">
+<div id="site-content">
 
-    <header>
-      <div class="logo-container">
-        <img src="images/codina-logosite.png" alt="Logo Codina" class="logo-main">
-      </div>
+<header>
 
-      <nav role="navigation" aria-label="Menu principal">
-        <a href="index.html" class="active">Início</a>
-        <a href="historia.html">História</a>
-        <a href="personagens.html">Personagens</a>
-        <a href="equipe.html">Equipe</a>
-        <a href="loja.html">Loja</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
+<div class="logo-container">
+  <img src="images/codina-logosite.png" alt="Logo Codina" class="logo-main">
+</div>
 
-    <audio id="bg-music" loop preload="none" aria-hidden="true">
-      <source src="audio/musica.mp3" type="audio/mpeg" />
-    </audio>
-    <button id="music-toggle" type="button" aria-pressed="false">Tocar Música de Fundo</button>
+<nav>
+  <a href="index.html" class="active">Início</a>
+  <a href="historia.html">História</a>
+  <a href="personagens.html">Personagens</a>
+  <a href="equipe.html">Equipe</a>
+  <a href="loja.html">Loja</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="perfil.html">Perfil</a>
 
-    <section class="hero" role="region" aria-label="Hero">
-      <div class="hero-content">
-        <h1>UNIVERSO CODINA</h1>
-        <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
-      </div>
-    </section>
+  <!-- 🔥 LOGIN MOBILE (JS remove no desktop automaticamente) -->
+  <a href="login.html" data-mobile>Login</a>
+</nav>
 
-    <main>
-      <section class="blog-section" aria-live="polite">
-        <h2>Últimas Notícias</h2>
+</header>
 
-        <!-- POST 1 -->
-        <article class="blog-post" id="post-1" aria-labelledby="post1-title">
-          <h3 id="post1-title">Lançamento do Novo Episódio</h3>
-          <p class="date">26 de Fevereiro, 2026</p>
+<audio id="bg-music" loop preload="none">
+  <source src="audio/musica.mp3" type="audio/mpeg">
+</audio>
 
-          <input type="checkbox" id="post1-toggle" class="toggle" aria-hidden="true">
-          <label for="post1-toggle" class="read-more" role="button" tabindex="0" aria-controls="post-1">Leia mais</label>
+<button id="music-toggle" aria-pressed="false">
+  Tocar Música de Fundo
+</button>
 
-          <div class="extra-content">
-            <p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
+<section class="hero">
+<div class="hero-content">
+  <h1>UNIVERSO CODINA</h1>
+  <p>Um novo mundo começa agora — histórias, personagens, músicas e muito mais.</p>
+</div>
+</section>
 
-            <button
-              class="open-comments-btn"
-              type="button"
-              data-identifier="post-1"
-              data-url="https://codinaproject.github.io/codina/#post-1"
-              aria-expanded="false"
-              aria-controls="comments-post-1">
-              Abrir comentários
-            </button>
+<main>
 
-            <div id="comments-post-1" class="comments-placeholder" aria-live="polite" role="region">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
+<section class="blog-section">
 
-        <!-- POST 2 -->
-        <article class="blog-post" id="post-2" aria-labelledby="post2-title">
-          <h3 id="post2-title">Arte da Codina Atualizada</h3>
-          <p class="date">14 de Fevereiro, 2026</p>
+<h2>Últimas Notícias</h2>
 
-          <input type="checkbox" id="post2-toggle" class="toggle" aria-hidden="true">
-          <label for="post2-toggle" class="read-more" role="button" tabindex="0" aria-controls="post-2">Leia mais</label>
+<!-- POST 1 -->
+<article class="blog-post" id="post-1">
 
-          <div class="extra-content">
-            <p>Descrição da arte, técnica e curiosidades.</p>
+<h3>Lançamento do Novo Episódio</h3>
+<p class="date">26 de Fevereiro, 2026</p>
 
-            <button
-              class="open-comments-btn"
-              type="button"
-              data-identifier="post-2"
-              data-url="https://codinaproject.github.io/codina/#post-2"
-              aria-expanded="false"
-              aria-controls="comments-post-2">
-              Abrir comentários
-            </button>
+<input type="checkbox" id="post1-toggle" class="toggle">
+<label for="post1-toggle" class="read-more"></label>
 
-            <div id="comments-post-2" class="comments-placeholder" aria-live="polite" role="region">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
+<div class="extra-content">
 
-        <!-- POST 3 -->
-        <article class="blog-post" id="post-3" aria-labelledby="post3-title">
-          <h3 id="post3-title">Anúncio de Evento Online</h3>
-          <p class="date">01 de Fevereiro, 2026</p>
+<p>Texto completo do episódio, spoilers leves e comentários do staff.</p>
 
-          <input type="checkbox" id="post3-toggle" class="toggle" aria-hidden="true">
-          <label for="post3-toggle" class="read-more" role="button" tabindex="0" aria-controls="post-3">Leia mais</label>
+<button class="open-comments-btn"
+data-identifier="post-1"
+data-url="https://codinaproject.github.io/codina/#post-1">
+Abrir comentários
+</button>
 
-          <div class="extra-content">
-            <p>Detalhes do evento, horários e prêmios.</p>
+<div id="comments-post-1" class="comments-placeholder">
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+</div>
 
-            <button
-              class="open-comments-btn"
-              type="button"
-              data-identifier="post-3"
-              data-url="https://codinaproject.github.io/codina/#post-3"
-              aria-expanded="false"
-              aria-controls="comments-post-3">
-              Abrir comentários
-            </button>
+</div>
 
-            <div id="comments-post-3" class="comments-placeholder" aria-live="polite" role="region">
-              <em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
-            </div>
-          </div>
-        </article>
+</article>
 
-      </section>
-    </main>
+<!-- POST 2 -->
+<article class="blog-post" id="post-2">
 
-    <footer class="site-footer">
-      <p>© 2026 Codina Universe</p>
-      <p style="margin-top:12px;font-size:0.95rem;color:rgba(255,255,255,0.85);">
-        <a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
-        <a href="https://codinai.carrd.co/">Codin aí</a>
-        is licensed under
-        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-        <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width:1em" alt="CC">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width:1em" alt="BY">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" style="max-width:1em" alt="NC">
-        <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" style="max-width:1em" alt="ND">
-      </p>
-    </footer>
+<h3>Arte da Codina Atualizada</h3>
+<p class="date">14 de Fevereiro, 2026</p>
 
-  </div>
+<input type="checkbox" id="post2-toggle" class="toggle">
+<label for="post2-toggle" class="read-more"></label>
 
-  <!-- se o seu fluxo exige texto pra usuário sem JS -->
-  <noscript>
-    Please enable JavaScript to view the comments powered by Disqus.
-  </noscript>
+<div class="extra-content">
 
-  <!-- seu script (nome que você escolheu) -->
-  <script src="script.js/js" defer></script>
+<p>Descrição da arte, técnica e curiosidades.</p>
+
+<button class="open-comments-btn"
+data-identifier="post-2"
+data-url="https://codinaproject.github.io/codina/#post-2">
+Abrir comentários
+</button>
+
+<div id="comments-post-2" class="comments-placeholder">
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+</div>
+
+</div>
+
+</article>
+
+<!-- POST 3 -->
+<article class="blog-post" id="post-3">
+
+<h3>Anúncio de Evento Online</h3>
+<p class="date">01 de Fevereiro, 2026</p>
+
+<input type="checkbox" id="post3-toggle" class="toggle">
+<label for="post3-toggle" class="read-more"></label>
+
+<div class="extra-content">
+
+<p>Detalhes do evento, horários e prêmios.</p>
+
+<button class="open-comments-btn"
+data-identifier="post-3"
+data-url="https://codinaproject.github.io/codina/#post-3">
+Abrir comentários
+</button>
+
+<div id="comments-post-3" class="comments-placeholder">
+<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>
+</div>
+
+</div>
+
+</article>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+<p>© 2026 Codina Universe</p>
+
+<p style="margin-top:12px;font-size:0.95rem;color:rgba(255,255,255,0.85);">
+
+<a href="https://codinaproject.github.io/codina/">CODINA</a> © 2023 by
+<a href="https://codinai.carrd.co/">Codin aí</a>
+
+is licensed under
+
+<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+
+</p>
+
+</footer>
+
+</div>
+
+<noscript>
+Ative o JavaScript para ver os comentários.
+</noscript>
+
+<!-- ⚠️ NÃO MEXE SE O ARQUIVO FOR ESSE MESMO -->
+<script src="script.js/js"></script>
 
 </body>
 </html>
