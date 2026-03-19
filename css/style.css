@@ -1,4 +1,4 @@
-/* ========================= css/style.css — Corrigido final (responsivo, sidebar fixa, energia, leia mais, collapse) ========================= */
+aqui o css:/* ========================= css/style.css — Corrigido final (responsivo, sidebar fixa, energia, leia mais, collapse) ========================= */
 
 :root{
   --intro-total: 2.8s;
@@ -402,8 +402,32 @@ label.read-more::after{ content:"Leia mais"; }
 }
 
 /* very wide screens */
-@media (min-width:1800px){
-  #site-content{ margin-left:calc(var(--sidebar-desktop) + 20px); }
+@media (max-width: 899px){
+  #codina-sidebar,
+  .sidebar{
+    display:none !important;
+  }
+
+  #site-content{
+    margin-left:0 !important;
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  nav a[href*="login.html"],
+  nav a[href*="criar-conta.html"]{
+    display:inline-block !important;
+  }
 }
 
-/* fim do arquivo */
+@media (min-width: 900px){
+  nav a[href*="login.html"],
+  nav a[href*="criar-conta.html"]{
+    display:none !important;
+  }
+
+  #codina-sidebar,
+  .sidebar{
+    display:flex !important;
+  }
+}
