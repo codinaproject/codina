@@ -1,4 +1,4 @@
-// ====== script.js (VERSÃO FINAL CORRIGIDA) ======
+// ====== script.js (VERSÃO FINAL ESTÁVEL) ======
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = "codinaproject";
@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ================= INTRO ================= */
   window.addEventListener("load", () => {
-    const intro = document.getElementById("intro") || document.getElementById("intro-screen");
+    const intro = document.getElementById("intro-screen");
     if (intro) {
       setTimeout(() => {
         intro.style.opacity = "0";
@@ -23,23 +23,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateBtn(){
       if (bgMusic.paused) {
-        musicBtn.textContent = "Tocar Música de Fundo";
-        musicBtn.setAttribute("aria-pressed","false");
+        musicBtn.textContent = "Tocar Música";
+        musicBtn.classList.remove("playing");
       } else {
-        musicBtn.textContent = "Pausar Música de Fundo";
-        musicBtn.setAttribute("aria-pressed","true");
+        musicBtn.textContent = "Pausar Música";
+        musicBtn.classList.add("playing");
       }
     }
 
     updateBtn();
 
-    musicBtn.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play().then(updateBtn).catch(()=>{});
-      } else {
-        bgMusic.pause();
-        updateBtn();
+    musicBtn.addEventListener("click", async () => {
+      try {
+        if (bgMusic.paused) {
+          await bgMusic.play();
+        } else {
+          bgMusic.pause();
+        }
+      } catch (e) {
+        console.warn("Erro ao tocar música:", e);
       }
+      updateBtn();
     });
   }
 
@@ -47,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const particles = document.getElementById("particles-new");
   if (particles) {
     particles.innerHTML = "";
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 50; i++) {
       const el = document.createElement("div");
       el.className = "square";
       el.style.left = Math.random()*100+"vw";
@@ -71,12 +75,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function resetDisqus(id, url){
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: function () {
+          this.page.identifier = id;
+          this.page.url = url;
+        }
+      });
+    }
+  }
+
   document.addEventListener("click", async (e) => {
 
     const btn = e.target.closest(".open-comments-btn");
     if (!btn) return;
 
     const id = btn.dataset.identifier;
+    const url = btn.dataset.url || (location.href + "#" + id);
+
     let box = document.getElementById("comments-" + id);
 
     if (!box) {
@@ -94,6 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // fecha outros
+    document.querySelectorAll(".open-comments-btn.open").forEach(b => {
+      if (b !== btn) {
+        b.classList.remove("open");
+        b.textContent = "Abrir comentários";
+      }
+    });
+
     btn.classList.add("open");
     btn.textContent = "Fechar comentários";
     box.style.display = "block";
@@ -101,10 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.disqus_config = function () {
       this.page.identifier = id;
-      this.page.url = location.href + "#" + id;
+      this.page.url = url;
     };
 
-    await loadDisqus();
+    if (!disqusLoaded) {
+      await loadDisqus();
+    } else {
+      resetDisqus(id, url);
+    }
 
   });
 
@@ -115,11 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const extra = post.querySelector(".extra-content");
 
     extra.style.maxHeight = "0";
+    extra.style.opacity = "0";
     extra.style.overflow = "hidden";
     extra.style.transition = "all .3s ease";
 
     chk.addEventListener("change", () => {
-
       if (chk.checked) {
         extra.style.maxHeight = extra.scrollHeight + "px";
         extra.style.opacity = "1";
@@ -127,13 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
         extra.style.maxHeight = "0";
         extra.style.opacity = "0";
       }
-
     });
 
   });
 
   /* ================= SIDEBAR ================= */
-  const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
+  const sidebar = document.querySelector(".sidebar");
   const nav = document.querySelector("nav");
   const siteContent = document.getElementById("site-content");
 
@@ -143,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
-    // limpa clones antigos
+    // remove duplicados
     nav.querySelectorAll("[data-mobile]").forEach(el => el.remove());
 
     if (isMobile) {
@@ -152,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebar.style.display = "none";
       if (siteContent) siteContent.style.marginLeft = "0";
 
-      // 🔴 pegar login/criar conta
+      // 🔴 clonar login/criar conta
       const links = sidebar.querySelectorAll("a");
 
       let selected = [...links].filter(a =>
@@ -169,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } else {
 
-      // 🟢 mostrar sidebar
+      // 🟢 desktop normal
       sidebar.style.display = "flex";
       if (siteContent) siteContent.style.marginLeft = "";
 
