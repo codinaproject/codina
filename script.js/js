@@ -1,391 +1,183 @@
-// ====== script.js (versão estável — fallback extra e delegação) ======
+// ====== script.js (VERSÃO FINAL CORRIGIDA) ======
 document.addEventListener("DOMContentLoaded", () => {
+
   const DISQUS_SHORTNAME = "codinaproject";
-  const MOBILE_BREAKPOINT = 900; // largura em px para considerar mobile
+  const MOBILE_BREAKPOINT = 900;
 
-  /* -------------------- UTIL -------------------- */
-  function parseCssTimeToMs(timeStr) {
-    if (!timeStr) return null;
-    timeStr = String(timeStr).trim();
-    if (timeStr.endsWith("ms")) return parseFloat(timeStr);
-    if (timeStr.endsWith("s")) return parseFloat(timeStr) * 1000;
-    const n = parseFloat(timeStr);
-    return Number.isFinite(n) ? n : null;
-  }
-  function safeQuery(sel, ctx=document) { try { return ctx.querySelector(sel); } catch(e){return null;} }
-  function safeQueryAll(sel, ctx=document) { try { return Array.from(ctx.querySelectorAll(sel)); } catch(e){return [];} }
-
-  /* -------------------- INTRO / LOGO (fallback robusto) -------------------- */
+  /* ================= INTRO ================= */
   window.addEventListener("load", () => {
-    try {
-      const intro = document.getElementById("intro") || document.getElementById("intro-screen");
-      const logo = (intro && (intro.querySelector(".logo-reveal") || intro.querySelector("#intro-logo")))
-                 || document.querySelector(".logo-reveal") || document.getElementById("intro-logo") || document.querySelector(".logo-main");
-
-      const rootStyles = getComputedStyle(document.documentElement);
-      const introCss = rootStyles.getPropertyValue("--intro-total") || "2.8s";
-      const logoCss = rootStyles.getPropertyValue("--logo-in-time") || "1.6s";
-      const introMs = parseCssTimeToMs(introCss) || 2800;
-      const logoMs = parseCssTimeToMs(logoCss) || 1600;
-
-      if (logo) {
-        // força tamanho/visibilidade e animação inline para garantir aparecimento
-        logo.style.maxWidth = logo.style.maxWidth || "220px";
-        logo.style.width = logo.style.width || "220px";
-        logo.style.opacity = "0";
-        logo.style.transform = "scale(.6)";
-        logo.style.transition = `transform ${logoMs}ms cubic-bezier(.16,.9,.34,1), opacity ${logoMs}ms ease`;
-        // trigger
-        void logo.offsetWidth;
-        requestAnimationFrame(() => {
-          logo.style.opacity = "1";
-          logo.style.transform = "scale(1)";
-        });
-      }
-
-      if (intro) {
-        // remove intro com fade após tempo calculado
-        setTimeout(() => {
-          try {
-            intro.style.transition = intro.style.transition || "opacity 300ms ease";
-            intro.style.opacity = "0";
-            setTimeout(()=> { intro.style.display = "none"; }, 360);
-          } catch(e){ intro.style.display = "none"; }
-        }, introMs);
-      }
-    } catch(e){
-      // swallow
-      console.warn("Intro fallback erro:", e);
+    const intro = document.getElementById("intro") || document.getElementById("intro-screen");
+    if (intro) {
+      setTimeout(() => {
+        intro.style.opacity = "0";
+        setTimeout(() => intro.style.display = "none", 300);
+      }, 2800);
     }
   });
 
-  /* -------------------- MUSIC TOGGLE -------------------- */
-  (function initMusic() {
-    const musicBtn = document.getElementById("music-toggle");
-    const bgMusic = document.getElementById("bg-music");
-    if (!musicBtn || !bgMusic) return;
+  /* ================= MUSIC ================= */
+  const musicBtn = document.getElementById("music-toggle");
+  const bgMusic = document.getElementById("bg-music");
+
+  if (musicBtn && bgMusic) {
 
     function updateBtn(){
-      try {
-        if (bgMusic.paused) {
-          musicBtn.textContent = "Tocar Música de Fundo";
-          musicBtn.classList.remove("playing");
-          musicBtn.setAttribute("aria-pressed","false");
-        } else {
-          musicBtn.textContent = "Pausar Música de Fundo";
-          musicBtn.classList.add("playing");
-          musicBtn.setAttribute("aria-pressed","true");
-        }
-      } catch(e){}
+      if (bgMusic.paused) {
+        musicBtn.textContent = "Tocar Música de Fundo";
+        musicBtn.setAttribute("aria-pressed","false");
+      } else {
+        musicBtn.textContent = "Pausar Música de Fundo";
+        musicBtn.setAttribute("aria-pressed","true");
+      }
     }
 
-    // sync with native events
-    bgMusic.addEventListener("play", updateBtn);
-    bgMusic.addEventListener("pause", updateBtn);
     updateBtn();
 
     musicBtn.addEventListener("click", () => {
-      try {
-        if (bgMusic.paused) {
-          const p = bgMusic.play();
-          if (p && typeof p.then === "function") {
-            p.then(updateBtn).catch(err => {
-              console.warn("bgMusic.play() falhou:", err);
-              updateBtn();
-            });
-          } else {
-            updateBtn();
-          }
-        } else {
-          bgMusic.pause();
-          updateBtn();
-        }
-      } catch(e){
-        console.warn("music toggle erro:", e);
+      if (bgMusic.paused) {
+        bgMusic.play().then(updateBtn).catch(()=>{});
+      } else {
+        bgMusic.pause();
+        updateBtn();
       }
     });
-  })();
+  }
 
-  /* -------------------- PARTICLES (cria squares) -------------------- */
-  (function initParticles(){
-    const container = document.getElementById("particles-new");
-    if (!container) return;
-    const NUM = 60;
-    container.innerHTML = "";
-    for (let i=0;i<NUM;i++){
-      const sq = document.createElement("div");
-      sq.className = "square" + (Math.random() > 0.78 ? " white" : "");
-      sq.style.left = `${Math.random()*100}vw`;
-      sq.style.top = `${Math.random()*-20}vh`;
-      sq.style.animationDuration = `${Math.random()*5 + 6}s`;
-      sq.style.animationDelay = `${Math.random()*5}s`;
-      container.appendChild(sq);
+  /* ================= PARTICLES ================= */
+  const particles = document.getElementById("particles-new");
+  if (particles) {
+    particles.innerHTML = "";
+    for (let i = 0; i < 60; i++) {
+      const el = document.createElement("div");
+      el.className = "square";
+      el.style.left = Math.random()*100+"vw";
+      el.style.top = Math.random()*-20+"vh";
+      el.style.animationDuration = (Math.random()*5+6)+"s";
+      particles.appendChild(el);
     }
-  })();
+  }
 
-  /* -------------------- DISQUS helpers -------------------- */
-  (function loadDisqusCount(){
-    try {
-      const d=document, s=d.createElement("script");
-      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/count.js`;
-      s.async = true;
-      (d.head || d.body).appendChild(s);
-    } catch(e){}
-  })();
+  /* ================= DISQUS ================= */
+  let disqusLoaded = false;
 
-  let disqusScriptAdded = false;
-  function addDisqusScriptOnce(){
+  function loadDisqus(){
     return new Promise(resolve => {
-      if (disqusScriptAdded) return resolve();
+      if (disqusLoaded) return resolve();
       const s = document.createElement("script");
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
       s.async = true;
-      s.setAttribute("data-timestamp", +new Date());
-      s.onload = ()=> { disqusScriptAdded = true; resolve(); };
-      s.onerror = ()=> { console.warn("Erro load Disqus"); resolve(); };
+      s.onload = () => { disqusLoaded = true; resolve(); };
       document.head.appendChild(s);
     });
   }
 
-  function closeAllCommentsExcept(exceptId){
-    safeQueryAll(".open-comments-btn.open").forEach(btn=>{
-      if (btn.dataset.identifier !== exceptId) {
-        const ph = document.getElementById("comments-" + btn.dataset.identifier);
-        if (ph) {
-          ph.style.display = "none";
-          const old = ph.querySelector("#disqus_thread");
-          if (old) old.remove();
-          ph.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
-        }
-        btn.classList.remove("open");
-        btn.textContent = "Abrir comentários";
-      }
-    });
-  }
+  document.addEventListener("click", async (e) => {
 
-  function createThreadContainerIn(placeholder){
-    const old = placeholder.querySelector("#disqus_thread");
-    if (old) old.remove();
-    const div = document.createElement("div");
-    div.id = "disqus_thread";
-    placeholder.appendChild(div);
-    return div;
-  }
-
-  /* -------------------- COMMENTS (delegated) -------------------- */
-  document.addEventListener("click", async (ev) => {
-    const btn = ev.target.closest ? ev.target.closest(".open-comments-btn") : null;
+    const btn = e.target.closest(".open-comments-btn");
     if (!btn) return;
-    ev.preventDefault();
-    const postId = btn.dataset.identifier;
-    if (!postId) return;
-    let placeholder = document.getElementById("comments-" + postId);
-    if (!placeholder) {
-      placeholder = document.createElement("div");
-      placeholder.id = "comments-" + postId;
-      placeholder.className = "comments-placeholder";
-      btn.insertAdjacentElement("afterend", placeholder);
+
+    const id = btn.dataset.identifier;
+    let box = document.getElementById("comments-" + id);
+
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "comments-" + id;
+      box.className = "comments-placeholder";
+      btn.after(box);
     }
 
-    // toggle close
     if (btn.classList.contains("open")) {
-      placeholder.style.display = "none";
+      box.innerHTML = "";
+      box.style.display = "none";
       btn.classList.remove("open");
       btn.textContent = "Abrir comentários";
-      const old = placeholder.querySelector("#disqus_thread"); if (old) old.remove();
-      placeholder.innerHTML = `<em>Comentários aparecerão aqui quando você clicar em "Abrir comentários".</em>`;
       return;
     }
 
-    // open new
-    closeAllCommentsExcept(postId);
-    btn.textContent = "Fechar comentários";
     btn.classList.add("open");
-    placeholder.style.display = "block";
-    placeholder.innerHTML = `<div class="loading-msg">Carregando comentários...</div>`;
-    createThreadContainerIn(placeholder);
+    btn.textContent = "Fechar comentários";
+    box.style.display = "block";
+    box.innerHTML = `<div id="disqus_thread"></div>`;
 
     window.disqus_config = function () {
-      this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
-      this.page.identifier = postId;
+      this.page.identifier = id;
+      this.page.url = location.href + "#" + id;
     };
 
-    try {
-      if (!disqusScriptAdded) {
-        await addDisqusScriptOnce();
-        // small delay for embed to initialise
-        setTimeout(()=> {
-          const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
-        }, 900);
+    await loadDisqus();
+
+  });
+
+  /* ================= READ MORE ================= */
+  document.querySelectorAll(".toggle").forEach(chk => {
+
+    const post = chk.closest(".blog-post");
+    const extra = post.querySelector(".extra-content");
+
+    extra.style.maxHeight = "0";
+    extra.style.overflow = "hidden";
+    extra.style.transition = "all .3s ease";
+
+    chk.addEventListener("change", () => {
+
+      if (chk.checked) {
+        extra.style.maxHeight = extra.scrollHeight + "px";
+        extra.style.opacity = "1";
       } else {
-        if (typeof DISQUS !== "undefined" && DISQUS.reset) {
-          try {
-            DISQUS.reset({
-              reload: true,
-              config: function () {
-                this.page.identifier = postId;
-                this.page.url = btn.dataset.url || (window.location.href + "#" + postId);
-              }
-            });
-          } catch(err) {
-            // fallback: reload script
-            await addDisqusScriptOnce();
-          }
-        } else {
-          await addDisqusScriptOnce();
-        }
-        const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
+        extra.style.maxHeight = "0";
+        extra.style.opacity = "0";
       }
-    } catch(e){
-      console.warn("Erro carregar/disparar Disqus:", e);
-      const lm = placeholder.querySelector(".loading-msg"); if (lm) lm.remove();
-    }
-  }); // delegated comments
 
-  /* -------------------- READ MORE (labels + inputs) -------------------- */
-  (function initReadMore(){
-    // para cada label.read-more encontrado, ligar ao input referenciado pelo for
-    safeQueryAll("label.read-more").forEach(label => {
-      try {
-        const fid = label.getAttribute("for");
-        const input = fid ? document.getElementById(fid) : null;
-        // fallback: se não achou input, tenta achar checkbox dentro o mesmo article
-        let chk = input;
-        if (!chk) {
-          const post = label.closest(".blog-post");
-          if (post) chk = post.querySelector('input[type="checkbox"].toggle');
-        }
-        const post = label.closest(".blog-post");
-        const extra = post ? post.querySelector(".extra-content") : null;
-
-        // init extra collapsed state
-        if (extra) {
-          extra.style.overflow = "hidden";
-          extra.style.maxHeight = (chk && chk.checked) ? `${extra.scrollHeight}px` : "0px";
-          extra.style.opacity = (chk && chk.checked) ? "1" : "0";
-          extra.style.transform = (chk && chk.checked) ? "translateY(0)" : "translateY(-6px)";
-          extra.style.transition = "max-height .35s ease, opacity .25s ease, transform .25s ease";
-        }
-
-        if (!chk) return;
-        chk.addEventListener("change", () => {
-          if (!extra) return;
-          if (chk.checked) {
-            extra.style.maxHeight = `${extra.scrollHeight}px`;
-            extra.style.opacity = "1";
-            extra.style.transform = "translateY(0)";
-            label.classList.add("open");
-          } else {
-            extra.style.maxHeight = "0px";
-            extra.style.opacity = "0";
-            extra.style.transform = "translateY(-6px)";
-            label.classList.remove("open");
-          }
-        });
-      } catch(e){ /* swallow per-item errors */ }
     });
-  })();
 
-  /* -------------------- SIDEBAR (desktop vs mobile + mobile links cloning) -------------------- */
-  (function initSidebarBehavior(){
-    const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
-    const sidebarToggle = document.getElementById("codina-sidebar-toggle");
-    const siteContent = document.getElementById("site-content");
-    const nav = document.querySelector("header nav") || document.querySelector("nav");
+  });
 
-    function ensureMobileLinks(visible){
-      if (!sidebar || !nav) return;
-      const existing = nav.querySelectorAll("[data-mobile-from-sidebar]");
-      if (visible) {
-        if (existing.length) return;
-        const anchors = Array.from(sidebar.querySelectorAll("a"));
-        // preferir login/criar conta por href
-        let toClone = anchors.filter(a => /(login|entrar|criar|signup)/i.test(a.getAttribute("href")||""));
-        if (!toClone.length) toClone = anchors.slice(0,2);
-        toClone.forEach(a => {
-          const clone = a.cloneNode(true);
-          clone.setAttribute("data-mobile-from-sidebar","1");
-          clone.classList.add("mobile-sidebar-link");
-          clone.style.marginLeft = "6px";
-          clone.style.marginRight = "6px";
-          nav.appendChild(clone);
-        });
-      } else {
-        existing.forEach(el => el.remove());
-      }
-    }
+  /* ================= SIDEBAR ================= */
+  const sidebar = document.getElementById("codina-sidebar") || document.querySelector(".sidebar");
+  const nav = document.querySelector("nav");
+  const siteContent = document.getElementById("site-content");
 
-    function sync(){
-      if (!sidebar) return;
-      const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-      if (isMobile) {
-        sidebar.classList.remove("collapsed");
-        sidebar.classList.remove("open");
-        if (siteContent) siteContent.classList.remove("sidebar-collapsed");
-        sidebar.style.transform = "translateX(-100%)";
-        sidebar.style.opacity = "0";
-        sidebar.style.pointerEvents = "none";
-        ensureMobileLinks(true);
-      } else {
-        sidebar.style.transform = "";
-        sidebar.style.opacity = "";
-        sidebar.style.pointerEvents = "";
-        ensureMobileLinks(false);
-      }
-    }
-    // initial
-    sync();
-    window.addEventListener("resize", sync);
+  function updateSidebar(){
 
-    if (sidebar && sidebarToggle) {
-      sidebarToggle.addEventListener("click", () => {
-        const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-        if (isMobile) {
-          // mobile overlay
-          sidebar.classList.toggle("open");
-          if (sidebar.classList.contains("open")) {
-            sidebar.style.transform = "";
-            sidebar.style.opacity = "";
-            sidebar.style.pointerEvents = "";
-          } else {
-            sidebar.style.transform = "translateX(-100%)";
-            sidebar.style.opacity = "0";
-            sidebar.style.pointerEvents = "none";
-          }
-        } else {
-          // desktop collapse
-          sidebar.classList.toggle("collapsed");
-          if (siteContent) siteContent.classList.toggle("sidebar-collapsed");
-        }
-        const expanded = sidebar.classList.contains("open");
-        if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+    if (!sidebar || !nav) return;
+
+    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+    // limpa clones antigos
+    nav.querySelectorAll("[data-mobile]").forEach(el => el.remove());
+
+    if (isMobile) {
+
+      // 🔴 esconder sidebar
+      sidebar.style.display = "none";
+      if (siteContent) siteContent.style.marginLeft = "0";
+
+      // 🔴 pegar login/criar conta
+      const links = sidebar.querySelectorAll("a");
+
+      let selected = [...links].filter(a =>
+        (a.href || "").match(/login|criar|signup/i)
+      );
+
+      if (!selected.length) selected = [...links].slice(0,2);
+
+      selected.forEach(a => {
+        const clone = a.cloneNode(true);
+        clone.setAttribute("data-mobile","1");
+        nav.appendChild(clone);
       });
+
+    } else {
+
+      // 🟢 mostrar sidebar
+      sidebar.style.display = "flex";
+      if (siteContent) siteContent.style.marginLeft = "";
+
     }
 
-    // close by clicking outside on mobile
-    document.addEventListener("click", (e) => {
-      if (!sidebar) return;
-      if (window.innerWidth >= MOBILE_BREAKPOINT) return;
-      if (!sidebar.contains(e.target) && !e.target.closest("#codina-sidebar-toggle")) {
-        sidebar.classList.remove("open");
-        sidebar.style.transform = "translateX(-100%)";
-        sidebar.style.opacity = "0";
-        sidebar.style.pointerEvents = "none";
-      }
-    });
+  }
 
-    // ESC to close mobile sidebar
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && sidebar) {
-        sidebar.classList.remove("open");
-        if (window.innerWidth < MOBILE_BREAKPOINT) {
-          sidebar.style.transform = "translateX(-100%)";
-          sidebar.style.opacity = "0";
-          sidebar.style.pointerEvents = "none";
-        }
-      }
-    });
-  })();
+  updateSidebar();
+  window.addEventListener("resize", updateSidebar);
 
-  /* -------------------- END -------------------- */
-}); // DOMContentLoaded
+});
