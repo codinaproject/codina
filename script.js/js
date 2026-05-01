@@ -1,4 +1,4 @@
-// ====== script.js (VERSÃO FINAL ESTÁVEL CORRIGIDA REAL) ======
+// ====== script.js (VERSÃO FINAL ESTÁVEL CORRIGIDA REAL + FIX DISQUS) ======
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = "codinaproject";
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* 🔴 FECHAR OUTROS (CORRIGIDO) */
+    /* 🔴 FECHAR OUTROS */
     document.querySelectorAll(".open-comments-btn.open").forEach(b => {
       if (b !== btn) {
         const otherId = b.dataset.identifier;
@@ -139,7 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Fechar comentários";
 
     box.style.display = "block";
-    box.innerHTML = `<div id="disqus_thread"></div>`;
+
+    /* 🔥 FIX REAL DO DISQUS (altura + render) */
+    box.innerHTML = `
+      <div id="disqus_thread" style="width:100%; min-height:400px;"></div>
+    `;
 
     window.disqus_config = function () {
       this.page.identifier = id;
@@ -152,10 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
       resetDisqus(id, url);
     }
 
-    /* 🔥 FORÇA REFLOW (resolve corte visual) */
+    /* 🔥 FORÇA O DISQUS APARECER (BUG REAL RESOLVIDO) */
     setTimeout(() => {
+      const thread = document.getElementById("disqus_thread");
+      if (thread) {
+        thread.style.display = "block";
+        thread.style.height = "auto";
+      }
       window.dispatchEvent(new Event("resize"));
-    }, 300);
+    }, 500);
 
   });
 
@@ -176,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         extra.style.maxHeight = extra.scrollHeight + "px";
         extra.style.opacity = "1";
 
-        /* 🔥 garante altura correta mesmo depois de render */
         setTimeout(() => {
           extra.style.maxHeight = extra.scrollHeight + "px";
         }, 200);
@@ -201,7 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
-    // remove duplicados
     nav.querySelectorAll("[data-mobile]").forEach(el => el.remove());
 
     if (isMobile) {
