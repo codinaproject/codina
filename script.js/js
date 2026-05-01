@@ -131,7 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn) return;
 
     const id = btn.dataset.identifier;
-    const url = btn.dataset.url || (location.href + "#" + id);
+
+    /* 🔥 CORREÇÃO AQUI */
+    const url = btn.dataset.url || (location.origin + location.pathname + "?post=" + id);
 
     const post = btn.closest(".blog-post");
     const extra = post ? post.querySelector(".extra-content") : null;
@@ -178,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     box.style.overflow = "visible";
     box.innerHTML = `<div id="disqus_thread" style="width:100%; min-height:400px;"></div>`;
 
-    /* destrava a caixa da notícia para o Disqus não ficar preso */
     if (extra) {
       openExtra(extra);
     }
@@ -194,19 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
       resetDisqus(id, url);
     }
 
-    /* reforça a expansão depois que o Disqus começa a renderizar */
     setTimeout(() => {
       if (extra) {
         extra.style.maxHeight = "none";
         extra.style.overflow = "visible";
         extra.style.opacity = "1";
-      }
-
-      const thread = document.getElementById("disqus_thread");
-      if (thread) {
-        thread.style.display = "block";
-        thread.style.width = "100%";
-        thread.style.minHeight = "400px";
       }
 
       window.dispatchEvent(new Event("resize"));
@@ -238,7 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (chk.checked) {
         openExtra(extra);
 
-        /* recalcula depois que o conteúdo interno cresce */
         setTimeout(() => {
           if (extra.style.maxHeight !== "none") {
             extra.style.maxHeight = extra.scrollHeight + "px";
