@@ -1,4 +1,4 @@
-// ====== script.js (VERSÃO FINAL ESTÁVEL) ======
+// ====== script.js (VERSÃO FINAL ESTÁVEL CORRIGIDA REAL) ======
 document.addEventListener("DOMContentLoaded", () => {
 
   const DISQUS_SHORTNAME = "codinaproject";
@@ -67,10 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadDisqus(){
     return new Promise(resolve => {
       if (disqusLoaded) return resolve();
+
       const s = document.createElement("script");
       s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
       s.async = true;
-      s.onload = () => { disqusLoaded = true; resolve(); };
+      s.setAttribute("data-timestamp", +new Date());
+
+      s.onload = () => {
+        disqusLoaded = true;
+        resolve();
+      };
+
       document.head.appendChild(s);
     });
   }
@@ -104,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.after(box);
     }
 
+    /* 🔴 FECHAR */
     if (btn.classList.contains("open")) {
       box.innerHTML = "";
       box.style.display = "none";
@@ -112,16 +120,24 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // fecha outros
+    /* 🔴 FECHAR OUTROS (CORRIGIDO) */
     document.querySelectorAll(".open-comments-btn.open").forEach(b => {
       if (b !== btn) {
+        const otherId = b.dataset.identifier;
+        const otherBox = document.getElementById("comments-" + otherId);
+        if (otherBox) {
+          otherBox.innerHTML = "";
+          otherBox.style.display = "none";
+        }
         b.classList.remove("open");
         b.textContent = "Abrir comentários";
       }
     });
 
+    /* 🟢 ABRIR */
     btn.classList.add("open");
     btn.textContent = "Fechar comentários";
+
     box.style.display = "block";
     box.innerHTML = `<div id="disqus_thread"></div>`;
 
@@ -136,6 +152,11 @@ document.addEventListener("DOMContentLoaded", () => {
       resetDisqus(id, url);
     }
 
+    /* 🔥 FORÇA REFLOW (resolve corte visual) */
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 300);
+
   });
 
   /* ================= READ MORE ================= */
@@ -147,16 +168,24 @@ document.addEventListener("DOMContentLoaded", () => {
     extra.style.maxHeight = "0";
     extra.style.opacity = "0";
     extra.style.overflow = "hidden";
-    extra.style.transition = "all .3s ease";
+    extra.style.transition = "all .35s ease";
 
     chk.addEventListener("change", () => {
+
       if (chk.checked) {
         extra.style.maxHeight = extra.scrollHeight + "px";
         extra.style.opacity = "1";
+
+        /* 🔥 garante altura correta mesmo depois de render */
+        setTimeout(() => {
+          extra.style.maxHeight = extra.scrollHeight + "px";
+        }, 200);
+
       } else {
         extra.style.maxHeight = "0";
         extra.style.opacity = "0";
       }
+
     });
 
   });
@@ -177,11 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isMobile) {
 
-      // 🔴 esconder sidebar
       sidebar.style.display = "none";
       if (siteContent) siteContent.style.marginLeft = "0";
 
-      // 🔴 clonar login/criar conta
       const links = sidebar.querySelectorAll("a");
 
       let selected = [...links].filter(a =>
@@ -198,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } else {
 
-      // 🟢 desktop normal
       sidebar.style.display = "flex";
       if (siteContent) siteContent.style.marginLeft = "";
 
