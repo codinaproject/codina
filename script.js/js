@@ -1,289 +1,118 @@
-// ====== script.js (VERSÃO FINAL ESTÁVEL CORRIGIDA REAL + DISQUS EXPANSÃO) ======
-document.addEventListener("DOMContentLoaded", () => {
+/* ================= DISQUS ================= */
+let disqusLoaded = false;
 
-  const DISQUS_SHORTNAME = "codinaproject";
-  const MOBILE_BREAKPOINT = 900;
+function loadDisqus() {
+  return new Promise(resolve => {
+    if (disqusLoaded) return resolve();
 
-  /* ================= INTRO ================= */
-  window.addEventListener("load", () => {
-    const intro = document.getElementById("intro-screen");
-    if (intro) {
-      setTimeout(() => {
-        intro.style.opacity = "0";
-        setTimeout(() => intro.style.display = "none", 300);
-      }, 2800);
-    }
-  });
+    const s = document.createElement("script");
+    s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+    s.async = true;
+    s.setAttribute("data-timestamp", +new Date());
 
-  /* ================= MUSIC ================= */
-  const musicBtn = document.getElementById("music-toggle");
-  const bgMusic = document.getElementById("bg-music");
-
-  if (musicBtn && bgMusic) {
-    function updateBtn() {
-      if (bgMusic.paused) {
-        musicBtn.textContent = "Tocar Música";
-        musicBtn.classList.remove("playing");
-      } else {
-        musicBtn.textContent = "Pausar Música";
-        musicBtn.classList.add("playing");
-      }
-    }
-
-    updateBtn();
-
-    musicBtn.addEventListener("click", async () => {
-      try {
-        if (bgMusic.paused) {
-          await bgMusic.play();
-        } else {
-          bgMusic.pause();
-        }
-      } catch (e) {
-        console.warn("Erro ao tocar música:", e);
-      }
-      updateBtn();
-    });
-  }
-
-  /* ================= PARTICLES ================= */
-  const particles = document.getElementById("particles-new");
-  if (particles) {
-    particles.innerHTML = "";
-    for (let i = 0; i < 50; i++) {
-      const el = document.createElement("div");
-      el.className = "square";
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.top = Math.random() * -20 + "vh";
-      el.style.animationDuration = (Math.random() * 5 + 6) + "s";
-      particles.appendChild(el);
-    }
-  }
-
-  /* ================= EXTRA CONTENT HELPERS ================= */
-  function openExtra(extra) {
-    if (!extra) return;
-    extra.style.display = "block";
-    extra.style.opacity = "1";
-    extra.style.overflow = "hidden";
-    extra.style.maxHeight = extra.scrollHeight + "px";
-
-    setTimeout(() => {
-      extra.style.maxHeight = "none";
-      extra.style.overflow = "visible";
-    }, 420);
-  }
-
-  function closeExtra(extra) {
-    if (!extra) return;
-    extra.style.overflow = "hidden";
-
-    if (extra.style.maxHeight === "none") {
-      extra.style.maxHeight = extra.scrollHeight + "px";
-    }
-
-    requestAnimationFrame(() => {
-      extra.style.maxHeight = "0px";
-      extra.style.opacity = "0";
-    });
-  }
-
-  /* ================= DISQUS ================= */
-  let disqusLoaded = false;
-
-  function loadDisqus() {
-    return new Promise(resolve => {
-      if (disqusLoaded) return resolve();
-
-      const s = document.createElement("script");
-      s.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
-      s.async = true;
-      s.setAttribute("data-timestamp", +new Date());
-
-      s.onload = () => {
-        disqusLoaded = true;
-        resolve();
-      };
-
-      s.onerror = () => {
-        console.warn("Falha ao carregar Disqus");
-        resolve();
-      };
-
-      document.head.appendChild(s);
-    });
-  }
-
-  function resetDisqus(id, url) {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: function () {
-          this.page.identifier = "codina-" + id; // 🔥 CORRIGIDO
-          this.page.url = url;
-        }
-      });
-    }
-  }
-
-  document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".open-comments-btn");
-    if (!btn) return;
-
-    const id = btn.dataset.identifier;
-
-    // 🔥 URL FIXA E CONSISTENTE (sem bug de posts misturados)
-    const url = location.origin + location.pathname + "#" + id;
-
-    const post = btn.closest(".blog-post");
-    const extra = post ? post.querySelector(".extra-content") : null;
-
-    let box = document.getElementById("comments-" + id);
-
-    if (!box) {
-      box = document.createElement("div");
-      box.id = "comments-" + id;
-      box.className = "comments-placeholder";
-      btn.after(box);
-    }
-
-    /* FECHAR */
-    if (btn.classList.contains("open")) {
-      box.innerHTML = "";
-      box.style.display = "none";
-      btn.classList.remove("open");
-      btn.textContent = "Abrir comentários";
-      return;
-    }
-
-    /* FECHAR OUTROS */
-    document.querySelectorAll(".open-comments-btn.open").forEach(b => {
-      if (b !== btn) {
-        const otherId = b.dataset.identifier;
-        const otherBox = document.getElementById("comments-" + otherId);
-        if (otherBox) {
-          otherBox.innerHTML = "";
-          otherBox.style.display = "none";
-        }
-        b.classList.remove("open");
-        b.textContent = "Abrir comentários";
-      }
-    });
-
-    /* ABRIR */
-    btn.classList.add("open");
-    btn.textContent = "Fechar comentários";
-
-    box.style.display = "block";
-    box.style.width = "100%";
-    box.style.minHeight = "400px";
-    box.style.overflow = "visible";
-    box.innerHTML = `<div id="disqus_thread" style="width:100%; min-height:400px;"></div>`;
-
-    if (extra) {
-      openExtra(extra);
-    }
-
-    window.disqus_config = function () {
-      this.page.identifier = "codina-" + id; // 🔥 CORRIGIDO
-      this.page.url = url;
+    s.onload = () => {
+      disqusLoaded = true;
+      resolve();
     };
 
-    if (!disqusLoaded) {
-      await loadDisqus();
-    } else {
-      resetDisqus(id, url);
-    }
+    s.onerror = () => {
+      console.warn("Falha ao carregar Disqus");
+      resolve();
+    };
 
-    setTimeout(() => {
-      if (extra) {
-        extra.style.maxHeight = "none";
-        extra.style.overflow = "visible";
-        extra.style.opacity = "1";
-      }
-
-      window.dispatchEvent(new Event("resize"));
-    }, 600);
-
-    setTimeout(() => {
-      if (extra) {
-        extra.style.maxHeight = "none";
-        extra.style.overflow = "visible";
-      }
-      window.dispatchEvent(new Event("resize"));
-    }, 1400);
+    document.head.appendChild(s);
   });
+}
 
-  /* ================= READ MORE ================= */
-  document.querySelectorAll(".toggle").forEach(chk => {
-    const post = chk.closest(".blog-post");
-    if (!post) return;
-
-    const extra = post.querySelector(".extra-content");
-    if (!extra) return;
-
-    extra.style.maxHeight = "0px";
-    extra.style.opacity = "0";
-    extra.style.overflow = "hidden";
-    extra.style.transition = "max-height .35s ease, opacity .3s ease";
-
-    chk.addEventListener("change", () => {
-      if (chk.checked) {
-        openExtra(extra);
-
-        setTimeout(() => {
-          if (extra.style.maxHeight !== "none") {
-            extra.style.maxHeight = extra.scrollHeight + "px";
-          }
-        }, 200);
-
-        setTimeout(() => {
-          extra.style.maxHeight = "none";
-          extra.style.overflow = "visible";
-        }, 450);
-      } else {
-        closeExtra(extra);
+function resetDisqus(id, url) {
+  if (window.DISQUS) {
+    DISQUS.reset({
+      reload: true,
+      config: function () {
+        this.page.identifier = "codina-" + id + "-v2"; // 🔥 AGORA É ÚNICO REAL
+        this.page.url = url;
       }
     });
-  });
+  }
+}
 
-  /* ================= SIDEBAR ================= */
-  const sidebar = document.querySelector(".sidebar");
-  const nav = document.querySelector("nav");
-  const siteContent = document.getElementById("site-content");
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".open-comments-btn");
+  if (!btn) return;
 
-  function updateSidebar() {
-    if (!sidebar || !nav) return;
+  const id = btn.dataset.identifier;
 
-    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+  // 🔥 URL única por post
+  const url = location.origin + location.pathname + "?post=" + id;
 
-    nav.querySelectorAll("[data-mobile]").forEach(el => el.remove());
+  // 🔥 atualiza a URL no navegador (sem reload)
+  history.replaceState(null, "", "?post=" + id);
 
-    if (isMobile) {
-      sidebar.style.display = "none";
-      if (siteContent) siteContent.style.marginLeft = "0";
+  const post = btn.closest(".blog-post");
+  const extra = post ? post.querySelector(".extra-content") : null;
 
-      const links = sidebar.querySelectorAll("a");
+  let box = document.getElementById("comments-" + id);
 
-      let selected = [...links].filter(a =>
-        (a.href || "").match(/login|criar|signup/i)
-      );
-
-      if (!selected.length) selected = [...links].slice(0, 2);
-
-      selected.forEach(a => {
-        const clone = a.cloneNode(true);
-        clone.setAttribute("data-mobile", "1");
-        nav.appendChild(clone);
-      });
-
-    } else {
-      sidebar.style.display = "flex";
-      if (siteContent) siteContent.style.marginLeft = "";
-    }
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "comments-" + id;
+    box.className = "comments-placeholder";
+    btn.after(box);
   }
 
-  updateSidebar();
-  window.addEventListener("resize", updateSidebar);
+  /* FECHAR */
+  if (btn.classList.contains("open")) {
+    box.innerHTML = "";
+    box.style.display = "none";
+    btn.classList.remove("open");
+    btn.textContent = "Abrir comentários";
+    return;
+  }
 
+  /* FECHAR OUTROS */
+  document.querySelectorAll(".open-comments-btn.open").forEach(b => {
+    if (b !== btn) {
+      const otherId = b.dataset.identifier;
+      const otherBox = document.getElementById("comments-" + otherId);
+      if (otherBox) {
+        otherBox.innerHTML = "";
+        otherBox.style.display = "none";
+      }
+      b.classList.remove("open");
+      b.textContent = "Abrir comentários";
+    }
+  });
+
+  /* ABRIR */
+  btn.classList.add("open");
+  btn.textContent = "Fechar comentários";
+
+  box.style.display = "block";
+  box.style.width = "100%";
+  box.style.minHeight = "400px";
+  box.style.overflow = "visible";
+  box.innerHTML = `<div id="disqus_thread"></div>`;
+
+  if (extra) {
+    extra.style.maxHeight = "none";
+    extra.style.overflow = "visible";
+    extra.style.opacity = "1";
+  }
+
+  // 🔥 CONFIGURAÇÃO CORRETA
+  window.disqus_config = function () {
+    this.page.identifier = "codina-" + id + "-v2"; // 🔥 chave única FINAL
+    this.page.url = url;
+  };
+
+  if (!disqusLoaded) {
+    await loadDisqus();
+  } else {
+    resetDisqus(id, url);
+  }
+
+  // 🔥 força render completo
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, 500);
 });
